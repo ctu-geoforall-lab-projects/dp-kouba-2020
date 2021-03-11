@@ -1,0 +1,46 @@
+\chapter{Rešerše}
+\label{0-reserse}
+
+Delaunay triangulace
+ 
+-	spojuje přímo jednotlivé body
+Delaunay triangulace DT a její vlastnosti 
+Nejčastěji používaná triangulace, v oblasti GIS de-facto standart. Existuje v \[R^2\] i v \[R^3\]. 
+V1: Uvnitř kružnice k opsané libovolnému trojúhelníku tj \[\in\] DT neleží žádný jiný bod množiny P. 
+V2: DT maximalizuje minimální úhel v \[\forall\] t, avšak DT neminimalizuje maximální úhel v t.
+V3: DT je lokálně optimální i globálně optimální vůči kritériu minimálního úhlu.
+V4: DT je jednoznačná, pokud žádné čtyři body neleží na kružnici.
+Výsledné trojúhelníky se při porovnání ze všemi známými triangulacemi nejvíce blíží rovnostranným trojúhelníkům.
+https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adk5.pdf
+
+Voroného diagram
+-	kolem bodů vytvoří polygony
+Vlastnosti Voronoi diagramu 
+V1: Voronoi diagram V(P) je planárním grafem. 
+V2: Vrchol q Voronoi buňky V(\[p_i\]) je průnikem 3 hran, právě když je V(P) nedegenerovaný.
+ V3: Pokud \[p_i\] \[\in\] H(P), pak je V(\[p_i\]) otevřený. 
+V4: Pro každý bod \[p_i\] \[\in\] P je V(P) konvexní. 
+V5: Bod pi je nejbližším bodem bodu p jestliže p \[\in\] V(\[p_i\]). 
+V6: Každá strana qiqj , i6 = j, je sdílena právě dvěma sousedními buňkami V(p). 
+V7: Bod q je vrcholem V(p), pokud existuje kružnice k(q,r) procházející třemi nebo více generátory pi , pj , pk , a neobsahuje žádný další bod P (spojitost s DT(P)). 
+V8: Kružnici k(q,r) označujeme jako největší prázdnou kružnici ze všech prázdných kružnic se středem v bodě q. 
+V9: Průměrné množství Voronoi hran ve Voronoi polygonu nepřekročí hodnotu 6. 
+V10: Vztah mezi počtem bodů n, počtem hran \[n_h\] a počtem trojúhelníků \[n_t\] teselace V(P):
+% \[ n_h \le 3n − 6 \]
+% \[ n_t \le 2n − 5 \]
+V11: Voronoi diagram V(P) představuje ortografickou projekci stěn mnohostěnu tvořeného průsečnicemi všech polorovin Ai do roviny xy. 
+V12: Nechť bod p \[\in\] i představuje ortografický průmět bodu pi na povrch paraboloidu daného rovnicí
+% \[ z = x^2 + y^2 \]
+Rovina \[A_i\] je tečnou rovinou k paraboloidu v bodě \[p_i\]. Průsečnicí \[A_i\] , \[A_j\] je přímka L * ij , jejíž ortografický průmět do roviny xy tvoří Voronoi hranu
+
+Přímá konstrukce:
+\begin{itemize}
+\item	Inkrementální konstrukce. 
+\item	Plane Sweep algoritmus. 
+\item	Rozděl a panuj. 
+\end{itemize}
+Nepřímá konstrukce: 
+\begin{itemize}
+\item	Konstrukce přes DT (P): spojení středů k opsaným t \[\in\] DT (P)
+\end{itemize}
+Zdroje: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adk6.pdf
