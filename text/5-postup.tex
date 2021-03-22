@@ -4,10 +4,24 @@
 
 
 \section{Postup 1 - pomocí nástrojů QGIS}
-Z již zmiňované vektorové vrstvy stops (viz obr.4) vytvořím vektorovou vrstvu
-pomocí Voroného diagramů. K jeho tvorbě využívám QGIS nástroj
-Voroného polygony, jehož zdrojový kód je veřejně publikován na GitHubu.
-Vstupem do tohoto nástroje je vektorová vrstva stops.
+
+GTFS obsahuje povinný CSV soubor \textit{stops.txt}. Tento soubor obsahuje mimo
+jiných polí také pole \textit{zone\_id}, který je při tvorbě tarifních pásem klíčový.
+Verze GTFS Loaderu 1.0.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
+ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voroného 
+diagramů nástrojem \textit{Voroného polygony} v programu QGIS.
+Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voroného polygony.
+
+%toto možná dát do teoretické části
+Voroného diagramy, někdy pod názvy jako Voroného teselace, Voroného dekompozice,
+Thiessenovy polygony nebo Dirichletova teselace, podle definice představují
+rozklad množiny bodů \textit{P} na \textit{n} uzavřených či 
+otevřených oblastí \textit{V(p) = \{V(p\textsubscript{i}), V(p\textsubscript{2}), ...,
+V(p\textsubscript{n})\}} takových, že každý bod
+\textit{q} nálěžící množině \textit{V(p\textsubscript{i})} je blíže k bodu
+\textit{p\textsubscript{i}} než k jakémukoliv
+bodu \textit{p\textsubscript{j}} náležící množině\textit{P}. \cite{bayer}
+
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi.png}
