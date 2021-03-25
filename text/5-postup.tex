@@ -1,12 +1,36 @@
 \chapter{Postup}
 \label{5-postup}
 
+\section{Aktualizace pluginu do verze 1.0.0}
+Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní 
+funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do QGISu,
+rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru GeoPackage,
+vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
+obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
+\textit{layer tree}.
+% vysvětlit layer tree, GeoPackage??
 
+Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
+Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
+mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky python třídě \textit{QgsTask}
+a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
+% dát sem i ukázku kódu? 
+
+Pro zobrazování procesu během výpočtu byla použita třída \textit{QProgressBar} a její metody.
+Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovými hláškami.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/loading.png}
+    \caption[ProgressBar]{ProgressBar v liště QGISu}
+	\label{fig:ProgressBar v liště QGISu}              
+\end{figure}     
+
+% možná přidat code refactorization
 
 \section{Postup 1 - pomocí nástrojů QGIS}
 
 GTFS obsahuje povinný CSV soubor \textit{stops.txt}. Tento soubor obsahuje mimo
-jiných polí také pole \textit{zone\_id}, který je při tvorbě tarifních pásem klíčový.
+jiných polí také pole \textit{zone\_id}, které je při tvorbě tarifních pásem klíčový.
 Verze GTFS Loaderu 1.0.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voroného 
 diagramů nástrojem \textit{Voroného polygony} v programu QGIS.
