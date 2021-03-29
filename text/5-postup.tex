@@ -30,10 +30,17 @@ Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovým
 \section{Postup 1 - pomocí nástrojů QGIS}
 
 GTFS obsahuje povinný CSV soubor \textit{stops.txt}. Tento soubor obsahuje mimo
-jiných polí také pole \textit{zone\_id}, které je při tvorbě tarifních pásem klíčový.
-Verze GTFS Loaderu 1.0.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
+jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové. 
+Pole \textit{zone\_id} má datový typ \textit{string} a znamená, ve kterém tarifním
+pásmu daná zastávka leží. Verze GTFS Loaderu 1.0.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voroného 
-diagramů nástrojem \textit{Voroného polygony} v programu QGIS.
+diagramů nástrojem \textit{Voroného polygony} v programu QGIS. 
+
+Pro použití QGIS nástrojů v pythoním skriptu je potřeba importovat modul \textit{processing},
+který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
+ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
+z QGIS dokumentace. \cite{QGIS_docs}
+
 Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voroného polygony.
 
 %toto možná dát do teoretické části
@@ -57,7 +64,7 @@ bodu \textit{p\textsubscript{j}} náležící množině \textit{P}. \cite{bayer}
 \begin{itemize}
 \item Voronoi diagram \textit{V(P)} je planárním grafem.
 \item Vrchol q Voronoi buňky \textit{\{V(p\textsubscript{i})} je průnikem 3 hran, právě když je \textit{V(P)} nedegenerovaný.
-\item Pokud \textit{p\textsubscript{i}} náležící \textit{H(P)}, pak je \textit{\{V(p\textsubscript{i})}  otevřený. 
+\item Pokud \textit{p\textsubscript{i}} náležící \textit{H(P)}, pak je \textit{V(p\textsubscript{i})}  otevřený. 
 \item Pro každý bod \textit{p\textsubscript{i} náležící P} je \textit{V(P)} konvexní. 
 \item Bod \textit{p\textsubscript{i}} je nejbližším bodem bodu \textit{p}
 jestliže \textit{p} náleží \textit{\{V(p\textsubscript{i})}.
@@ -86,11 +93,33 @@ ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu da
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-stops.png}
-    \caption[Voroného polygony pro všechny zastávky]{Voroného polygony}
+    \caption[Voroného polygony pro všechny zastávky]{Voroného polygony pro všechny zastávky}
 	\label{fig:voronoi-stops}              
 \end{figure}
-%  
-%  
+  
+Pro každé tarifní pásmo byly vybrány zastávky pomocí třídy \textit{QgsVectorLayer}
+a její metody \textit{selectByExpression}, která vybírá prvky podle zadaného výrazu ve formě \textit{string}.
+Znění zadaného výrazu je následující:
+
+%zjistit, jak lépe přidat části kódu
+\textit{zone\_id in "tarifní pásmo" and location\_type = 0}
+
+V zadávaném výrazu figuruje taktéž údaj o poli \textit{location\_type}, což je typ lokace. 
+Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky. 
+Třída \textit{QgsVectorLayer} představuje zároveň vektorovou vrstvu, která spravuje
+vektorové datové sady a která může být považována jako vstup do nástroje QGIS. % tim chci rict, ze do vstupu nemuze jit string, tzn pouha cesta k vrstve
+
+Pro vybrané zástavky bylo potřeba vybrat i ty Voroného polygony, které ležely na jejich pozici 
+a pozicí zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
+do kterého vstupovala vrstva vybraných zastávek a vrstva Voroného polygonů. Výsledkem tohoto nástroje byla
+vektorová vrstva vybraných Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/voronoi-selected.png}
+    \caption[Vybrané Voroného polygony pro pásmo 2]{Vybrané Voroného polygony pro pásmo 2}
+	\label{fig:voronoi-selected}              
+\end{figure}
+%
 % Poté přes nástroj Select by location vyberu ty polygony, které se prostorově protínají (Intersect) se zastávkami v požadovaném tarifním pásmu. Nástroj Select by location funguje na bázi prostorových dotazů. Jeho zdrojový kód je opět veřejně publikován na GitHubu. Vstupem do tohoto nástroje je vektorová vrstva stops a vektorová vrstva Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2. 
 % Je důležité si uvědomit, že jsem vybral ty Voroného polygony, které protínají zastávky s tarifním pásmem 2. Poté totiž existují takové zastávky, které leží na hranicích tarifních pásem. Takové zastávky mají hodnotu pole zone_id například 1,2 nebo 2,3. Typ pole zone_id je proto String. 
 % Vybrané Voroného polygony poté nástrojem Dissolve spojím do jednoho uceleného polygonu (viz obr. 7). Vstupem pro tento nástroj jsou vybrané Voroného polygony. Jeho zdrojový kód je opět veřejně publikován na GitHubu. 
