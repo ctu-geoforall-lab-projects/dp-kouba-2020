@@ -160,6 +160,8 @@ vektorová vrstva spojených zastávek.
     \caption[Spojené body třech vektorových vrstev pro pásmo 2]{Spojené body třech vektorových vrstev pro pásmo 2}
 	\label{fig:merged}              
 \end{figure} 
+
+
 % Poté přes nástroj Select by location vyberu ty polygony, které se prostorově protínají (Intersect) se zastávkami v požadovaném tarifním pásmu. Nástroj Select by location funguje na bázi prostorových dotazů. Jeho zdrojový kód je opět veřejně publikován na GitHubu. Vstupem do tohoto nástroje je vektorová vrstva stops a vektorová vrstva Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2. 
 % Je důležité si uvědomit, že jsem vybral ty Voroného polygony, které protínají zastávky s tarifním pásmem 2. Poté totiž existují takové zastávky, které leží na hranicích tarifních pásem. Takové zastávky mají hodnotu pole zone_id například 1,2 nebo 2,3. Typ pole zone_id je proto String. 
 % Vybrané Voroného polygony poté nástrojem Dissolve spojím do jednoho uceleného polygonu (viz obr. 7). Vstupem pro tento nástroj jsou vybrané Voroného polygony. Jeho zdrojový kód je opět veřejně publikován na GitHubu. 
