@@ -109,17 +109,57 @@ Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky.
 Třída \textit{QgsVectorLayer} představuje zároveň vektorovou vrstvu, která spravuje
 vektorové datové sady a která může být považována jako vstup do nástroje QGIS. % tim chci rict, ze do vstupu nemuze jit string, tzn pouha cesta k vrstve
 
-Pro vybrané zástavky bylo potřeba vybrat i ty Voroného polygony, které ležely na jejich pozici 
-a pozicí zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
+Pro vybrané zástavky bylo potřeba vybrat ty Voroného polygony, které svou
+pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
 do kterého vstupovala vrstva vybraných zastávek a vrstva Voroného polygonů. Výsledkem tohoto nástroje byla
-vektorová vrstva vybraných Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2.
+vektorová vrstva vybraných Voroného polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-selected.png}
     \caption[Vybrané Voroného polygony pro pásmo 2]{Vybrané Voroného polygony pro pásmo 2}
 	\label{fig:voronoi-selected}              
 \end{figure}
-%
+
+Tyto polygony byly následně nástrojem \textit{Dissolve} spojeny do jednoho společného polygonu.
+Vstupem tohoto nástroje byl výstup nástroje \textit{Select by location} a výstupem byl polygon
+s jednou geometrií. 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/dissolve.png}
+    \caption[Výsledek nástroje Dissolve pro pásmo 2]{Výsledek nástroje Dissolve pro pásmo 2}
+	\label{fig:dissolve}              
+\end{figure} 
+
+Ze spojených polygonů byla poté vygenerována vektorová vrstva bodů nástrojem
+\textit{Extract vertices}, která představovala vrcholy spojených polygonů. Pro tuto vrstvu
+bylo vstupem výstup nástroje \textit{Dissolve} a výstupem byl vektorová vrstva bodů 
+doplněná o pole (mimo původních polí z vektorové vrstvy \textit{stops}) jako \textit{vertex\_index,
+vertex\_part, vertex\_part\_ring, distance} a \textit{angle}.
+Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/vertices.png}
+    \caption[Výsledek nástroje Extract vertices pro pásmo 2]{Výsledek nástroje Extract vertices pro pásmo 2}
+	\label{fig:vertices}              
+\end{figure} 
+
+% ------- toto se nejspíš bude předělávat, jiná metoda řešení zastávek na hranici -------
+Dále byly s pomocí třídy \textit{QgsVectorLayer} a její metody \textit{selectByExpression} vybrány 
+z původní vektorové vrstvy \textit{stops} ty zastávky, které obsahovaly v poli \textit{zone\_id}
+hodnotu tarifního pásma 1,2 nebo 2,3. Takové zastávky ležely na hranici pásma a polygon tarifního pásma
+měl skrz ně vézt hranici. Z vybraných zastávek byla vytvořena vlastní vektorová vrstva. 
+% ------- toto se nejspíš bude předělávat, jiná metoda řešení zastávek na hranici -------
+
+Následně byly spojeny vektorové vrstvy hraniční zastávek, zastávek uvnitř tarifního pásma 2 a
+bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
+Tyto tři zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výstupem byla 
+vektorová vrstva spojených zastávek. 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/merged.png}
+    \caption[Spojené body třech vektorových vrstev pro pásmo 2]{Spojené body třech vektorových vrstev pro pásmo 2}
+	\label{fig:merged}              
+\end{figure} 
 % Poté přes nástroj Select by location vyberu ty polygony, které se prostorově protínají (Intersect) se zastávkami v požadovaném tarifním pásmu. Nástroj Select by location funguje na bázi prostorových dotazů. Jeho zdrojový kód je opět veřejně publikován na GitHubu. Vstupem do tohoto nástroje je vektorová vrstva stops a vektorová vrstva Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2. 
 % Je důležité si uvědomit, že jsem vybral ty Voroného polygony, které protínají zastávky s tarifním pásmem 2. Poté totiž existují takové zastávky, které leží na hranicích tarifních pásem. Takové zastávky mají hodnotu pole zone_id například 1,2 nebo 2,3. Typ pole zone_id je proto String. 
 % Vybrané Voroného polygony poté nástrojem Dissolve spojím do jednoho uceleného polygonu (viz obr. 7). Vstupem pro tento nástroj jsou vybrané Voroného polygony. Jeho zdrojový kód je opět veřejně publikován na GitHubu. 
