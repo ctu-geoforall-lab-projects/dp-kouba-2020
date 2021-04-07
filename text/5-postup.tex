@@ -153,7 +153,7 @@ měl skrz ně vézt hranici. Z vybraných zastávek byla vytvořena vlastní vek
 Následně byly spojeny vektorové vrstvy hraniční zastávek, zastávek uvnitř tarifního pásma 2 a
 bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
 Tyto tři zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výstupem byla 
-vektorová vrstva spojených zastávek. 
+vektorová vrstva spojených bodů. 
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/merged.png}
@@ -161,6 +161,22 @@ vektorová vrstva spojených zastávek.
 	\label{fig:merged}              
 \end{figure} 
 
+% Definice konkávní obálky 
+Ze spojených bodů byla vytvořena konkávní obálka. To bylo provedeno nástrojem Concave hull (alpha shapes),
+který počítá konkávní obálku z vstupních bodů. Vstupem tedy byla vrstva spojených bodů, což byl první parametr
+nástroje. Dalším parametrem byl \textit{Práh (Threshold)} s datovým typem \textit{čísla}, který byl volen od 0 do 1,
+kdy 0 znamenala maximum konkávní obálky a 1 konvexní obálky. Po několika testovacích spuštění byla 
+určena hodnota 0,09 jako nejlepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo \textit{Povolení děr (Allow holes)} 
+s datovým typem \textit{boolean}, který byl nastaven na \textit{False}.
+Posledním parametrem bylo Rozdělit vícedílnou geometrii na jednotlivé části (Split multipart geometry 
+into singlepart geometries) taktéž s datovým typem \textit{boolean}, který byl nastaven na \textit{True}.  
+Výstupem byla polygonová vrstva konkávní obálky. 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/concaveHull.png}
+    \caption[Konkávní obálka pro pásmo 2]{Konkávní obálka pro pásmo 2}
+	\label{fig:concaveHull}              
+\end{figure} 
 
 % Poté přes nástroj Select by location vyberu ty polygony, které se prostorově protínají (Intersect) se zastávkami v požadovaném tarifním pásmu. Nástroj Select by location funguje na bázi prostorových dotazů. Jeho zdrojový kód je opět veřejně publikován na GitHubu. Vstupem do tohoto nástroje je vektorová vrstva stops a vektorová vrstva Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2. 
 % Je důležité si uvědomit, že jsem vybral ty Voroného polygony, které protínají zastávky s tarifním pásmem 2. Poté totiž existují takové zastávky, které leží na hranicích tarifních pásem. Takové zastávky mají hodnotu pole zone_id například 1,2 nebo 2,3. Typ pole zone_id je proto String. 
