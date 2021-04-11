@@ -78,11 +78,8 @@ nebo více generátory \textit{p\textsubscript{i}}, \textit{p\textsubscript{j}},
 \item Průměrné množství Voronoi hran ve Voronoi polygonu nepřekročí hodnotu 6. 
 \item Vztah mezi počtem bodů \textit{n}, počtem hran \textit{n\textsubscript{h}}
 a počtem trojúhelníků \textit{n\textsubscript{t}} teselace \textit{V(P)}:
-
 \[ n_h \leq 3n-6\]
-%zjistit, jak se přidat dva vzorce pod sebe
-%\[ n_t \leq 2n−5\]
-
+\[ n_t \leq 2n−5\]
 \item Voronoi diagram \textit{V(P)} představuje ortografickou projekci stěn
 mnohostěnu tvořeného průsečnicemi všech polorovin \textit{A\textsubscript{i}} do roviny \textit{xy}. 
 \item Nechť bod \textit{p\textsubscript{i}\textsuperscript{*}} i představuje
@@ -200,11 +197,22 @@ a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorov
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/simplify.png}
     \caption[Výsledek nástroje Simplify pro pásmo 2]{Výsledek nástroje Simplify pro pásmo 2}
-	\label{fig:simplify}              
+	\label{fig:simplify}                                
 \end{figure}
 
 Výstup nástroje Simplify byl vstupem do nástroje Smooth. Tento nástroj vyhlazuje geometrie
-liniové nebo polygonové vrstvy. 
+liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu.
+
+Chaikin využil fixních poměrů na odříznutí rohů, takže byly všechny rozřezány stejně. 
+Při matematickém zápisu postupuje Chaikinova metoda následovně: Dostaneme kontrolní polygon 
+\textit{\{P\textsubscript{0}, P\textsubscript{1}, ..., P\textsubscript{n}\}},
+tento kontrolní polygon vylepšíme vygenerováním nové posloupnosti řídicích bodů 
+\[ \{Q_0, R_0, Q_1, R_1, ...,  Q_{n−1}, R_{n−1}\} \]                                    
+kde každá nová dvojice bodů Q\textsubscript{i}, R\textsubscript{i} je třeba brát v poměru \(\frac{1}{4}\)
+a \(\frac{3}{4}\) mezi koncovými body segmentu čáry \(\overline{P\textsubscript{i}P\textsubscript{i+1}}\).
+\[Q_i = \frac{3}{4}P_i + \frac{1}{4}P_{i+1}\]
+\[R_i = \frac{1}{4}P_i + \frac{3}{4}P_{i+1}\]
+Tyto 2 nové body lze považovat za nový řídicí polygon - vylepšení původního řídicího polygonu. \cite{chaikin} 
 
 % Poté přes nástroj Select by location vyberu ty polygony, které se prostorově protínají (Intersect) se zastávkami v požadovaném tarifním pásmu. Nástroj Select by location funguje na bázi prostorových dotazů. Jeho zdrojový kód je opět veřejně publikován na GitHubu. Vstupem do tohoto nástroje je vektorová vrstva stops a vektorová vrstva Voroného polygonů. Jako příklad zde budu uvádět tarifní pásmo 2. 
 % Je důležité si uvědomit, že jsem vybral ty Voroného polygony, které protínají zastávky s tarifním pásmem 2. Poté totiž existují takové zastávky, které leží na hranicích tarifních pásem. Takové zastávky mají hodnotu pole zone_id například 1,2 nebo 2,3. Typ pole zone_id je proto String. 
