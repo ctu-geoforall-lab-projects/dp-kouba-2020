@@ -7,7 +7,13 @@ QGIS je profesionální geografický informační systém.
 Software je zdarma ke stáhnutí a je tzv. open-source (zdrojový kód je veřejně).
 Zdrojový kód je publikován na GitHubu \footnote{webová služba podporující vývoj softwaru za pomoci verzovacího nástroje Git}
 a vývojář softwaru může být kdokoliv, avšak potvrzovat a kontrolovat změny můžou jen ověření
-přispěvatelé.
+přispěvatelé. Software byl vyvíjen v programovacím jazyku C++ a Python (viz \ref{section-python})
+
+\begin{figure}[H] \centering
+    \includegraphics[width=64pt]{./pictures/qgis-logo.png}
+    \caption[Logo QGISu]{Logo QGISu \cite{qgis}}
+	\label{fig:qgis-logo}                                
+\end{figure}
 
 QGIS je oficiálním projektem nadace OSGeo (Open Source Geospatial Foundation), což je nevládní 
 nezisková organizace, jejíž cílem je podporovat a prosazovat společný vývoj otevřených geoinformačních
@@ -24,21 +30,18 @@ například přímo v terénu.
 %rozhraní QGIS?
 
 QGIS má jako většina softwarů svou dokumentaci, která je sestavena pomocí nástroje Sphinx. 
-Dokumentace je taktéž open-source na GitHubu a upravovat ji může každý. Byla vytvořena 
-jak pro obyčejné desktop uživatele QGISu, pro přispěvatele dokumentace a pro QGIS
+Dokumentace je taktéž open-source na GitHubu a upravovat ji může každý. Obsahuje
+informace pro obyčejné desktop uživatele QGISu, pro přispěvatele dokumentace nebo pro QGIS
 vývojáře.
 
-
-
-QGIS pluginy
-
-\begin{figure}[H] \centering
-    \includegraphics[width=64pt]{./pictures/qgis-logo.png}
-    \caption[Logo QGISu]{Logo QGISu \cite{qgis}}
-	\label{fig:qgis-logo}                                
-\end{figure}
+Právě QGIS vývojáři potřebují dokumentaci pro výtváření zautomatizovaných skriptů nebo QGIS zásuvných modulů (pluginů).
+Skripty a větší část pluginů jsou vytvářena v programovacím jazyku Python (viz \ref{section-python})
+a menší část v programovacím jazyku C++. Instalaci pluginu lze provést z nabídky uvnitř QGISu
+anebo pomocí ZIP souboru. Pro zobrazení pluginu v QGIS nabídce je potřeba nechat plugin
+schválit správci QGISu, jestli splňuje všechny povinné aspekty QGIS pluginů.
 
 \section{Python}
+\label{section-python}
 Python je moderní, dynamický, skriptovací programovací jazyk s veřejným zdrojovým kódem. 
 Je snadný na naučení, lehko čitelný a v současné době velmi populární. Tento programovací jazyk využívají
 softwaroví inženýři, matematici, datovi analytici, vědci, účetní a síťoví inženýři.
@@ -64,10 +67,19 @@ jako například objektově orientované, imperativní, procedurální nebo funk
 	\label{fig:python-logo}                                
 \end{figure} 
 
-\section{PyQt5}
+\section{PyQt}
+Aby aplikaci vytvořenou v Pythonu mohl ovládat člověk, který se neorientuje v programování a ani nechce,
+musí se i ke kódu aplikace vytvořit grafické uživatelské rozhraní (GUI). Python má širokou škálu knihoven
+pro vytváření GUI jako například Tkinter, wxPython, PySide2 nebo PyQt. Právě PyQt je již standardně 
+vestavěný v QGISu, tak se zdá jako nejlepší volbou pro tvorbu pluginů.  
+
+PyQt je vazba Pythonu pro aplikační framework Qt vyvinutý společností RiverBank Computing Ltd.
+Je k dispozici ve třech verzích: PyQt6 podporuje Qt v6, PyQt5 podporuje Qt v5 a PyQt4 podporuje Qt v4,
+avšak PyQt4 s Qt v4 již není podporována. PyQt je multiplatformní a lze nainstalovat na Windows,
+macOS, Linux, iOS a Android. \cite{pyqt}
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/pyqt.png}
-    \caption[Schéma PyQt5 Pythonu]{Schéma PyQt5}
+    \caption[Schéma PyQt Pythonu]{Schéma PyQt}
 	\label{fig:pyqt}                                
 \end{figure} 
