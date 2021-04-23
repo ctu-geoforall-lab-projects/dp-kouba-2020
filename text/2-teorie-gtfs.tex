@@ -52,7 +52,31 @@ může upravovat v jakémkoliv textovém editoru.
 	\label{fig:ukazka-csv}              
 \end{figure}
 V GTFS datasetu je určité množství povinných a nepovinných CSV souborů v textové podobě.
- 
+
+\newcolumntype{s}{>{\centering\arraybackslash\columncolor[HTML]{CCFFCC}} m{5cm}}
+\newcolumntype{v}{>{\centering\arraybackslash\columncolor[HTML]{C4FFFD}} m{5cm}}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ |s|v| } 
+  \hline
+  požadované/podmíněně požadované & volitelné \\ 
+  \hline
+  agency.txt & fare\_attributes.txt \\ 
+  stops.txt & fare\_rules.txt \\ 
+  routes.txt & shapes.txt \\
+  trips.txt & frequencies.txt \\
+  stop\_times.txt & transfers.txt \\
+  calendar.txt & pathways.txt \\
+  calendar\_dates.txt & levels.txt \\ 
+  feed\_info.txt & translations.txt \\
+  - & attributions.txt \\ 
+  \hline      
+\end{tabular}
+\end{center}
+\caption{Seznam CSV souborů v GTFS datasetu}
+\label{table:1}
+\end{table}
 
 Tučně zvýrazněné pole jsou požadované či podmíněně vyžadované. Ostatní pole jsou 
 volitelné. 
