@@ -29,17 +29,19 @@ Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovým
 
 \section{Postup 1 - pomocí nástrojů QGIS}
 
+Pro použití QGIS nástrojů v pythoním skriptu je potřeba importovat modul \textit{processing},
+který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
+ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
+z QGIS dokumentace. \cite{QGIS_docs}
+
+\subsection{Hrubý tvar tarifních pásem}
+
 GTFS obsahuje povinný CSV soubor \textit{stops.txt}. Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové. 
 Pole \textit{zone\_id} má datový typ \textit{string} a znamená, ve kterém tarifním
 pásmu daná zastávka leží. Verze GTFS Loaderu 1.0.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voroného 
 diagramů nástrojem \textit{Voroného polygony} v programu QGIS. 
-
-Pro použití QGIS nástrojů v pythoním skriptu je potřeba importovat modul \textit{processing},
-který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
-ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
-z QGIS dokumentace. \cite{QGIS_docs}
 
 Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voroného polygony.
 
@@ -127,6 +129,23 @@ s jednou geometrií.
     \caption[Výsledek nástroje Dissolve pro pásmo 2]{Výsledek nástroje Dissolve pro pásmo 2}
 	\label{fig:dissolve}              
 \end{figure} 
+
+Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři
+a ukazuje postup pro tarifní pásma P, 0 a B. V následujícím obrázku je \ref{fig:postup-voronoi-1az9} zobrazen postup tarifní pásma 1 až 9.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/postup-voronoi-P0B.png}
+    \caption[Postup pro tarifní pásma P, 0 a B]{Postup pro tarifní pásma P, 0 a B}
+	\label{fig:postup-voronoi-P0B}              
+\end{figure}
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/postup-voronoi-1az9.png}
+    \caption[Postup pro tarifní pásma 1 až 9]{Postup pro tarifní pásma 1 až 9}
+	\label{fig:postup-voronoi-1az9}              
+\end{figure}
+
+\subsection{Vyhlazení tvaru tarifních pásem}
 
 Ze spojených polygonů byla poté vygenerována vektorová vrstva bodů nástrojem
 \textit{Extract vertices}, která představovala vrcholy spojených polygonů. Pro tuto vrstvu
@@ -227,4 +246,12 @@ Výstupem nástroje byla polygonová vektorová vrstva.
     \includegraphics[width=400pt]{./pictures/smooth.png}
     \caption[Výsledek nástroje Smooth pro pásmo 2]{Výsledek nástroje Smooth pro pásmo 2}
 	\label{fig:smooth}                                
+\end{figure}
+
+Zde je souhrně zobrazen postup této části na obrázku \ref{fig:postup-smooth}.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/postup-smooth.png}
+    \caption[Postup pro zjemnění tvaru tarfních pásem]{Postup pro zjemnění tvaru tarfních pásem}
+	\label{fig:postup-smooth}              
 \end{figure}
