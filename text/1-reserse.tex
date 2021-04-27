@@ -30,8 +30,8 @@ nepříliš používá. \cite{vanicek}
 	\label{fig:triangulace-greedy}              
 \end{figure}
 
-Další triangulací je tzv. Delaunay triangulace, která je nejčastěji používaná triangulace.
-Delaunay triangulace je vytváření liniových spojnic bodů mez jednotlivými body, které si jsou sobě nejblíž,
+Další triangulací je tzv. Delaunay triangulace, která je nejčastěji používaná.
+Delaunay triangulací se rozumí vytváření liniových spojnic bodů mez jednotlivými body, které si jsou sobě nejblíž,
 za pomocí opsaných kružnic. Delaunay triangulace má několik vlastností. Jednou z nich je například,
 že uvnitř kružnice k opsané libovolnému trojúhelníku neleží žádný jiný bod.
 Zároveň Delaunay triangulace je jednoznačná, pokud žádné čtyři body neleží na kružnici.
@@ -48,9 +48,68 @@ inkrementální konstrukce, inkrementální vkládání, rozděl a panuj nebo sw
 	\label{fig:triangulace-delaunay}              
 \end{figure}
 
+Poté existuje triangulace s minimální hmotností (anglicky Minimum Weight Triangulation, zkráceně MWT),
+která má minimální celkovou délku hran. MWT je nejlepší triangulace pro interpolaci trojrozměrných oblastí,
+tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
+Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
+mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace úplně
+vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
+nebo více geometrických útvarů vzájemně spojených, bez překrývú a mezer.
 
-Další nápadem byla aplikace Voronoi diagram algoritmu, což je způsob dekompozice 
-metrického prostoru určený vzdálenostmi k dané diskrétní množině bodů v prostoru.
-Tento algoritmus má taky několik vlastností, jež budou prezentovány v dalších kapitolách 
-(viz \ref{voronoi-vlastnosti}). 
+Nejpoužívanější teselací v oblastí GIS je Voronoi diagram, někdy nazývána Voroného teselace, Voroného dekompozice,
+Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu 
+metrického prostoru určený vzdálenostmi k dané nespojité množině bodů v prostoru.
+V našem případě se bude řešit Voronoi diagram ve 2D prostoru, tedy v rovině.
+
+Takže na vstupu Voronoi diagramu je nějaká množina bodů a výstupem je Voronoi diagram, 
+což představuje takovou množinu buněk, pro které bude platit, že každý bod
+\textit{q} nálěžící množině \textit{V(p\textsubscript{i})} je blíže k bodu
+\textit{p\textsubscript{i}} než k jakémukoliv
+bodu \textit{p\textsubscript{j}} náležící množině \textit{P}.  \cite{bayer-voronoi}
+
+Pro lepší chápání Voronoi diagramů je potřeba si vysvětlit její terminologii.
+Vstupní množinu nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
+terminologii GIS se hovoří o tzv. Voronoi polygony. Tyto Voronoi buňky jsou tvořeny hranami,
+které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voronoi diagram.  
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/bayer-voronoi-terminologie.png}
+    \caption[Terminologie Voronoi diagramu]{Terminologie Voronoi diagramu \cite{bayer-voronoi}}
+	\label{fig:bayer-voronoi-terminologie}              
+\end{figure}
+
+Voronoi diagramy mají své vlastnosti, které jsou důležité pro jejich tvorbu. V následujících
+odrážkách jsou doslovně citována jejih znění z prezentace pana doc. Ing. Tomáše Bayera, Ph.D.
+
+\begin{itemize}
+\item Voronoi diagram \textit{V(P)} je planárním grafem.
+\item Vrchol q Voronoi buňky \textit{\{V(p\textsubscript{i})} je průnikem 3 hran, právě když je \textit{V(P)} nedegenerovaný.
+\item Pokud \textit{p\textsubscript{i}} náležící \textit{H(P)}, pak je \textit{V(p\textsubscript{i})}  otevřený. 
+\item Pro každý bod \textit{p\textsubscript{i} náležící P} je \textit{V(P)} konvexní. 
+\item Bod \textit{p\textsubscript{i}} je nejbližším bodem bodu \textit{p}
+jestliže \textit{p} náleží \textit{\{V(p\textsubscript{i})}.
+\item Každá strana \textit{q\textsubscript{i}q\textsubscript{j}}, \(i \neq j\),
+je sdílena právě dvěma sousedními buňkami \textit{V(p)}. 
+\item Bod q je vrcholem \textit{V(p)}, pokud existuje kružnice \textit{k(q,r)} procházející třemi
+nebo více generátory \textit{p\textsubscript{i}}, \textit{p\textsubscript{j}},
+\textit{p\textsubscript{k}}, a neobsahuje žádný další bod P (spojitost s \textit{DT(P)}). 
+\item Kružnici \textit{k(q,r)} označujeme jako největší prázdnou kružnici ze všech prázdných kružnic se středem v bodě \textit{q}. 
+\item Průměrné množství Voronoi hran ve Voronoi polygonu nepřekročí hodnotu 6. 
+\item Vztah mezi počtem bodů \textit{n}, počtem hran \textit{n\textsubscript{h}}
+a počtem trojúhelníků \textit{n\textsubscript{t}} teselace \textit{V(P)}:
+\[ n_h \leq 3n-6\]
+\[ n_t \leq 2n−5\]
+\item Voronoi diagram \textit{V(P)} představuje ortografickou projekci stěn
+mnohostěnu tvořeného průsečnicemi všech polorovin \textit{A\textsubscript{i}} do roviny \textit{xy}. 
+\item Nechť bod \textit{p\textsubscript{i}\textsuperscript{*}} i představuje
+ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu daného rovnicí:
+\[ z = x^2 + y^2 \]
+   
+\end{itemize}
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/voronoi.png}
+    \caption[Voroného polygony]{Voroného polygony}
+	\label{fig:voronoi}              
+\end{figure}   

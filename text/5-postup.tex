@@ -45,52 +45,6 @@ diagramů nástrojem \textit{Voroného polygony} v programu QGIS.
 
 Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voroného polygony.
 
-%toto možná dát do teoretické části
-Voroného diagramy, někdy pod názvy jako Voroného teselace, Voroného dekompozice,
-Thiessenovy polygony nebo Dirichletova teselace, podle definice představují
-rozklad množiny bodů \textit{P} na \textit{n} uzavřených či 
-otevřených oblastí \textit{V(p) = \{V(p\textsubscript{i}), V(p\textsubscript{2}), ...,
-V(p\textsubscript{n})\}} takových, že každý bod
-\textit{q} nálěžící množině \textit{V(p\textsubscript{i})} je blíže k bodu
-\textit{p\textsubscript{i}} než k jakémukoliv
-bodu \textit{p\textsubscript{j}} náležící množině \textit{P}. \cite{bayer-voronoi}
-
-\begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/voronoi.png}
-    \caption[Voroného polygony]{Voroného polygony}
-	\label{fig:voronoi}              
-\end{figure}     
-
-\subsubsection{Vlastnosti Voroného diagramů}
-\label{voronoi-vlastnosti}
-
-\begin{itemize}
-\item Voronoi diagram \textit{V(P)} je planárním grafem.
-\item Vrchol q Voronoi buňky \textit{\{V(p\textsubscript{i})} je průnikem 3 hran, právě když je \textit{V(P)} nedegenerovaný.
-\item Pokud \textit{p\textsubscript{i}} náležící \textit{H(P)}, pak je \textit{V(p\textsubscript{i})}  otevřený. 
-\item Pro každý bod \textit{p\textsubscript{i} náležící P} je \textit{V(P)} konvexní. 
-\item Bod \textit{p\textsubscript{i}} je nejbližším bodem bodu \textit{p}
-jestliže \textit{p} náleží \textit{\{V(p\textsubscript{i})}.
-%nerovnitko? 
-\item Každá strana \textit{q\textsubscript{i}q\textsubscript{j}}, \textit{i se nerovná j},
-je sdílena právě dvěma sousedními buňkami \textit{V(p)}. 
-\item Bod q je vrcholem \textit{V(p)}, pokud existuje kružnice \textit{k(q,r)} procházející třemi
-nebo více generátory \textit{p\textsubscript{i}}, \textit{p\textsubscript{j}},
-\textit{p\textsubscript{k}}, a neobsahuje žádný další bod P (spojitost s \textit{DT(P)}). 
-\item Kružnici \textit{k(q,r)} označujeme jako největší prázdnou kružnici ze všech prázdných kružnic se středem v bodě \textit{q}. 
-\item Průměrné množství Voronoi hran ve Voronoi polygonu nepřekročí hodnotu 6. 
-\item Vztah mezi počtem bodů \textit{n}, počtem hran \textit{n\textsubscript{h}}
-a počtem trojúhelníků \textit{n\textsubscript{t}} teselace \textit{V(P)}:
-\[ n_h \leq 3n-6\]
-\[ n_t \leq 2n−5\]
-\item Voronoi diagram \textit{V(P)} představuje ortografickou projekci stěn
-mnohostěnu tvořeného průsečnicemi všech polorovin \textit{A\textsubscript{i}} do roviny \textit{xy}. 
-\item Nechť bod \textit{p\textsubscript{i}\textsuperscript{*}} i představuje
-ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu daného rovnicí:
-\[ z = x^2 + y^2 \]
-   
-\end{itemize} 
-
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-stops.png}
     \caption[Voroného polygony pro všechny zastávky]{Voroného polygony pro všechny zastávky}
