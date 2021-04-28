@@ -52,10 +52,15 @@ Poté existuje triangulace s minimální hmotností (anglicky Minimum Weight Tri
 která má minimální celkovou délku hran. MWT je nejlepší triangulace pro interpolaci trojrozměrných oblastí,
 tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
+% Konvexní obálka - definice, metody konstrukce
+
+% Konkávní obálka - definice, metody konstrukce
+
 Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
-mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace úplně
-vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
-nebo více geometrických útvarů vzájemně spojených, bez překrývú a mezer.
+mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
+obálka úplně vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
+nebo více geometrických útvarů vzájemně spojených, bez překrývú a mezer. Triangulace, konvexní nebo konkávní 
+obálka se mohou hodit při dalších krocích výpočtu.
 
 Nejpoužívanější teselací v oblastí GIS je Voronoi diagram, někdy nazývána Voroného teselace, Voroného dekompozice,
 Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu 
@@ -69,7 +74,7 @@ což představuje takovou množinu buněk, pro které bude platit, že každý b
 bodu \textit{p\textsubscript{j}} náležící množině \textit{P}.  \cite{bayer-voronoi}
 
 Pro lepší chápání Voronoi diagramů je potřeba si vysvětlit její terminologii.
-Vstupní množinu nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
+Vstupní množinu bodů nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
 terminologii GIS se hovoří o tzv. Voronoi polygony. Tyto Voronoi buňky jsou tvořeny hranami,
 které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voronoi diagram.  
 
@@ -113,3 +118,20 @@ ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu da
     \caption[Voroného polygony]{Voroného polygony}
 	\label{fig:voronoi}              
 \end{figure}   
+
+Voronoi diagram má jistý vztah s Delaunay triangulací. Hraniční vstupní body
+Voronoi diagramu po spojení Delaunay triangulací tvoří konvexní obálku.
+Středy kružnic opsaných trojúhelníků Delaunay triangulace představují úzlové body
+Voronoi diagramu.
+
+Pro konstrukci Voronoi diagramu existují různé metody. Konstrukce lze v praxi tvořit přímo nebo nepřímo.
+Pro přímou konstrukci jsou tu metody Inkrementální konstrukce, Sweep line algoritmus a
+Rozděl a panuj. Nepřímá konstrukce je vytvářena přes Delaunay triangulaci skrz spojení středů
+kružnic opsaných trojúhelníků a bývá nejpoužívanější. 
+
+Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovní problém
+pomáhá při návrhu nových supermarkétů, stanic MHD či polohy nových nemocnic.
+Další využití jsou například nalezení všech sousedů, převod bodových údajů na plošné
+nebo klasifikace dat.
+
+ 
