@@ -154,17 +154,6 @@ využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenos
 založené na ploše (algoritmus „Visvalingam“) a přichytávání geometrií k mřížce.
 Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“.
 
-Algoritmus „Douglas-Peucker“ na rozdíl od ostatních algoritmů neodstraňuje vrcholy nesplňující 
-geometrickou podmínku, ale přidává do ní postupně kritické body, které podmínku splnují.
-Tento algoritmus je jeden z nejlepších generalizacních algoritmů a je velmi často
-implementován v GIS software. \cite{bayer-douglas}
-
-\begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/douglas.png}
-    \caption[Znázornění algoritmu „Douglas-Peucker“]{Znázornění algoritmu „Douglas-Peucker“ \cite{bayer-douglas}}
-	\label{fig:douglas}              
-\end{figure} 
-
 Do nástroje Simplify byl vstupem výsledek nástroje Concave hull (alpha shapes), parametrem byl výběr algoritmu 
 a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorová vrstva.
 
@@ -176,17 +165,6 @@ a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorov
 
 Výstup nástroje Simplify byl vstupem do nástroje Smooth. Tento nástroj vyhlazuje geometrie
 liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu.
-
-Chaikin využil fixních poměrů na odříznutí rohů, takže byly všechny rozřezány stejně. 
-Při matematickém zápisu postupuje Chaikinova metoda následovně: Dostaneme kontrolní polygon 
-\textit{\{P\textsubscript{0}, P\textsubscript{1}, ..., P\textsubscript{n}\}},
-tento kontrolní polygon vylepšíme vygenerováním nové posloupnosti řídicích bodů 
-\[ \{Q_0, R_0, Q_1, R_1, ...,  Q_{n−1}, R_{n−1}\} \]                                    
-kde každá nová dvojice bodů Q\textsubscript{i}, R\textsubscript{i} je třeba brát v poměru \(\frac{1}{4}\)
-a \(\frac{3}{4}\) mezi koncovými body segmentu čáry \(\overline{P\textsubscript{i}P\textsubscript{i+1}}\).
-\[Q_i = \frac{3}{4}P_i + \frac{1}{4}P_{i+1}\]
-\[R_i = \frac{1}{4}P_i + \frac{3}{4}P_{i+1}\]
-Tyto 2 nové body lze považovat za nový řídicí polygon - vylepšení původního řídicího polygonu. \cite{chaikin} 
 
 U nástroje Smooth byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.

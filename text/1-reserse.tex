@@ -52,9 +52,45 @@ Poté existuje triangulace s minimální hmotností (anglicky Minimum Weight Tri
 která má minimální celkovou délku hran. MWT je nejlepší triangulace pro interpolaci trojrozměrných oblastí,
 tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
-% Konvexní obálka - definice, metody konstrukce
+Pro vytváření hranic polygonů je konvexní obálka jednou z možností, co použít. Konvexní obálka (anglicky Convex hull)
+je nejmenší konvexní mnoužinou, pokud spojnice  libovolných dvou prvků leží zcela uvnitř této množiny.
+Je to jedna z nejpoužívanějších geometrických struktura, která je většinou používaná jako první odhad tvaru
+prostorového tvaru.
 
-% Konkávní obálka - definice, metody konstrukce
+Konstrukce konvexní obálky se nejčastěji provádějí metodami: Jarvis Scan, Graham Scan, Quick Hull nebo
+Divide and Conquer. Konvexní obálku lze vytvářet i pomocí Delaunay triangulace, kdy se po dokončení
+spojí všechny trojúhelníky.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/convexHull.png}
+    \caption[Konvexní obálka]{Konvexní obálka}
+	\label{fig:convexHull}              
+\end{figure}
+ 
+Oproti konvexní obálce je konkávní obálka pro tvorbu složitější. Není znám přesný postup,
+jak tento problém řešit, ale existují různé aproximace, které se k tomu chtějí přiblížit.
+První aproximace je pomocí Delaunay triangulace, kde se vytvoří trojúhelníky, vznikne
+konvexní obálka a pak se odebírají trojúhelníky s nevhodnými vlasnostmi. Typicky mají příliš ostrý nebo tupý
+úhel, hraniční hodnota si můžete zvolit.
+Předpokladem, aby úspěšně fungovala, je, že množina bodů má konstantní
+prostorovou hustotu bodů.
+
+Další aproximací je pomocí alpha-shapes, kde se volí parametr alpha. Představme si obrovskou masu zmrzliny,
+která tvoří prostor \(R^3\) a obsahující body jako „tvrdé“ kousky čokolády. Pomocí jedné z těchto 
+zmrzlinových lžiček ve tvaru koule vyřezáme všechny části zmrzlinového bloku, na které se dostaneme,
+aniž bychom narazili na kousky čokolády, a tím dokonce vydlabeme otvory uvnitř 
+(např. části nedosažitelné pouhým pohybem lžíce z venku). Nakonec skončíme s 
+(ne nutně konvexním) objektem ohraničeným oblouky a body. Pokud nyní narovnáme všechny 
+„kulaté“ plochy na trojúhelníky a úsečky, máme intuitivní popis toho, co se nazývá alpha-shape. \cite{alpha-shapes}
+
+Další strategií je kompromisni definice mezi alpha-shapes a konkávní obálkou, tzv. alpha-concave
+hull. 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=296pt]{./pictures/alphashape.png}
+    \caption[Konvkávní obálka pomocí alpha-shapes]{Konvkávní obálka pomocí alpha-shapes \cite{alpha-shapes-picture}}
+	\label{fig:alpha-shapes-picture}              
+\end{figure} 
 
 Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
 mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
@@ -132,6 +168,49 @@ kružnic opsaných trojúhelníků a bývá nejpoužívanější.
 Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovní problém
 pomáhá při návrhu nových supermarkétů, stanic MHD či polohy nových nemocnic.
 Další využití jsou například nalezení všech sousedů, převod bodových údajů na plošné
-nebo klasifikace dat.
+nebo klasifikace dat. \cite{bayer-voronoi}
 
- 
+Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hranice polygonů
+generalizovat a následně zjemnit. K tomu existuje mnoho algoritmů, ale bude zde uvedeno
+jen několik vhodných a nejpoužívanějších.
+
+Prvním algoritmem je generalizační algoritmus „Douglas-Peucker“. Algoritmus rekurzivně rozděluje čáru.
+Zpočátku jsou uvedeny všechny body mezi prvním a posledním bodem. Automaticky označí první a poslední bod,
+který se má zachovat. Poté najde bod, který je nejvzdálenější od úsečky s prvním a posledním bodem 
+jako koncovými body. Tento bod je zjevně nejvzdálenější na křivce od přibližné úsečky mezi koncovými body. 
+Pokud je bod blíže než parametr epsilon, který je volitelný, k úsečce, mohou být všechny body, které nejsou aktuálně označeny jako zachováné, 
+zahozeny, aniž by zjednodušená křivka byla horší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
+musí být tento bod zachován. Algoritmus se rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
+a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný. 
+Tento algoritmus je jeden z nejlepších generalizacních algoritmů a je velmi často
+implementován v GIS software. \cite{bayer-douglas}
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/douglas.png}
+    \caption[Znázornění algoritmu „Douglas-Peucker“]{Znázornění algoritmu „Douglas-Peucker“ \cite{bayer-douglas}}
+	\label{fig:douglas}              
+\end{figure} 
+
+Dalším algoritmem je zjemňovací/vyhlazovací algoritmus Polynomická aproximace metodou Exponenciálního jádra
+(anglicky Polynomial Approximation with Exponential Kernel, zkráceně PAEK).
+Tento algoritmus vyvinula společnost Esri pro nástroj Smooth Line a je jejím soukromým vlastnictvím.
+Ačkoliv se zdá být ideální, tak není použitelný pro jiné platformy kvůli nezveřejněnému algoritmu.
+
+Podobným algoritmem jako PAEK je algoritmus Chaikinův. 
+Chaikin (autor algoritmu, po kterém je i algoritmus pojmenován) využil fixních poměrů na odříznutí rohů, takže byly všechny rozřezány stejně. 
+Při matematickém zápisu postupuje Chaikinova metoda následovně: Dostaneme kontrolní polygon 
+\textit{\{P\textsubscript{0}, P\textsubscript{1}, ..., P\textsubscript{n}\}},
+tento kontrolní polygon vylepšíme vygenerováním nové posloupnosti řídicích bodů 
+\[ \{Q_0, R_0, Q_1, R_1, ...,  Q_{n−1}, R_{n−1}\} \]                                    
+kde každá nová dvojice bodů Q\textsubscript{i}, R\textsubscript{i} je třeba brát v poměru \(\frac{1}{4}\)
+a \(\frac{3}{4}\) mezi koncovými body segmentu čáry \(\overline{P\textsubscript{i}P\textsubscript{i+1}}\).
+\[Q_i = \frac{3}{4}P_i + \frac{1}{4}P_{i+1}\]
+\[R_i = \frac{1}{4}P_i + \frac{3}{4}P_{i+1}\]
+Tyto 2 nové body lze považovat za nový řídicí polygon - vylepšení původního řídicího polygonu. 
+Tento postup lze pro tentýž úsek opakovat, čímž vznikne vyhlazená čára. \cite{chaikin} 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/chaiken.png}
+    \caption[Znázornění Chaikinova algoritmu]{Znázornění Chaikinova algoritmu \cite{bayer-douglas}}
+	\label{fig:chaiken}              
+\end{figure} 
