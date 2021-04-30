@@ -39,7 +39,7 @@ zajištění jednotnosti informačního systému PID.  \cite{wikipedia-ropid}
 
 \section{Tarifní pásma PID}
 
-Tarifní pásma je rozdělení Pražské integrované dopravy do určitých zón, kde v jednotlivých
+Tzv. "tarifní pásma" je rozdělení Pražské integrované dopravy do určitých zón, kde v jednotlivých
 zónách platí rozdílná cenové podmínky. Rozdělení tarifních pásem je následující:
 P, 0, B, 1, 2, 3, 4, 5, 6, 7, 8, 9. Tarifní pásma P, 0 a B se nacházejí v Praze a územně
 se spolu překrývají. Ostatní pásma (1 až 9) se nacházejí ve Středočeském kraji.
@@ -61,3 +61,33 @@ Příslušnost stanice nebo zastávky k tarifnímu pásmu je vždy dána jízdn�
     \caption[Schéma tarifních pásem PID]{Schéma tarifních pásem PID \cite{pid}}
 	\label{fig:pasma-schema}                                
 \end{figure}
+
+\subsection{Tvorba tarifních pásem PID}
+
+Tarifní pásma Pražské integrované dopravy se doposud tvoří manuálně. Zeptal jsem
+se tedy paní Ing. Zuzany Šaškové z ROPIDu, která se tvorbou pásem zabývá, jakou metodiku
+při tom používá. 
+
+Paní Ing. Šašková používá na úpravu dat software ArcMap od společnosti Esri.
+\textit{"Původní myšlenka při tvorbě tarifních pásem byla zohledňovat v mapě 
+zastavěná území obce tak, aby je tarifní pásma pokud možno neprotínala,"} od této
+myšlenky ustoupila kvůli náročnosti zpracování. \textit{"Dnes mám vytvořeny polygony 
+jednotlivých pásem (nikoliv donuty), každé pásmo ručně upravím dle aktuálních změň."} 
+V projektu při úpravách nepoužívá žádné sofistikované metody, jenom například obarvení
+zastávek a jednotlivých polygonů tarifního pásma stejnou barvou, hraniční zastávek výraznou barvou 
+případně pro následné úpravy. \textit{"Když ručně vytvaruji všechny polygony tak, aby procházeli 
+mezi zastávkami které mají přiřazené jedno pásmo a skrz zastávky, které mají přiřazená dvě pásma, 
+pustím si skript Pythonu, který z polygonů vyřeže donuty jednotlivých tarifních pásem a nakonec je spojí do jedné vrstvy."}
+
+Takto paní Ing. Šašková upravuje tarifní pásma od dubna 2018 při každé úpravě zastávek. 
+Zatímco dříve byla důležitá schématická verze mapy, v současnosti se připravuje on-line mapa PID, u které již je zapotřebí 
+aby tarifní pásma odpovídala realitě a upravovala se v návaznosti na postup
+integrace dalších oblastí Středočeského kraje do PID.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/pasma-nejstarsi.png}
+    \caption[Nejstarší dostupná verze tarifních pásem PID]{Nejstarší dostupná verze tarifních pásem PID \cite{pid}}
+	\label{fig:pasma-schema}                                
+\end{figure}
+
+
