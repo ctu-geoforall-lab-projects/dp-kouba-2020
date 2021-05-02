@@ -12,7 +12,7 @@ obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrst
 
 Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
 Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
-mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky python třídě \textit{QgsTask}
+mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Python třídě \textit{QgsTask}
 a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
 % dát sem i ukázku kódu? 
 
@@ -63,7 +63,7 @@ Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky.
 Třída \textit{QgsVectorLayer} představuje zároveň vektorovou vrstvu, která spravuje
 vektorové datové sady a která může být považována jako vstup do nástroje QGIS. % tim chci rict, ze do vstupu nemuze jit string, tzn pouha cesta k vrstve
 
-Pro vybrané zástavky bylo potřeba vybrat ty Voroného polygony, které svou
+Pro vybrané zastávky bylo potřeba vybrat ty Voroného polygony, které svou
 pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
 do kterého vstupovala vrstva vybraných zastávek a vrstva Voroného polygonů. Výsledkem tohoto nástroje byla
 vektorová vrstva vybraných Voroného polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.

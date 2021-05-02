@@ -38,20 +38,28 @@ aby přesně reprezentoval jeho použití v mnoha různých aplikacích mimo pro
 % doplnit něco o historii GTFS 
 
 \section{GTFS dataset}
-GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanantní URL adrese}
-obsahuje CSV soubory, jehož úplný seznam je v následující tabulce. Co je to CSV soubor?
+GTFS "feed" nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanantní URL adrese}
+je ZIP soubor, který obsahuje CSV soubory.
 
 CSV, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
 souborový formát určený pro výměnu tabulkových dat. Data jsou oddělována „oddělovačem“.
 Ačkoli podle definice by měl být formát oddělen čárkami, oddělovač může být prakticky cokoli. 
 Nejčastějšími oddělovači jsou právě čárky, středníky nebo mezery. CSV soubor se 
 může upravovat v jakémkoliv textovém editoru.
+
 \begin{figure}[H] \centering
     \includegraphics[width=250pt]{./pictures/ukazka-csv.PNG}
     \caption[Ukázka CSV formátu ze souboru shapes.txt]{Ukázka CSV formátu ze souboru shapes.txt}
 	\label{fig:ukazka-csv}              
 \end{figure}
-V GTFS datasetu je určité množství povinných a nepovinných CSV souborů v textové podobě.
+
+V GTFS datasetu může být v současné době až 17 CSV souborů v textové podobě. Slovem "může" je myšleno to,
+že některé CSV soubory jsou požadované či podmíněně požadované a jiné volitelné.
+Jaké CSV soubory soubory obsahuje dataset záleží na konkrétním dopravním systému, který
+tento dataset vytváří.
+
+V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny CSV soubory,
+které v současnosti v GTFS datasetu mohou být.
 
 \newcolumntype{s}{>{\centering\arraybackslash\columncolor[HTML]{CCFFCC}} m{5cm}}
 \newcolumntype{v}{>{\centering\arraybackslash\columncolor[HTML]{C4FFFD}} m{5cm}}
@@ -75,11 +83,27 @@ V GTFS datasetu je určité množství povinných a nepovinných CSV souborů v 
 \end{tabular}
 \end{center}
 \caption{Seznam CSV souborů v GTFS datasetu}
-\label{table:1}
+\label{table:csv-soubory}
 \end{table}
 
-Tučně zvýrazněné pole jsou požadované či podmíněně vyžadované. Ostatní pole jsou 
-volitelné. 
+Každý CSV soubor v GTFS datasetu má v prvním řádku názvy polí, do kterých je tento
+soubor rozřazen. Color,
+Currency Code,
+Date,
+Email,
+Enum,
+ID,
+Language Code,
+Latitude,
+Longitude,
+Non-negative Float,
+Non-negative Integer,
+Phone number,
+Time,
+Text,
+Timezone,
+URL
+
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/GTFS-diagram.PNG}
     \caption[Diagram GTFS datasetu]{Diagram GTFS datasetu}
