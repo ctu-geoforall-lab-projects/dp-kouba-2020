@@ -58,6 +58,17 @@ V GTFS datasetu může být v současné době až 17 CSV souborů v textové po
 Jaké CSV soubory soubory obsahuje dataset záleží na konkrétním dopravním systému, který
 tento dataset vytváří.
 
+Termín "požadované" znamená, že daný CSV soubor se musí nacházet v GTFS datasetu nebo dané pole
+se musí nacházet v CSV souboru a v tomto poli musí být uvedena hodnota pro každý záznam. 
+
+%přidat referenci na podmínky?
+Termín "podmíněně požadované" znamená, že daný CSV soubor nebo pole je vyžadován za určitých podmínek, 
+které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
+
+Termín "volitelné" znamená, že daný CSV soubor nebo pole může být vynecháno. V případě zahrnutí 
+volitelného sloupec, mohou být některé položky v tomto poli prázdné řetězce, což je ekvivalentní s prázdným
+polem.
+
 V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny CSV soubory,
 které v současnosti v GTFS datasetu mohou být.
 
@@ -87,25 +98,31 @@ které v současnosti v GTFS datasetu mohou být.
 \end{table}
 
 Každý CSV soubor v GTFS datasetu má v prvním řádku názvy polí, do kterých je tento
-soubor rozřazen. Color,
-Currency Code,
-Date,
-Email,
-Enum,
-ID,
-Language Code,
-Latitude,
-Longitude,
-Non-negative Float,
-Non-negative Integer,
-Phone number,
-Time,
-Text,
-Timezone,
-URL
+soubor rozřazen. Jednotlivá pole mají různý datový typ, která jsou barva, kód měny, 
+datum, email, enum (výčet), ID, kód jazyka, zeměpisná délka, zeměpisná šířka,
+nezáporné číslo s plovoucí desetinnou čárkou, nezáporné celé číslo, telefonní číslo,
+čas, text, časové pásmo a URL adresa.
+
+Jedno z nejdůležitějších polí je pole s datovým typem ID, což je hodnota jednoznačně určuje každý záznam.
+Právě tento datový typ umožňuje propojení jednotlivých CSV souborů mezi sebou. ID může být
+sekvence libovolných UTF-8 znaků. Pole s datovým typem ID se označují nakonci názvu s 
+"\_id". Na následujícím obrázku \ref{fig:GTFS-diagram} je toto propojení zobrazeno pomocí diagramů.
+
+%přidat referenci na podmínky?
+Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole jsou v daném CSV souboru
+jsou požadované, podmíněně požadované nebo volitelné. 
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/GTFS-diagram.PNG}
     \caption[Diagram GTFS datasetu]{Diagram GTFS datasetu}
 	\label{fig:GTFS-diagram}              
 \end{figure}
+
+Pro moji diplomovou práci byly dále důležité datové typy jako zeměpisná délka a zeměpisná šířka,
+které již podle názvu obsahují zeměpisnou délku a šířku v souřadnicovém systému WGS84, barva zakódovaná 
+jako šestimístné hexadecimální číslo, nezáporné číslo s plovoucí desetinnou čárkou a nezáporné celé číslo
+nebo enum, což jsou předem definované konstanty.
+
+\subsection{Soubor stops.txt}
+
+  
