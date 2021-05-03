@@ -124,5 +124,42 @@ jako šestimístné hexadecimální číslo, nezáporné číslo s plovoucí des
 nebo enum, což jsou předem definované konstanty.
 
 \subsection{Soubor stops.txt}
+Soubor \textit{stops.txt} se skládá ze 14 polí, z čehož 6 polí je požadovaných nebo podmíněně požadovaných 
+a zbytek volitelných. Samotný soubor je požadovaný a měl by se nacházet v každém GTFS datasetu.
 
-  
+Prvním polem je vždy zpravidla \textit{stop\_id}, které je požadované a má datový typ ID.
+Tato hodnota jednoynažně určuje každou zastávku. Pro PID\_GTFS, což je GTFS dataset Pražské integrované dopravy,
+se pole \textit{stop\_id} zkládá z kombinace písmen a čísel v souvislosti s typem spoje.
+
+Druhým polem je volitelné pole \textit{stop\_code} v datovém typu text, což je krátký text nebo číslo, 
+které identifikuje lokaci pro řidiče. 
+
+Dalším třetím polem je s datovým typem text \textit{stop\_name}. Jak už název napovídá, tak obsahuje název lokace. 
+Je podmíněně požadované kvůli dalšímu volitelnému devátému poli \textit{location\_type} s datovým typem enum, 
+které obsahuje druhy lokace.
+Toto pole je definováno pomocí čtyř konstant:
+\begin{itemize} 
+\item 0 nebo prázdné - zastávka nebo nástupiště
+\item 1 - železniční stanice 
+\item 2 - vchod/východ ze železniční stanice 
+\item 3 - místo ve stanici, které neodpovídá s žádnou s ostatní konstantou z \textit{location\_type} 
+\item 4 - specifické místo, kde lidé mohou nastoupit/vystoupit z vozidla
+\end{itemize}
+
+Čtvrtým polem je volitelné pole \textit{stop\_desc} v textovém datovém typu obsahující popis místa, 
+které poskytuje užitečné a kvalitní informace.
+
+Pátým a šestým polem je \textit{stop\_lat} a \textit{stop\_lon} s datovým typem zeměpisná šířka a délka
+obsahující přesně tyto dvě hodnoty. Tyto dvě pole jsou podmíněně požadované kvůli poli \textit{location\_type}.
+
+Sedmým polem s datým typem ID je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
+Je podmíněně požadované kvůli CSV souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
+Pokud záznam v CSV souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
+
+Dalším osmým polem je volitelný \textit{stop\_url} s URL adresou na webovou stránku o místě záznamu.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/stops.PNG}
+    \caption[Ukázka CSV souboru stops.txt pro PID\_GTFS dataset]{Ukázka CSV souboru stops.txt pro PID\_GTFS dataset}
+	\label{fig:stops}              
+\end{figure} 
