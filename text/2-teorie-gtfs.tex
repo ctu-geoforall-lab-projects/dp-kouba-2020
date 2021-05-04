@@ -158,6 +158,19 @@ Pokud záznam v CSV souboru \textit{stops.txt} představuje stanici nebo vchod d
 
 Dalším osmým polem je volitelný \textit{stop\_url} s URL adresou na webovou stránku o místě záznamu.
 
+Desátým polem je podmíněně požadované pole \textit{parent\_station} opět kvůli propojení s polem \textit{location\_type}.
+Má datový typ ID odkazující na pole \textit{stop\_id} a definuje hierarchii mezi různými místy definovanými v \textit{stops.txt}. 
+a obsahuje ID nadřazeného umístění.
+
+Poslední čtyři pole jsou volitelné. Prvním z nich je \textit{stop\_timezone} s datovým typem a zároveň definujícím časové
+pásmo, \textit{wheelchair\_boarding} s datovým typem enum, které označuje, zda je z daného místa možné nastupovat na invalidní vozík.
+Předposlední je \textit{level\_id} s datovým typem ID odkazující na soubor \textit{levels.txt} definující úroveň
+umístění zastávky a poslední je \textit{platform\_code} s datovým typem text, 
+což je identifikátor platformy pro zastávku zastávka patřící stanici.
+
+Všechny tyto pole mají pevné pořadí a nesmí se přeházet. Na obrázku \ref{fig:stops} je ukázka CSV souboru \textit{stops.txt}
+pro PID\_GTFS dataset, kde nejsou využívány všechny volitelné pole.
+
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/stops.PNG}
     \caption[Ukázka CSV souboru stops.txt pro PID\_GTFS dataset]{Ukázka CSV souboru stops.txt pro PID\_GTFS dataset}
