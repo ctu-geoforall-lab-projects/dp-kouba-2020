@@ -1,4 +1,4 @@
-FILE=tereza-kulovana-dp-2019
+FILE=martin-kouba-dp-2021
 
 all:
 	pdflatex $(FILE)
