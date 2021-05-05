@@ -7,6 +7,8 @@ tvaru a atributů geografických prvků \cite{shapefile}}
 na portálu \textit{opendata hlavního města Prahy} \cite{opendata}. Tento shapefile
 obsahuje vektorové vrstvy polygonů.
 
+\subsubsection{Triangulace}
+
 První myšlenkou, jak se přiblížit k takovým polygonům bylo vytvoření linií mezi jednotlivými zastávkami.
 K tomu slouží takzvaná triangulace, která vytvoří trojúhelníky bezi body, kde uvnitř těchto trojuhelníků  
 už neleží žádné body a každý trojúhelník má vždy společnou jednu hranu. 
@@ -52,7 +54,9 @@ Poté existuje triangulace s minimální hmotností (anglicky Minimum Weight Tri
 která má minimální celkovou délku hran. MWT je nejlepší triangulace pro interpolaci trojrozměrných oblastí,
 tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
-Pro vytváření hranic polygonů je konvexní obálka jednou z možností, co použít. Konvexní obálka (anglicky Convex hull)
+\subsubsection{Konvexní obálka}
+
+Pro vytváření hranic polygonů je konvexní obálka jedna z možností, co použít. Konvexní obálka (anglicky Convex hull)
 je nejmenší konvexní mnoužinou, pokud spojnice  libovolných dvou prvků leží zcela uvnitř této množiny.
 Je to jedna z nejpoužívanějších geometrických struktura, která je většinou používaná jako první odhad tvaru
 prostorového tvaru.
@@ -66,13 +70,15 @@ spojí všechny trojúhelníky.
     \caption[Konvexní obálka]{Konvexní obálka}
 	\label{fig:convexHull}              
 \end{figure}
+
+\subsubsection{Konkávní obálka}
  
 Oproti konvexní obálce je konkávní obálka pro tvorbu složitější. Není znám přesný postup,
 jak tento problém řešit, ale existují různé aproximace, které se k tomu chtějí přiblížit.
 První aproximace je pomocí Delaunay triangulace, kde se vytvoří trojúhelníky, vznikne
 konvexní obálka a pak se odebírají trojúhelníky s nevhodnými vlasnostmi. Typicky mají příliš ostrý nebo tupý
 úhel, hraniční hodnota si můžete zvolit.
-Předpokladem, aby úspěšně fungovala, je, že množina bodů má konstantní
+Předpokladem, aby úspěšně fungovala je, že množina bodů má konstantní
 prostorovou hustotu bodů.
 
 Další aproximací je pomocí alpha-shapes, kde se volí parametr alpha. Představme si obrovskou masu zmrzliny,
@@ -91,6 +97,8 @@ hull.
     \caption[Konvkávní obálka pomocí alpha-shapes]{Konvkávní obálka pomocí alpha-shapes \cite{alpha-shapes-picture}}
 	\label{fig:alpha-shapes-picture}              
 \end{figure} 
+
+\subsubsection{Voronoi diagram}
 
 Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
 mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
@@ -169,6 +177,8 @@ Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovn
 pomáhá při návrhu nových supermarkétů, stanic MHD či polohy nových nemocnic.
 Další využití jsou například nalezení všech sousedů, převod bodových údajů na plošné
 nebo klasifikace dat. \cite{bayer-voronoi}
+
+\subsubsection{Generalizace a zjemnění}
 
 Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hranice polygonů
 generalizovat a následně zjemnit. K tomu existuje mnoho algoritmů, ale bude zde uvedeno

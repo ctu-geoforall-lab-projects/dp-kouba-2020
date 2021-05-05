@@ -4,10 +4,10 @@
 \section{Aktualizace pluginu do verze 1.0}
 Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní 
 funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do QGISu,
-rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru GeoPackage,
+rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru GeoPackage (dále GPKG),
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
 obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
-\textit{layer tree}.
+\textit{layer tree} \footnote{součást QGISu odpovědná za zobrazení seznamu vrstev}.
 % vysvětlit layer tree, GeoPackage??
 
 Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
@@ -32,9 +32,9 @@ Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovým
 Při myšlenkách, jak se k tvorbě tarifních pásem postavit,
 se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v QGISu. 
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a začal se tvořit postup
-na "čístý" pythoní skript pomocí QGIS nástrojů. I přes to, že lze z Grafického modeláře exportovat skript. 
+na "čístý" Python skript pomocí QGIS nástrojů. I přes to, že lze z Grafického modeláře exportovat skript. 
 
-Pro použití QGIS nástrojů v pythoním skriptu je potřeba importovat modul \textit{processing},
+Pro použití QGIS nástrojů v Python skriptu je potřeba importovat modul \textit{processing},
 který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
 ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
 z QGIS dokumentace. \cite{QGIS_docs}
@@ -48,14 +48,17 @@ Tvorba tarifních pásem pro ostatní GTFS soubory může být jako námět pro 
 vypracovat uživatelé Githubu.
 
 Ovládání dialogového okna je jednoduché. Disponuje běžnými tlačítky pro minimalizaci okna a vypnutí okna, což mimochodem
-zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Ano/Ne, které buďto povolí vytváření tarifních
+zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Yes/No, které buďto povolí vytváření tarifních
 pásem anebo nepovolí a proces běží jako ve verzi pluginu 1.0.
 
 \begin{figure}[H] \centering
     \includegraphics[width=200pt]{./pictures/dialog.png}
     \caption[Dialogové okno s možností tvořit/netvořit tarifní pásma]{Dialogové okno s možností tvořit/netvořit tarifní pásma}
 	\label{fig:dialog}                                
-\end{figure} 
+\end{figure}
+
+Kvůli přehlednosti byl založen nový Python skript \textit{zones.py} se třídou GtfsZones. Instance této třídy je vytvořena
+v hlavním Python skriptu \textit{GTFS.py}.
 
 \subsection{Hrubý tvar tarifních pásem}
 
@@ -75,16 +78,26 @@ Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě 
 \end{figure}
   
 Pro každé tarifní pásmo byly vybrány zastávky pomocí třídy \textit{QgsVectorLayer}
-a její metody \textit{selectByExpression}, která vybírá prvky podle zadaného výrazu ve formě \textit{string}.
-Znění zadaného výrazu je následující:
+a její metody \textit{selectByExpression}, která má parametr \textit{expression} ve formě datového
+typu \textit{string}. 
+Třída \textit{QgsVectorLayer} zároveň vrací vektorovou vrstvu, která může být považována jako vstup do nástroje QGIS.
 
-%zjistit, jak lépe přidat části kódu
-\textit{zone\_id in "tarifní pásmo" and location\_type = 0}
+\subsubsection{Tarifní pásma P, 0 a B}
+
+Speciálně pro tarifní pásma na území Prahy, tedy pro tarifní pásma P, 0 a B byl tvořen rozdílný postup
+nežs pro ostatní pásma ležící ve Středních Čechách. Do metody \textit{selectByExpression} byl vložen
+parametr s dotazem: 
+
+\["zone\_id"\ IN\ ('P','0','B')\ AND\ "location\_type" = 0\]
+
+Po proběhnutí tohoto dotazu byly vybrány všechny zastávky ležící v tarifních pásmech P, 0 a B. 
 
 V zadávaném výrazu figuruje taktéž údaj o poli \textit{location\_type}, což je typ lokace. 
-Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky. 
-Třída \textit{QgsVectorLayer} představuje zároveň vektorovou vrstvu, která spravuje
-vektorové datové sady a která může být považována jako vstup do nástroje QGIS. % tim chci rict, ze do vstupu nemuze jit string, tzn pouha cesta k vrstve
+Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky viz \ref{stops.txt}.
+
+Některé zastávky se nacházely na stejném a měly duplicitní geometrii, což vytvářelo v dalším
+zpracování pouze problém s duplicitními polygony. Aby se takové věci ve výsledku zamezilo, byl použit nástroj   
+Delete duplicate geometries, který ve vstupní vektorové vrstvě najde duplicitní geometrie a smaže je.
 
 Pro vybrané zastávky bylo potřeba vybrat ty Voroného polygony, které svou
 pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
@@ -107,14 +120,58 @@ s jednou geometrií.
 	\label{fig:dissolve}              
 \end{figure} 
 
-Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři
-a ukazuje postup pro tarifní pásma P, 0 a B. V následujícím obrázku je \ref{fig:postup-voronoi-1az9} zobrazen postup tarifní pásma 1 až 9.
+Kvůli mnoha zastávkám, které v oblasti pásem P, 0 a B v poli \textit{zone\_id} obsahovali hodnotu \textit{NULL},
+vznikla uvnitř polygonu spousta mezer a děr. V těchto dírách dokonce někdy ležely i části malých polygonů, které 
+avšak už po nástroji Dissolve tvořili jeden celistvý polygon. A proto nebylo možné rovnou použít nástroj Delete holes,
+nýbrž nejprve nástroj Multipart to singleparts.
+
+Nástroj Multipart to singleparts rozdělil jeden vícedílný polygon na jednotlivé menší polygony. Vstupem do tohoto
+nástroje je vektorová vrstva výstupu nástroje Dissolve a výstupem je vektorová vrstva s rozděleným polygonem.
+
+Poté se pomocí metody \textit{selectByExpression} třídy \textit{QgsVectorLayer} vyhledal nej\-větší polygon
+výrazem:
+
+\[\$area = maximum(\$area, "zone\_id")\]
+
+Takový polygon byl uložen do nové vektorové vrstvy. 
+
+Poté již byl použit nástroj Delete holes, který zaplnil vytvořené díry. Vstupem do tohoto nástroje byla vektorová
+vrstva s největší polygonu z nástroje Dissolve. Nástroj obsahoval volitelný parametr rozlohy, který byl
+nastaven na hodnotu 500 a se kterým se nástroj Delete holes řídí a zaplňuje menší díry, než je tento parametr.  
+
+Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-P0B.png}
     \caption[Postup pro tarifní pásma P, 0 a B]{Postup pro tarifní pásma P, 0 a B}
 	\label{fig:postup-voronoi-P0B}              
 \end{figure}
+
+\subsubsection{Tarifní pásma 1 až 9}
+
+Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
+for cyklu pro tarifní pásma 1 až 9. 
+
+Opět ty zástávky, které ležely v určitém pásmu, byly vyhledány pomocí metody \textit{selectByExpression} třídy 
+\textit{QgsVectorLayer}. Pro zastávky 1 až 6 to bylo provedeno pomocí dotazu:
+
+\["zone\_id"\ <=\ "ID\: pasma"\ AND\ "zone\_id"\ !=\ '-'\ AND\ "location\_type" = 0\]  
+
+Pro zastávky 7 až 9 pomocí dotazu:
+\["zone\_id"\ =\ "ID\: pasma"\ AND\ "location\_type" = 0\] 
+
+V dotazu pro tarifní pásma 1 až 6 byly vybrány ty zastávky, které mají hodnotu pole \textit{zone\_id} menší jak aktuální hodnota,
+hodnota pole \textit{zone\_id} se nerovná "pomlčce" (jelikož zastávky s touto hodnotou jsou mimo tarifní pásma)
+a hodnota pole \textit{location\_type} byla rovna nule. V dotazu pro tarifní pásma 1 až 6 byly vybrány ty zastávky,
+které mají hodnotu pole \textit{zone\_id} aktuální hodnotě a hodnota pole \textit{location\_type} byla rovna nule.
+Důvod dělení těchto způsobů bude vysvětleno u dalších nástrojů.
+
+% je v časové náročnosti délky průběhu nástroje, kde kvůli operátoru "<=" 
+% do nástroje vstupují všechny zastávky, které jsou hodnotou ID menší jak aktuální hodnota. To při aktuální hodnotě
+% tarifního pásma 6 budou do nástroje vstupovat všechny zastávky z  
+% a výsledného tvaru. Pro dotaz z
+
+V následujícím obrázku je \ref{fig:postup-voronoi-1az9} zobrazen postup tarifní pásma 1 až 9.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-1az9.png}
