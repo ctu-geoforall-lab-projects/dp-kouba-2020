@@ -222,7 +222,7 @@ Pro tarifní pásma P, 0 a B byl použit dotaz:
 Pro tarifní pásma 1 až 9 byl použit dotaz:
 \["zone\_id"\ LIKE\ "ID\: pasma\ i,ID\: pasma\ i+1"\]
 
-Vybrané tarifní pásma byla uložena do nové vektorové vrstvy po následné i pozdější použití viz kapitola \ref{seskupeni}.
+Vybrané tarifní pásma byla uložena do nové vektorové vrstvy po následné i pozdější použití viz kapitola \ref{hranice}.
 
 Následně byly pro každé tarifní pásmo byly spojeny vektorové vrstvy hraniční zastávek, 
 zastávek uvnitř tarifního pásma a bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
@@ -300,11 +300,35 @@ Zde je souhrnně zobrazen postup této části pomocí Grafického modeláře na
 \end{figure}
 
 \subsection{Hraniční tarifní pásma}
+\label{hranice}
 
 Jedním z největších problémů diplomové práce bylo se vypořádat s hraničním zastávkami.
+V dosavadním postupu nebyl jejich problém efektivně vyřešen kvůli konkávní obálce,
+která nezvládala spojovat určité body, které byly požadovány.
+
+Naskytla se tedy myšlenka upravit algoritmus nástroje \textit{Concave hull (alpha shapes)},
+který je veřejně publikován na GitHubu jako ostatně celý zdrojový kód QGISu, do obrazu
+svého, aby hraniční zastávky propojoval. 
+
+Zdrojový kód nástroje byl napsán Piotrem Pociaskem v květnu 2014. Skládá se mimo jiné z nástroje
+\textit{Delaunay triangulation}, který využívá pro tvorbu Delaunay triangulaci viz kapitola \ref{triangulace},
+nástroje \textit{Dissolve}, nástroje \textit{Delete holes} a algoritmu alpha shapes.
+
+Tento algoritmus maže ty trojúhelníky z Delaunay triangulace, které mají nejdelší stranu menší jak alpha (volitelný
+parametr nástroje \textit{Concave hull (alpha shapes)}) násobek maximálního obvodu trojúhelníku.
+K těmto trojúhelníkům byly přidány i ty trojúhelníky, které mají vrchol společný s jakýmkoliv hraničním bodem.
+
+Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou tam vzniknuly mezery, 
+které se bohužel nedaly dál použit a tento postup byl zavrhnut.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/concave_hull_upravena.png}
+    \caption[Ukázka upravené nástroje Concave hull (alpha shapes)]{Ukázka upravené nástroje Concave hull (alpha shapes)}
+	\label{fig:concave_hull_upravena}              
+\end{figure}
+
 
 \subsection{Seskupení tarifních pásem}
-\label{seskupeni}
 
 \subsection{Obarvení tarifních pásem}
 
