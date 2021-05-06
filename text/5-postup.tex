@@ -148,6 +148,7 @@ Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi
 \end{figure}
 
 \subsubsection{Tarifní pásma 1 až 9}
+\label{tp_1az9}
 
 Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
 for cyklu pro tarifní pásma 1 až 9. 
@@ -188,7 +189,14 @@ V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen p
 \subsection{Vyhlazení tvaru tarifních pásem}
 \label{vyhlazeni}
 
-Ze spojených polygonů byla poté vygenerována vektorová vrstva bodů nástrojem
+Pro vytvoření kartograficky přesných a vizuálně přijatelnějších tarifních pásem dosavadní postup nestačil.
+V datasetu PID\_GTFS souboru \textit{stops.txt} existovaly takové zastávky, které měly tarifní pásmo sdílené
+na rozhraní pásem. Těmito zastávkami měli podle pravidel ROPIDu tarifní pásma procházet.
+
+Musel být navržen další průběh úpravy dosavadního tvaru tarifních pásem, který takovou podmínku zahrnuje
+a zároveň vyhlazuje tvar polygonů pro lepší vizuální tvar.  
+
+Ze spojených polygonů byla vygenerována vektorová vrstva bodů nástrojem
 \textit{Extract vertices}, která představovala vrcholy spojených polygonů. Pro tuto vrstvu
 bylo vstupem výstup nástroje \textit{Dissolve} a výstupem byl vektorová vrstva bodů 
 doplněná o pole (mimo původních polí z vektorové vrstvy \textit{stops}) jako \textit{vertex\_index,
@@ -201,15 +209,23 @@ Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
 	\label{fig:vertices}              
 \end{figure} 
 
-% ------- toto se nejspíš bude předělávat, jiná metoda řešení zastávek na hranici -------
 Dále byly s pomocí třídy \textit{QgsVectorLayer} a její metody \textit{selectByExpression} vybrány 
-z původní vektorové vrstvy \textit{stops} ty zastávky, které obsahovaly v poli \textit{zone\_id}
-hodnotu tarifního pásma 1,2 nebo 2,3. Takové zastávky ležely na hranici pásma a polygon tarifního pásma
-měl skrz ně vézt hranici. Z vybraných zastávek byla vytvořena vlastní vektorová vrstva. 
-% ------- toto se nejspíš bude předělávat, jiná metoda řešení zastávek na hranici -------
+z původní vektorové vrstvy \textit{stops} ty zastávky, které ležely na hranici tarifních pásem.
+Takové zastávky obsahovaly v poli \textit{zone\_id} hodnoty tarifních pásem oddělené čárkami.
+Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole "zone\_id" uvedena jako "1,2".
 
-Následně byly spojeny vektorové vrstvy hraniční zastávek, zastávek uvnitř tarifního pásma 2 a
-bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
+Pro tarifní pásma P, 0 a B byl použit dotaz:
+
+\["zone\_id"\ NOT\ IN\ ('P',\ '0',\ 'B',\ '1',\ '2',\ '3',\ '4',\ '5',\ '6',\ '7',\ '8',\ '9')\]
+\[("zone\_id"\ LIKE\ '\%P\%'\ OR\ "zone\_id"\ LIKE\ '\%0\%'\ OR\ "zone\_id"\ LIKE\ '\%B\%')\]
+
+Pro tarifní pásma 1 až 9 byl použit dotaz:
+\["zone\_id"\ LIKE\ "ID\: pasma\ i,ID\: pasma\ i+1"\]
+
+Vybrané tarifní pásma byla uložena do nové vektorové vrstvy po následné i pozdější použití viz kapitola \ref{seskupeni}.
+
+Následně byly pro každé tarifní pásmo byly spojeny vektorové vrstvy hraniční zastávek, 
+zastávek uvnitř tarifního pásma a bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
 Tyto tři zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výstupem byla 
 vektorová vrstva spojených bodů. 
 
@@ -219,16 +235,24 @@ vektorová vrstva spojených bodů.
 	\label{fig:merged}              
 \end{figure} 
 
-% Definice konkávní obálky 
-Ze spojených bodů byla vytvořena konkávní obálka. To bylo provedeno nástrojem Concave hull (alpha shapes),
-který počítá konkávní obálku z vstupních bodů. Vstupem tedy byla vrstva spojených bodů, což byl první parametr
-nástroje. Dalším parametrem byl \textit{Práh (Threshold)} s datovým typem \textit{čísla}, který byl volen od 0 do 1,
+Pro spojení bodů a vytvoření jakési obálky byl nejdříve vyzkoušen nástroj \textit{Minimum bounding box} s možností Convex Hull,
+což je aplikace algoritmu Konvexní obálky viz \ref{konv_obalka}. Tento způsob však velmi zjednodušoval tvar
+tarifních pásem, a proto nástroj \textit{Minimum bounding box} nebyl použit.
+
+Byla zvolena další možnost nástroje QGISu spojující body do jisté obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
+využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}
+
+Vstupem nástroje tedy byla vrstva spojených bodů, což byl první parametr
+nástroje. Dalším parametrem byl práh (Threshold) s datovým typem \textit{čísla}, který byl volen od 0 do 1,
 kdy 0 znamenala maximum konkávní obálky a 1 konvexní obálky. Po několika testovacích spuštění byla 
-určena hodnota 0,09 jako nejlepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo \textit{Povolení děr (Allow holes)} 
+určena hodnota 0,09 jako nejlepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo Povolení děr (Allow holes) 
 s datovým typem \textit{boolean}, který byl nastaven na \textit{False}.
 Posledním parametrem bylo Rozdělit vícedílnou geometrii na jednotlivé části (Split multipart geometry 
 into singlepart geometries) taktéž s datovým typem \textit{boolean}, který byl nastaven na \textit{True}.  
 Výstupem byla polygonová vrstva konkávní obálky. 
+
+Vytváření konkávní obálky bylo dalším důvodem pro dělení atributových dotazů v kapitole \ref{tp_1az9} pro 
+zaplnění děr v tarifních pásmech 6 a nižších.  
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/concaveHull.png}
@@ -239,9 +263,9 @@ Výstupem byla polygonová vrstva konkávní obálky.
 Z konkávní obálky byla pomocí nástroje Simplify "zjednodušena" geometrie polygonové vrstvy. Tento nástroj
 využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus „Douglas-Peucker“),
 založené na ploše (algoritmus „Visvalingam“) a přichytávání geometrií k mřížce.
-Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“.
+Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“ viz kapitola \label{generalizace_zjemneni}.
 
-Do nástroje Simplify byl vstupem výsledek nástroje Concave hull (alpha shapes), parametrem byl výběr algoritmu 
+Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave hull (alpha shapes)}, parametrem byl výběr algoritmu 
 a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorová vrstva.
 
 \begin{figure}[H] \centering
@@ -250,10 +274,10 @@ a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorov
 	\label{fig:simplify}                                
 \end{figure}
 
-Výstup nástroje Simplify byl vstupem do nástroje Smooth. Tento nástroj vyhlazuje geometrie
-liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu.
+Výstup nástroje \textit{Simplify} byl vstupem do nástroje \textit{Smooth}. Tento nástroj vyhlazuje geometrie
+liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz kapitola \ref{vyhlazeni}.
 
-U nástroje Smooth byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
+U nástroje \textit{Smooth} byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.
 Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co nevětší hladkost).
 Parametr offset znamená, jak "těsně" vyhlazené geometrie sledují původní geometrie.
@@ -267,10 +291,25 @@ Výstupem nástroje byla polygonová vektorová vrstva.
 	\label{fig:smooth}                                
 \end{figure}
 
-Zde je souhrně zobrazen postup této části na obrázku \ref{fig:postup-smooth}.
+Zde je souhrnně zobrazen postup této části pomocí Grafického modeláře na obrázku \ref{fig:postup-smooth}.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-smooth.png}
     \caption[Postup pro zjemnění tvaru tarfních pásem]{Postup pro zjemnění tvaru tarfních pásem}
 	\label{fig:postup-smooth}              
+\end{figure}
+
+\subsection{Hraniční tarifní pásma}
+
+Jedním z největších problémů diplomové práce bylo se vypořádat s hraničním zastávkami.
+
+\subsection{Seskupení tarifních pásem}
+\label{seskupeni}
+
+\subsection{Obarvení tarifních pásem}
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/vysledek.png}
+    \caption[Výsledný tvar tarifních pásem]{Výsledný tvar tarifních pásem}
+	\label{fig:vysledek}              
 \end{figure}

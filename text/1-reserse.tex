@@ -55,6 +55,7 @@ která má minimální celkovou délku hran. MWT je nejlepší triangulace pro i
 tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
 \subsubsection{Konvexní obálka}
+\label{konv_obalka}
 
 Pro vytváření hranic polygonů je konvexní obálka jedna z možností, co použít. Konvexní obálka (anglicky Convex hull)
 je nejmenší konvexní mnoužinou, pokud spojnice  libovolných dvou prvků leží zcela uvnitř této množiny.
@@ -72,6 +73,7 @@ spojí všechny trojúhelníky.
 \end{figure}
 
 \subsubsection{Konkávní obálka}
+\label{konk_obalka}
  
 Oproti konvexní obálce je konkávní obálka pro tvorbu složitější. Není znám přesný postup,
 jak tento problém řešit, ale existují různé aproximace, které se k tomu chtějí přiblížit.
@@ -179,6 +181,7 @@ Další využití jsou například nalezení všech sousedů, převod bodových 
 nebo klasifikace dat. \cite{bayer-voronoi}
 
 \subsubsection{Generalizace a zjemnění}
+\label{generalizace_zjemneni}
 
 Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hranice polygonů
 generalizovat a následně zjemnit. K tomu existuje mnoho algoritmů, ale bude zde uvedeno
