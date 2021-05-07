@@ -8,13 +8,11 @@ rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru G
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
 obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
 \textit{layer tree} \footnote{součást QGISu odpovědná za zobrazení seznamu vrstev}.
-% vysvětlit layer tree, GeoPackage??
 
 Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
 Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
 mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Python třídě \textit{QgsTask}
 a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
-% dát sem i ukázku kódu? 
 
 Pro zobrazování procesu během výpočtu byla použita třída \textit{QProgressBar} a její metody.
 Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovými hláškami.
@@ -352,12 +350,47 @@ jako vstupní vektorová vrstva polygonů.
 Poté bylo už jen rozhodnuto podle atributového dotazu, jaké polygony z vektorové vrstvy polygonů vybrat do nové vektorové vrstvy.
 Tento atributový dotaz vypadal následovně: 
 
-\[NUMPOINTS > x\]
+\[NUMPOINTS > X\]
 
+Hodnota čísla \textit{X} byla nastavena na 5, tudíž byly vybrány jen ty polygony, ve kterých leželo více zastávek jak 5.
+
+Tento postup byl proveden pro všechny tarifní pásma for cyklem společně s vyhlazením těchto polygonů,
+jak je uvedeno v kapitole \ref{vyhlazeni}.  
 
 \subsection{Seskupení tarifních pásem}
 
+V tomto postupu zatím většina vektorových vrstev polygonů byla ukládána do GPKG jako oddělené vrstvy.
+To bylo potřeba změnit z důvodu lepší manipulace s vektorovou vrstvou a také kvůli zmenšení velikosti GPKG
+kvůli ušetření paměti.
+
+Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby se neprotínaly. 
+Prvním parametrem tohoto nástroje byla vrstva, která překrývala druhou vrstvu, 
+druhým parametrem byla vektorová vrstva, která byla překrývána. Výstupem byla odečtená vrstva.
+To bylo provedeno znova for cyklem pro všechna tarfiní pásma.
+
+Takto odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
+nástroje \textit{Merge vector layers}. Díky tomuto nástroji byly spojeny i hraniční pásma zatím odděleně od tarifních pásem.
+
+Výsledek spojení avšak obsahoval více menších polygonů se stejnými hodnotami \textit{zone\_id}.
+Takové polygony bylo potřeba spojit do jednoho vícedílného polygonu pro každou hodnotu \textit{zone\_id}.
+To bylo provedeno pomocí nástroje \textit{Collect geometries}. Vstupem do tohoto nástroje byla vektorová vrstva z 
+nástroje \textit{Merge vector layers} a pole, podle které se to mělo spojit, bylo nastaveno na \textit{zone\_id}.
+Výstupem byla vektorová vrstva vícedílných polygonů. Tento postup byl proveden i pro hraniční pásma.
+
+Poté už zbývalo spojit vektorovou vrstvu tarifních pásem a vektorovou vrstvu hraničních pásem. Opět kvůli vyhýbnutí se 
+překrývání vektorových vrstev byl nejdříve použit nástroj \textit{Difference} a následně nástroj  \textit{Merge vector layers}.
+
+Výsledkem byla jedna vektorová vrstva obsahující polygony tarifních i hraničních pásem.
+
 \subsection{Obarvení tarifních pásem}
+
+Pro lepší vizuální vzhled výsledných tarifních pásem byla na konec procesu pluginu přidána funkce
+pro obarvování pásem. To bylo provedeno díky instanci třídy \textit{QgsSymbol} a jejím metodám 
+\textit{defaultSymbol} a \textit{setColor}. Taktéž díky instancím tříd\textit{QgsRendererCategory}
+a \textit{QgsCategorizedSymbolRenderer}.
+
+Barvy, kterými jsou výsledná tarifní pásma obarvena a které jsou zobrazeny na obrázku \ref{fig:vysledek} byly převzaty
+ze schématu tarifních pásem Pražské integrované dopravy (viz \ref{fig:pasma-schema}).  
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/vysledek.png}
