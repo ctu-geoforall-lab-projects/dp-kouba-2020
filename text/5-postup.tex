@@ -212,7 +212,7 @@ Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
 Dále byly s pomocí třídy \textit{QgsVectorLayer} a její metody \textit{selectByExpression} vybrány 
 z původní vektorové vrstvy \textit{stops} ty zastávky, které ležely na hranici tarifních pásem.
 Takové zastávky obsahovaly v poli \textit{zone\_id} hodnoty tarifních pásem oddělené čárkami.
-Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole "zone\_id" uvedena jako "1,2".
+Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole \textit{zone\_id} uvedena jako "1,2".
 
 Pro tarifní pásma P, 0 a B byl použit dotaz:
 
@@ -318,7 +318,7 @@ Tento algoritmus maže ty trojúhelníky z Delaunay triangulace, které mají ne
 parametr nástroje \textit{Concave hull (alpha shapes)}) násobek maximálního obvodu trojúhelníku.
 K těmto trojúhelníkům byly přidány i ty trojúhelníky, které mají vrchol společný s jakýmkoliv hraničním bodem.
 
-Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou tam vzniknuly mezery, 
+Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou tam vznikly mezery, 
 které se bohužel nedaly dál použit a tento postup byl zavrhnut.
 
 \begin{figure}[H] \centering
@@ -326,6 +326,33 @@ které se bohužel nedaly dál použit a tento postup byl zavrhnut.
     \caption[Ukázka upravené nástroje Concave hull (alpha shapes)]{Ukázka upravené nástroje Concave hull (alpha shapes)}
 	\label{fig:concave_hull_upravena}              
 \end{figure}
+
+Od pracovníků z ROPIDu mi byl navrhnut postup, jak tento problém alespoň částečně vyřešit. Pro hraniční zastávky se stejnou hodnotou \textit{zone\_id}, 
+které leží ve své vzájemné blízkosti, vytvořit vlastní tarifní pásmo. Takový postup byl mnohem lépe uchopitelnější, než ten předchozí uvedený, který nebyl povedený.
+
+Uložená vetorová vrstva hraničních zastávek z kapitoly \ref{vyhlazeni} byla s vektorovou vrstvou Voronoi polygonů
+použita s pomocí nástroje \textit{Select by location}. Z vektorové vrstvy Voronoi polygonů byly vybrány právě ty polygony,
+které se svým umístěním protínaly s hraničními zastávkami. To bylo provedeno zvlášť pro každé zastávky na hranici tarifních pásem.
+
+Poté byly nástrojem \textit{Dissolve} Voronoi polygony seskupeny do jednoho polygonu a jedné geometrie. Vstupem tohoto nástroje
+tedy vybrané Voronoi polygony pomocí nástroje \textit{Select by location} a výstupem byla vektorová vrstva seskupených polygonů.
+
+Toto seskupení bylo následně zrušeno pomocí nástroje \textit{Multipart to singleparts}, kde vstupem byla vektorová vrstva 
+seskupených s jednou geometrií a výstupem vektorová vrstva s více geometriemi podle jejich počtu ve vektorové vrstvě.
+
+Důvodem tohoto kroku byl úmysl spočítat počet zastávek, které ležely na území každého polygonu. Poté určit hranici
+součtu zastávek a vymazat ty polygony, které je nesplňují.
+
+Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva rozdělených polygonů nástrojem \textit{Multipart to singleparts}
+a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr Count field name, který určoval název nového pole 
+s datovým typem integer,
+který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. Kromě nového pole vypadal výstupní vektorová vrstva stejně
+jako vstupní vektorová vrstva polygonů.
+
+Poté bylo už jen rozhodnuto podle atributového dotazu, jaké polygony z vektorové vrstvy polygonů vybrat do nové vektorové vrstvy.
+Tento atributový dotaz vypadal následovně: 
+
+\[NUMPOINTS > x\]
 
 
 \subsection{Seskupení tarifních pásem}
