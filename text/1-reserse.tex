@@ -3,7 +3,7 @@
 
 Tarifní pásma Pražské integrované dopravy jsou mimo jiné publikována jako shapefile 
 \footnote{formát vektorového datového úložiště Esri pro ukládání umístění,
-tvaru a atributů geografických prvků \cite{shapefile}}
+tvaru a atributů geografic\-kých prvků \cite{shapefile}}
 na portálu \textit{opendata hlavního města Prahy} \cite{opendata}. Tento shapefile
 obsahuje vektorové vrstvy polygonů.
 
@@ -11,10 +11,10 @@ obsahuje vektorové vrstvy polygonů.
 \label{triangulace}
 
 První myšlenkou, jak se přiblížit k takovým polygonům bylo vytvoření linií mezi jednotlivými zastávkami.
-K tomu slouží takzvaná triangulace, která vytvoří trojúhelníky bezi body, kde uvnitř těchto trojuhelníků  
+K tomu slouží takzvaná triangulace, která vytvoří troj\-úhelníky mezi body, kde uvnitř těchto trojúhelníků  
 už neleží žádné body a každý trojúhelník má vždy společnou jednu hranu. 
 
-Takové triangulace se používají v kartografii, tak v GIS, v Dálkovém průzkumu země,
+Takové triangulace se používají jak v kartografii, tak v GIS, v Dálkovém průzkumu země,
 počítačové grafice, při analýze vlastností a struktury materiálů, plánování pohybu robotů
 nebo při modelování přírodních jevů. \cite{bayer-delaunay}
 
@@ -34,7 +34,7 @@ nepříliš používá. \cite{vanicek}
 \end{figure}
 
 Další triangulací je tzv. Delaunay triangulace, která je nejčastěji používaná.
-Delaunay triangulací se rozumí vytváření liniových spojnic bodů mez jednotlivými body, které si jsou sobě nejblíž,
+Delaunay triangulací se rozumí vytváření liniových spojnic bodů mezi jednotlivými body, které jsou si nejblíže,
 za pomocí opsaných kružnic. Delaunay triangulace má několik vlastností. Jednou z nich je například,
 že uvnitř kružnice k opsané libovolnému trojúhelníku neleží žádný jiný bod.
 Zároveň Delaunay triangulace je jednoznačná, pokud žádné čtyři body neleží na kružnici.
@@ -59,12 +59,12 @@ tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 \label{konv_obalka}
 
 Pro vytváření hranic polygonů je konvexní obálka jedna z možností, co použít. Konvexní obálka (anglicky Convex hull)
-je nejmenší konvexní mnoužinou, pokud spojnice  libovolných dvou prvků leží zcela uvnitř této množiny.
-Je to jedna z nejpoužívanějších geometrických struktura, která je většinou používaná jako první odhad tvaru
+je nejmenší konvexní množinou, pokud spoj\-nice  libovolných dvou prvků leží zcela uvnitř této množiny.
+Je to jedna z nejpoužívanějších geometrických struktur, která je většinou používána jako první odhad
 prostorového tvaru.
 
 Konstrukce konvexní obálky se nejčastěji provádějí metodami: Jarvis Scan, Graham Scan, Quick Hull nebo
-Divide and Conquer. Konvexní obálku lze vytvářet i pomocí Delaunay triangulace, kdy se po dokončení
+Divide and Conquer. Konvexní obálku lze vytvářet i pomocí Delaunay triangulace, kdy se po jejím dokončení
 spojí všechny trojúhelníky.
 
 \begin{figure}[H] \centering
@@ -79,9 +79,9 @@ spojí všechny trojúhelníky.
 Oproti konvexní obálce je konkávní obálka pro tvorbu složitější. Není znám přesný postup,
 jak tento problém řešit, ale existují různé aproximace, které se k tomu chtějí přiblížit.
 První aproximace je pomocí Delaunay triangulace, kde se vytvoří trojúhelníky, vznikne
-konvexní obálka a pak se odebírají trojúhelníky s nevhodnými vlasnostmi. Typicky mají příliš ostrý nebo tupý
-úhel, hraniční hodnota si můžete zvolit.
-Předpokladem, aby úspěšně fungovala je, že množina bodů má konstantní
+konvexní obálka a pak se odebírají trojúhelníky s nevhodnými vlastnostmi. Typicky mají příliš ostrý nebo tupý
+úhel, hraniční hodnota vlastností se může zvolit.
+Předpokladem pro úspěšně fungování je to, že množina bodů má konstantní
 prostorovou hustotu bodů.
 
 Další aproximací je pomocí alpha-shapes, kde se volí parametr alpha. Představme si obrovskou masu zmrzliny,
@@ -92,7 +92,7 @@ aniž bychom narazili na kousky čokolády, a tím dokonce vydlabeme otvory uvni
 (ne nutně konvexním) objektem ohraničeným oblouky a body. Pokud nyní narovnáme všechny 
 „kulaté“ plochy na trojúhelníky a úsečky, máme intuitivní popis toho, co se nazývá alpha-shape. \cite{alpha-shapes}
 
-Další strategií je kompromisni definice mezi alpha-shapes a konkávní obálkou, tzv. alpha-concave
+Další strategií je kompromisní definice mezi alpha-shapes a konkávní obálkou, tzv. alpha-concave
 hull. 
 
 \begin{figure}[H] \centering
@@ -106,10 +106,10 @@ hull.
 Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
 mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
 obálka úplně vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
-nebo více geometrických útvarů vzájemně spojených, bez překrývú a mezer. Triangulace, konvexní nebo konkávní 
+nebo více geometrických útvarů vzájemně spojených, bez překryvů a mezer. Triangulace, konvexní nebo konkávní 
 obálka se mohou hodit při dalších krocích výpočtu.
 
-Nejpoužívanější teselací v oblastí GIS je Voronoi diagram, někdy nazývána Voroného teselace, Voroného dekompozice,
+Nejpoužívanější teselací v oblastí GIS je Voronoi diagram, někdy nazývána Voroné\-ho teselace, Voroného dekompozice,
 Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu 
 metrického prostoru určený vzdálenostmi k dané nespojité množině bodů v prostoru.
 V našem případě se bude řešit Voronoi diagram ve 2D prostoru, tedy v rovině.
@@ -121,7 +121,7 @@ což představuje takovou množinu buněk, pro které bude platit, že každý b
 bodu \textit{p\textsubscript{j}} náležící množině \textit{P}.  \cite{bayer-voronoi}
 
 Pro lepší chápání Voronoi diagramů je potřeba si vysvětlit její terminologii.
-Vstupní množinu bodů nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
+Vstup\-ní množinu bodů nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
 terminologii GIS se hovoří o tzv. Voronoi polygony. Tyto Voronoi buňky jsou tvořeny hranami,
 které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voronoi diagram.  
 
@@ -132,7 +132,7 @@ které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voron
 \end{figure}
 
 Voronoi diagramy mají své vlastnosti, které jsou důležité pro jejich tvorbu. V následujících
-odrážkách jsou doslovně citována jejih znění z prezentace pana doc. Ing. Tomáše Bayera, Ph.D.
+odrážkách jsou doslovně citována jejich znění z prezentace pana doc. Ing. Tomáše Bayera, Ph.D.
 
 \begin{itemize}
 \item Voronoi diagram \textit{V(P)} je planárním grafem.
@@ -162,13 +162,13 @@ ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu da
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi.png}
-    \caption[Voroného polygony]{Voroného polygony}
+    \caption[Voronoi polygony]{Voronoi polygony}
 	\label{fig:voronoi}              
 \end{figure}   
 
 Voronoi diagram má jistý vztah s Delaunay triangulací. Hraniční vstupní body
 Voronoi diagramu po spojení Delaunay triangulací tvoří konvexní obálku.
-Středy kružnic opsaných trojúhelníků Delaunay triangulace představují úzlové body
+Středy kružnic opsaných trojúhelníků Delaunay triangulace představují uzlové body
 Voronoi diagramu.
 
 Pro konstrukci Voronoi diagramu existují různé metody. Konstrukce lze v praxi tvořit přímo nebo nepřímo.
@@ -177,8 +177,8 @@ Rozděl a panuj. Nepřímá konstrukce je vytvářena přes Delaunay triangulaci
 kružnic opsaných trojúhelníků a bývá nejpoužívanější. 
 
 Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovní problém
-pomáhá při návrhu nových supermarkétů, stanic MHD či polohy nových nemocnic.
-Další využití jsou například nalezení všech sousedů, převod bodových údajů na plošné
+pomáhá při návrhu nových supermarketů, stanic MHD či polohy nových nemocnic.
+Mezi další využití patří například převod bodových údajů na plošné
 nebo klasifikace dat. \cite{bayer-voronoi}
 
 \subsubsection{Generalizace a zjemnění}
@@ -192,12 +192,12 @@ Prvním algoritmem je generalizační algoritmus „Douglas-Peucker“. Algoritm
 Zpočátku jsou uvedeny všechny body mezi prvním a posledním bodem. Automaticky označí první a poslední bod,
 který se má zachovat. Poté najde bod, který je nejvzdálenější od úsečky s prvním a posledním bodem 
 jako koncovými body. Tento bod je zjevně nejvzdálenější na křivce od přibližné úsečky mezi koncovými body. 
-Pokud je bod blíže než parametr epsilon, který je volitelný, k úsečce, mohou být všechny body, které nejsou aktuálně označeny jako zachováné, 
+Pokud je bod blíže k úsečce, než volitelný parametr epsilon, mohou být všechny body, které nejsou aktuálně označeny jako zachované, 
 zahozeny, aniž by zjednodušená křivka byla horší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
-musí být tento bod zachován. Algoritmus se rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
+musí být tento bod zachován. Algoritmus rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
 a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný. 
-Tento algoritmus je jeden z nejlepších generalizacních algoritmů a je velmi často
-implementován v GIS software. \cite{bayer-douglas}
+Tento algoritmus je jeden z nejlepších generalizačních algoritmů a je velmi často
+implementován v GIS softwarech. \cite{bayer-douglas}
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/douglas.png}
@@ -214,13 +214,13 @@ Podobným algoritmem jako PAEK je algoritmus Chaikinův.
 Chaikin (autor algoritmu, po kterém je i algoritmus pojmenován) využil fixních poměrů na odříznutí rohů, takže byly všechny rozřezány stejně. 
 Při matematickém zápisu postupuje Chaikinova metoda následovně: Dostaneme kontrolní polygon 
 \textit{\{P\textsubscript{0}, P\textsubscript{1}, ..., P\textsubscript{n}\}},
-tento kontrolní polygon vylepšíme vygenerováním nové posloupnosti řídicích bodů 
+tento kontrolní polygon vylepšíme vygenerováním nové posloupnosti řídících bodů 
 \[ \{Q_0, R_0, Q_1, R_1, ...,  Q_{n−1}, R_{n−1}\} \]                                    
-kde každá nová dvojice bodů Q\textsubscript{i}, R\textsubscript{i} je třeba brát v poměru \(\frac{1}{4}\)
+kde každou novou dvojici bodů Q\textsubscript{i}, R\textsubscript{i} je třeba brát v poměru \(\frac{1}{4}\)
 a \(\frac{3}{4}\) mezi koncovými body segmentu čáry \(\overline{P\textsubscript{i}P\textsubscript{i+1}}\).
 \[Q_i = \frac{3}{4}P_i + \frac{1}{4}P_{i+1}\]
 \[R_i = \frac{1}{4}P_i + \frac{3}{4}P_{i+1}\]
-Tyto 2 nové body lze považovat za nový řídicí polygon - vylepšení původního řídicího polygonu. 
+Tyto 2 nové body lze považovat za nový řídicí polygon - vylepšení původního řídícího polygonu. 
 Tento postup lze pro tentýž úsek opakovat, čímž vznikne vyhlazená čára. \cite{chaikin} 
 
 \begin{figure}[H] \centering

@@ -3,11 +3,11 @@
 
 \section{Aktualizace pluginu do verze 1.0}
 Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní 
-funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do QGISu,
+funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do systému QGIS,
 rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru GeoPackage (dále GPKG),
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
 obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
-\textit{layer tree} \footnote{součást QGISu odpovědná za zobrazení seznamu vrstev}.
+\textit{layer tree} \footnote{součást systému QGIS odpovědná za zobrazení seznamu vrstev}.
 
 Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
 Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
@@ -15,12 +15,12 @@ mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Pyt
 a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
 
 Pro zobrazování procesu během výpočtu byla použita třída \textit{QProgressBar} a její metody.
-Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovými hláškami.
+Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s chybovými hláškami.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/loading.png}
-    \caption[ProgressBar]{ProgressBar v liště QGISu}
-	\label{fig:ProgressBar v liště QGISu}              
+    \caption[ProgressBar]{ProgressBar v liště systému QGIS}
+	\label{fig:ProgressBar v liště systému QGIS}              
 \end{figure}     
 
 % možná přidat code refactorization
@@ -28,7 +28,7 @@ Zobrazení postupu bylo implementováno do lišty zpráv QGISu spolu s chybovým
 \section{Tvorba vizualizace tarifních pásem (verze 2.0)}
 
 Při myšlenkách, jak se k tvorbě tarifních pásem postavit,
-se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v QGISu. 
+se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v systému QGIS. 
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a začal se tvořit postup
 na "čístý" Python skript pomocí QGIS nástrojů. I přes to, že lze z Grafického modeláře exportovat skript. 
 
@@ -214,7 +214,7 @@ Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole \textit{zone\_id}
 
 Pro tarifní pásma P, 0 a B byl použit dotaz:
 
-\["zone\_id"\ NOT\ IN\ ('P',\ '0',\ 'B',\ '1',\ '2',\ '3',\ '4',\ '5',\ '6',\ '7',\ '8',\ '9')\]
+\["zone\_id"\ NOT\ IN\ ('P',\ '0',\ 'B',\ '1',\ '2',\ '3',\ '4',\ '5',\ '6',\ '7',\ '8',\ '9')\ AND\]
 \[("zone\_id"\ LIKE\ '\%P\%'\ OR\ "zone\_id"\ LIKE\ '\%0\%'\ OR\ "zone\_id"\ LIKE\ '\%B\%')\]
 
 Pro tarifní pásma 1 až 9 byl použit dotaz:
@@ -237,7 +237,7 @@ Pro spojení bodů a vytvoření jakési obálky byl nejdříve vyzkoušen nást
 což je aplikace algoritmu Konvexní obálky viz \ref{konv_obalka}. Tento způsob však velmi zjednodušoval tvar
 tarifních pásem, a proto nástroj \textit{Minimum bounding box} nebyl použit.
 
-Byla zvolena další možnost nástroje QGISu spojující body do jisté obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
+Byla zvolena další možnost nástroje systému QGIS spojující body do jisté obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
 využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}
 
 Vstupem nástroje tedy byla vrstva spojených bodů, což byl první parametr
@@ -305,7 +305,7 @@ V dosavadním postupu nebyl jejich problém efektivně vyřešen kvůli konkávn
 která nezvládala spojovat určité body, které byly požadovány.
 
 Naskytla se tedy myšlenka upravit algoritmus nástroje \textit{Concave hull (alpha shapes)},
-který je veřejně publikován na GitHubu jako ostatně celý zdrojový kód QGISu, do obrazu
+který je veřejně publikován na GitHubu jako ostatně celý zdrojový kód systému QGIS, do obrazu
 svého, aby hraniční zastávky propojoval. 
 
 Zdrojový kód nástroje byl napsán Piotrem Pociaskem v květnu 2014. Skládá se mimo jiné z nástroje
@@ -355,7 +355,14 @@ Tento atributový dotaz vypadal následovně:
 Hodnota čísla \textit{X} byla nastavena na 5, tudíž byly vybrány jen ty polygony, ve kterých leželo více zastávek jak 5.
 
 Tento postup byl proveden pro všechny tarifní pásma for cyklem společně s vyhlazením těchto polygonů,
-jak je uvedeno v kapitole \ref{vyhlazeni}.  
+jak je uvedeno v kapitole \ref{vyhlazeni}. Na obrázku \ref{fig:postup-border-zones} je v Grafickém modeláři zobrazen
+přehledný postup pro hraniční tarifní pásma. 
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/postup-border-zones.png}
+    \caption[Postup pro hraniční tarifní pásma]{Postup pro hraniční tarifní pásma}
+	\label{fig:postup-border-zones}              
+\end{figure}
 
 \subsection{Seskupení tarifních pásem}
 
@@ -380,7 +387,14 @@ Výstupem byla vektorová vrstva vícedílných polygonů. Tento postup byl prov
 Poté už zbývalo spojit vektorovou vrstvu tarifních pásem a vektorovou vrstvu hraničních pásem. Opět kvůli vyhýbnutí se 
 překrývání vektorových vrstev byl nejdříve použit nástroj \textit{Difference} a následně nástroj  \textit{Merge vector layers}.
 
-Výsledkem byla jedna vektorová vrstva obsahující polygony tarifních i hraničních pásem.
+Výsledkem byla jedna vektorová vrstva obsahující polygony tarifních i hraničních pásem. Na následujícím obrázku
+je přehledně zobrazen postup seskupení v Grafickém modeláři.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/postup-collecting.png}
+    \caption[Postup pro seskupení vektorových vrstev tarfních pásem]{Postup pro seskupení vektorových vrstev tarfních pásem}
+	\label{fig:postup-collecting}              
+\end{figure}
 
 \subsection{Obarvení tarifních pásem}
 

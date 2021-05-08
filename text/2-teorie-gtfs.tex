@@ -5,7 +5,7 @@ General Transit Feed Specification, zkráceně GTFS, je dokument, který definuj
 obecný formát pro jízdní řády veřejné dopravy a příbuzné geografické informace.
 GTFS „feeds“ umožňují veřejným dopravním agenturám zveřejňovat svá přepravní
 data a vývojářům psát aplikace, které tato data spotřebovávají interoperabilním
-způsobem. \cite{gtfs-info}
+způsobem neboli vícesystémovým mezinárodním provozuschopným způsobem. \cite{gtfs-info}
 
 \section{Historie GTFS}
 V Portlandu ve státě Oregon v USA se společnost TriMet pokusila jako jedna z prvních 
@@ -38,7 +38,7 @@ aby přesně reprezentoval jeho použití v mnoha různých aplikacích mimo pro
 % doplnit něco o historii GTFS 
 
 \section{GTFS dataset}
-GTFS "feed" nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanantní URL adrese}
+GTFS "feed" nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní URL adrese}
 je ZIP soubor, který obsahuje CSV soubory.
 
 CSV, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
@@ -55,7 +55,7 @@ může upravovat v jakémkoliv textovém editoru.
 
 V GTFS datasetu může být v současné době až 17 CSV souborů v textové podobě. Slovem "může" je myšleno to,
 že některé CSV soubory jsou požadované či podmíněně požadované a jiné volitelné.
-Jaké CSV soubory soubory obsahuje dataset záleží na konkrétním dopravním systému, který
+Jaké CSV soubory obsahuje dataset záleží na konkrétním dopravním systému, který
 tento dataset vytváří.
 
 Termín "požadované" znamená, že daný CSV soubor se musí nacházet v GTFS datasetu nebo dané pole
@@ -66,7 +66,7 @@ Termín "podmíněně požadované" znamená, že daný CSV soubor nebo pole je 
 které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
 
 Termín "volitelné" znamená, že daný CSV soubor nebo pole může být vynecháno. V případě zahrnutí 
-volitelného sloupec, mohou být některé položky v tomto poli prázdné řetězce, což je ekvivalentní s prázdným
+volitelného pole mohou být některé položky prázdné řetězce, což je ekvivalentní s prázdným
 polem.
 
 V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny CSV soubory,
@@ -103,13 +103,13 @@ datum, email, enum (výčet), ID, kód jazyka, zeměpisná délka, zeměpisná �
 nezáporné číslo s plovoucí desetinnou čárkou, nezáporné celé číslo, telefonní číslo,
 čas, text, časové pásmo a URL adresa.
 
-Jedno z nejdůležitějších polí je pole s datovým typem ID, což je hodnota jednoznačně určuje každý záznam.
+Jedno z nejdůležitějších polí je pole s datovým typem ID, což je hodnota jednoznačně určující každý záznam.
 Právě tento datový typ umožňuje propojení jednotlivých CSV souborů mezi sebou. ID může být
 sekvence libovolných UTF-8 znaků. Pole s datovým typem ID se označují nakonci názvu s 
 "\_id". Na následujícím obrázku \ref{fig:GTFS-diagram} je toto propojení zobrazeno pomocí diagramů.
 
 %přidat referenci na podmínky?
-Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole jsou v daném CSV souboru
+Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole v daném CSV souboru
 jsou požadované, podmíněně požadované nebo volitelné. 
 
 \begin{figure}[H] \centering
@@ -129,7 +129,7 @@ Soubor \textit{stops.txt} se skládá ze 14 polí, z čehož 6 polí je požadov
 a zbytek volitelných. Samotný soubor je požadovaný a měl by se nacházet v každém GTFS datasetu.
 
 Prvním polem je vždy zpravidla \textit{stop\_id}, které je požadované a má datový typ ID.
-Tato hodnota jednoznažně určuje každou zastávku. Pro PID\_GTFS, což je GTFS dataset Pražské integrované dopravy,
+Tato hodnota jednoznačně určuje každou zastávku. Pro PID\_GTFS, což je GTFS dataset Pražské integrované dopravy,
 se pole \textit{stop\_id} skládá z kombinace písmen a čísel v souvislosti s typem spoje.
 
 Druhým polem je volitelné pole \textit{stop\_code} v datovém typu text, což je krátký text nebo číslo, 
@@ -143,7 +143,7 @@ Toto pole je definováno pomocí čtyř konstant:
 \item 0 nebo prázdné - zastávka nebo nástupiště
 \item 1 - železniční stanice 
 \item 2 - vchod/východ ze železniční stanice 
-\item 3 - místo ve stanici, které neodpovídá s žádnou s ostatní konstantou z \textit{location\_type} 
+\item 3 - místo ve stanici, které neodpovídá s žádnou z ostatních konstant z \textit{location\_type} 
 \item 4 - specifické místo, kde lidé mohou nastoupit/vystoupit z vozidla
 \end{itemize}
 
@@ -153,7 +153,7 @@ které poskytuje užitečné a kvalitní informace.
 Pátým a šestým polem je \textit{stop\_lat} a \textit{stop\_lon} s datovým typem zeměpisná šířka a délka
 obsahující přesně tyto dvě hodnoty. Tyto dvě pole jsou podmíněně požadované kvůli poli \textit{location\_type}.
 
-Sedmým polem s datým typem ID je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
+Sedmým polem s datovým typem ID je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
 Je podmíněně požadované kvůli CSV souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
 Pokud záznam v CSV souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
 
@@ -165,9 +165,9 @@ a obsahuje ID nadřazeného umístění.
 
 Poslední čtyři pole jsou volitelné. Prvním z nich je \textit{stop\_timezone} s datovým typem a zároveň definujícím časové
 pásmo, \textit{wheelchair\_boarding} s datovým typem enum, které označuje, zda je z daného místa možné nastupovat na invalidní vozík.
-Předposlední je \textit{level\_id} s datovým typem ID odkazující na soubor \textit{levels.txt} definující úroveň
+Předposlední je \textit{level\_id} s datovým typem ID odkazující na soubor \textit{levels.txt} defi\-nující úroveň
 umístění zastávky a poslední je \textit{platform\_code} s datovým typem text, 
-což je identifikátor platformy pro zastávku zastávka patřící stanici.
+což je identifikátor platformy pro zastávku patřící stanici.
 
 Všechny tyto pole mají pevné pořadí a nesmí se přeházet. Na obrázku \ref{fig:stops} je ukázka CSV souboru \textit{stops.txt}
 pro PID\_GTFS dataset, kde nejsou využívány všechny volitelné pole.
