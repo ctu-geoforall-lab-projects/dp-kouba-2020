@@ -105,8 +105,8 @@ vektorová vrstva vybraných Voroného polygonů. Jako příklad v obrázku zde 
 % zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/voronoi-selected.png}
-    \caption[Vybrané Voroného polygony pro pásmo 2]{Vybrané Voroného polygony pro pásmo 2}
+    \includegraphics[width=400pt]{./pictures/voronoi-selected-P0B.png}
+    \caption[Vybrané Voroného polygony]{Vybrané Voroného polygony}
 	\label{fig:voronoi-selected}              
 \end{figure}
 
@@ -115,8 +115,8 @@ Vstupem tohoto nástroje byl výstup nástroje \textit{Select by location} a vý
 s jednou geometrií. 
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/dissolve.png}
-    \caption[Výsledek nástroje Dissolve pro pásmo 2]{Výsledek nástroje Dissolve pro pásmo 2}
+    \includegraphics[width=400pt]{./pictures/dissolve-P0B.png}
+    \caption[Výsledek nástroje Dissolve]{Výsledek nástroje Dissolve}
 	\label{fig:dissolve}              
 \end{figure} 
 
@@ -138,6 +138,12 @@ Takový polygon byl uložen do nové vektorové vrstvy.
 Poté již byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do tohoto nástroje byla vektorová
 vrstva s největší polygonu z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
 nastaven na hodnotu 500 a se kterým se nástroj \textit{Delete holes} řídí a zaplňuje menší díry, než je tento parametr.  
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/without-holes-P0B.png}
+    \caption[Výsledek nástroje Delete holes]{Výsledek nástroje Delete holes}
+	\label{fig:without-holes-P0B}              
+\end{figure} 
 
 Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
 
@@ -191,7 +197,7 @@ V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen p
 
 Pro vytvoření kartograficky přesných a vizuálně přijatelnějších tarifních pásem dosavadní postup nestačil.
 V datasetu PID\_GTFS souboru \textit{stops.txt} existovaly takové zastávky, které měly tarifní pásmo sdílené
-na rozhraní pásem. Těmito zastávkami měli podle pravidel ROPIDu tarifní pásma procházet.
+na rozhraní pásem. Těmito zastávkami měli podle pravidel organizace ROPID tarifní pásma procházet.
 
 Musel být navržen další průběh úpravy dosavadního tvaru tarifních pásem, který takovou podmínku zahrnuje
 a zároveň vyhlazuje tvar polygonů pro lepší vizuální tvar.  
@@ -204,9 +210,9 @@ vertex\_part, vertex\_part\_ring, distance} a \textit{angle}.
 Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/vertices.png}
-    \caption[Výsledek nástroje Extract vertices pro pásmo 2]{Výsledek nástroje Extract vertices pro pásmo 2}
-	\label{fig:vertices}              
+    \includegraphics[width=400pt]{./pictures/vertices-P0B.png}
+    \caption[Výsledek nástroje Extract vertices]{Výsledek nástroje Extract vertices}
+	\label{fig:vertices-P0B}              
 \end{figure} 
 
 Dále byly s pomocí třídy \textit{QgsVectorLayer} a její metody \textit{selectByExpression} vybrány 
@@ -230,9 +236,9 @@ Tyto tři zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výst
 vektorová vrstva spojených bodů. 
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/merged.png}
-    \caption[Spojené body třech vektorových vrstev pro pásmo 2]{Spojené body třech vektorových vrstev pro pásmo 2}
-	\label{fig:merged}              
+    \includegraphics[width=400pt]{./pictures/merged-P0B.png}
+    \caption[Spojené body třech vektorových vrstev]{Spojené body třech vektorových vrstev}
+	\label{fig:merged-P0B}              
 \end{figure} 
 
 Pro spojení bodů a vytvoření jakési obálky byl nejdříve vyzkoušen nástroj \textit{Minimum bounding box} s možností Convex Hull,
@@ -255,9 +261,9 @@ Vytváření konkávní obálky bylo dalším důvodem pro dělení atributovýc
 zaplnění děr v tarifních pásmech 6 a nižších.  
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/concaveHull.png}
-    \caption[Konkávní obálka pro pásmo 2]{Konkávní obálka pro pásmo 2}
-	\label{fig:concaveHull}              
+    \includegraphics[width=400pt]{./pictures/concaveHull-P0B.png}
+    \caption[Konkávní obálka]{Konkávní obálka}
+	\label{fig:concaveHull-P0B}              
 \end{figure} 
 
 Z konkávní obálky byla pomocí nástroje Simplify "zjednodušena" geometrie polygonové vrstvy. Tento nástroj
@@ -269,9 +275,9 @@ Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave h
 a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorová vrstva.
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/simplify.png}
-    \caption[Výsledek nástroje Simplify pro pásmo 2]{Výsledek nástroje Simplify pro pásmo 2}
-	\label{fig:simplify}                                
+    \includegraphics[width=400pt]{./pictures/simplify-P0B.png}
+    \caption[Výsledek nástroje Simplify]{Výsledek nástroje Simplify}
+	\label{fig:simplify-P0B}                                
 \end{figure}
 
 Výstup nástroje \textit{Simplify} byl vstupem do nástroje \textit{Smooth}. Tento nástroj vyhlazuje geometrie
@@ -286,9 +292,9 @@ k zabránění vyhlazení uzlů s velkými úhly. Zde byla také ponechána výc
 Výstupem nástroje byla polygonová vektorová vrstva.
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/smooth.png}
-    \caption[Výsledek nástroje Smooth pro pásmo 2]{Výsledek nástroje Smooth pro pásmo 2}
-	\label{fig:smooth}                                
+    \includegraphics[width=400pt]{./pictures/smooth-P0B.png}
+    \caption[Výsledek nástroje Smooth]{Výsledek nástroje Smooth}
+	\label{fig:smooth-P0B}                                
 \end{figure}
 
 Zde je souhrnně zobrazen postup této části pomocí Grafického modeláře na obrázku \ref{fig:postup-smooth}.
