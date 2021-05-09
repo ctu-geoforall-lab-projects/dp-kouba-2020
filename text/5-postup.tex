@@ -30,7 +30,7 @@ Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s c
 Při myšlenkách, jak se k tvorbě tarifních pásem postavit,
 se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v systému QGIS. 
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a začal se tvořit postup
-na "čístý" Python skript pomocí QGIS nástrojů. I přes to, že lze z Grafického modeláře exportovat skript. 
+do "čístého" Python skriptu pomocí QGIS nástrojů i přes to, že lze z Grafického modeláře exportovat skript. 
 
 Pro použití QGIS nástrojů v Python skriptu je potřeba importovat modul \textit{processing},
 který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
@@ -41,9 +41,10 @@ z QGIS dokumentace. \cite{QGIS_docs}
 
 Aby se mohl uživatel mohl rozhodnout při jeho používání pluginu, či chce vytvářet tarifní pásma nebo ne, bylo vytvořeno
 dialogové okno pomocí PyQt (viz obrázek \ref{fig:dialog}). Toto dialogové okno se vždy zobrazí po stisknutí tlačítka
-\textit{Load} pro načtení GTFS souboru. Jak je v závorce napsáno, tvorba tarifních pásem je zatím jen pro PID\_GTFS.
+\textit{Load} pro načtení GTFS ZIP souboru. Jak je v závorce napsáno, tvorba tarifních pásem je zatím jen pro GTFS
+dataset PID\_GTFS.
 Tvorba tarifních pásem pro ostatní GTFS soubory může být jako námět pro další závěrečné práce nebo ho mohou dobrovolně
-vypracovat uživatelé Githubu.
+vypracovat uživatelé služby GitHub.
 
 Ovládání dialogového okna je jednoduché. Disponuje běžnými tlačítky pro minimalizaci okna a vypnutí okna, což mimochodem
 zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Yes/No, které buďto povolí vytváření tarifních

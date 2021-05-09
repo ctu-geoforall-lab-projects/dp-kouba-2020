@@ -5,7 +5,7 @@
 
 QGIS je profesionální geografický informační systém.
 Software je zdarma ke stáhnutí a je tzv. open-source (zdrojový kód je veřejně).
-Zdrojový kód je publikován na GitHubu \footnote{webová služba podporující vývoj softwaru za pomoci verzovacího nástroje Git}
+Zdrojový kód je publikován ve službě GitHub (viz podkapitola \ref{section-github})
 a vývojář softwaru může být kdokoliv, avšak potvrzovat a kontrolovat změny můžou jen ověření
 přispěvatelé. Software byl vyvíjen v programovacím jazyku C++ a Python (viz \ref{section-python})
 
@@ -30,7 +30,7 @@ například přímo v terénu.
 %rozhraní QGIS?
 
 QGIS má jako většina softwarů svou dokumentaci, která je sestavena pomocí nástroje Sphinx. 
-Dokumentace je taktéž open-source na GitHubu a upravovat ji může každý. Obsahuje
+Dokumentace je taktéž open-source na službě GitHub a upravovat ji může každý. Obsahuje
 informace pro obyčejné desktop uživatele systému QGIS, pro přispěvatele dokumentace nebo pro QGIS
 vývojáře. V dokumentaci si může uživatel například dočíst informace nebo nápovědu o různých
 QGIS nástrojech.
@@ -50,8 +50,8 @@ přidávat komentáře či jednotlivé nástroje seskupovat do skupin.
 \label{section-python}
 Python je moderní, dynamický, skriptovací programovací jazyk s veřejným zdrojovým kódem. 
 Je snadný na naučení, lehko čitelný a v současné době velmi populární. Tento programovací jazyk využívají
-softwaroví inženýři, matematici, datovi analytici, vědci, účetní a síťoví inženýři.
-Dokonce kvůli jednoduchosti tohoto jazyka ho využívají i děti na základních školách.
+softwaroví inženýři, matematici, datoví analytici, vědci, účetní a síťoví inženýři.
+Díky jednoduchosti programovacího jazyka Python se využívá k učivu na základních školách.
 
 Důvodů, proč je tento programovací jazyk tak populární, je mnoho. Python je vyšší programovací jazyk,
 což znamená lépší srozumitelnost než nižších programovacích jazyků a programy zapsané
@@ -63,8 +63,7 @@ Python má také spoustu knihoven, frameworků a nástrojů, které lidem usnad�
 
 Podporuje různá programovací paradigmata
 \footnote{základní programovací styl, který se liší v pojmech a abstrakcích,
-které tvoří jednotlivé prvky programu, a krocích, ze kterých se výpočet skládá  
-- objektově orientované, imperativní, procedurální nebo funkcionální \cite{wikipedia-paradigma}} 
+které tvoří jednotlivé prvky programu, a krocích, ze kterých se výpočet skládá \cite{wikipedia-paradigma}} 
 jako například objektově orientované, imperativní, procedurální nebo funkcionální.
 
 \begin{figure}[H] \centering
@@ -80,8 +79,8 @@ pro vytváření GUI jako například Tkinter, wxPython, PySide2 nebo PyQt. Prá
 vestavěný v systému QGIS, tak se zdá jako nejlepší volbou pro tvorbu pluginů.  
 
 PyQt je vazba Pythonu pro aplikační framework Qt vyvinutý společností RiverBank Computing Ltd.
-Je k dispozici ve třech verzích: PyQt6 podporuje Qt v6, PyQt5 podporuje Qt v5 a PyQt4 podporuje Qt v4,
-avšak PyQt4 s Qt v4 již není podporována. PyQt je multiplatformní a lze nainstalovat na Windows,
+Je k dispozici ve třech verzích: PyQt6 podporující Qt v6, PyQt5 podporující Qt v5 a PyQt4 podporující Qt v4,
+avšak PyQt4 s Qt v4 již není v nových verzích systému QGIS podporována. PyQt je multiplatformní a lze nainstalovat na Windows,
 macOS, Linux, iOS a Android. \cite{pyqt}
 
 \begin{figure}[H] \centering
@@ -96,6 +95,7 @@ Pro verzování kódu anebo pro jeho psaní byly použity i další technologie.
 ale s nimi se zrychloval a usnadňoval její postup.
 
 \subsection{GitHub}
+\label{section-github}
 
 GitHub je služba poskytující internetový hosting pro správu verzí pomocí Git, což je software pro sledování 
 změn v libovolné sadě souborů. Tato služba například poskytuje řízení přístupu, sledování chyb, 
@@ -111,9 +111,9 @@ správu úkolů nebo nepřetržitou integraci. Základní služby poskytuje zdar
 
 PyCharm je vývojové prostředí vyvinuté firmou JetBrains s.r.o. pro programovací jazyk Python.
 Usnadňuje práci s kódem, zvyšuje produktivitu a zpřehledňuje kód například zvýrazněním syntaxe Pythonu.
-PyCharm obsahuje širokou kolekci pluginů, které lze doinstalovat a jsou vyvíjeny uživateli.
-Skrz PyCharm lze propojit i Git, takže lze snadno kód zálohovat. Jako GitHub základní funkce poskytuje zdarma,
-ale profesionální verzi se již musí zaplatit.
+PyCharm obsahuje širokou kolekci plu\-ginů, které lze doinstalovat a jsou vyvíjeny uživateli.
+Skrz PyCharm lze propojit i Git, takže psaný kód lze snadno zálohovat. Stejně jako GitHub PyCharm poskytuje 
+základní funkce zdarma, ale profesionální verzi s pokročilejšími funkcemi se již musí zaplatit.
 
 \begin{figure}[H] \centering
     \includegraphics[width=150pt]{./pictures/pycharm.png}
