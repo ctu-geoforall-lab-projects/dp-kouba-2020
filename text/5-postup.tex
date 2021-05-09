@@ -61,14 +61,14 @@ v hlavním Python skriptu \textit{GTFS.py}.
 
 \subsection{Hrubý tvar tarifních pásem}
 
-GTFS obsahuje povinný CSV soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
+GTFS dataset obsahuje povinný CSV soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové. 
 Pole \textit{zone\_id} má datový typ \textit{string} a znamená, ve kterém tarifním
 pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
-ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voroného 
+ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
 diagramů nástrojem \textit{Voroného polygony} v programu QGIS. 
 
-Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voroného polygony.
+Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voronoi polygony.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-stops.png}
@@ -83,8 +83,8 @@ Třída \textit{QgsVectorLayer} zároveň vrací vektorovou vrstvu, která můž
 
 \subsubsection{Tarifní pásma P, 0 a B}
 
-Speciálně pro tarifní pásma na území Prahy, tedy pro tarifní pásma P, 0 a B byl tvořen rozdílný postup
-nežs pro ostatní pásma ležící ve Středních Čechách. Do metody \textit{selectByExpression} byl vložen
+Speciálně pro tarifní pásma na území Prahy, tedy pro tarifní pásma P, 0 a B, byl tvořen rozdílný postup
+než pro ostatní pásma ležící ve Středočeském kraji. Do metody \textit{selectByExpression} byl vložen
 parametr s dotazem: 
 
 \["zone\_id"\ IN\ ('P','0','B')\ AND\ "location\_type" = 0\]
@@ -94,14 +94,15 @@ Po proběhnutí tohoto dotazu byly vybrány všechny zastávky ležící v tarif
 V zadávaném výrazu figuruje taktéž údaj o poli \textit{location\_type}, což je typ lokace. 
 Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky viz \ref{stops.txt}.
 
-Některé zastávky se nacházely na stejném a měly duplicitní geometrii, což vytvářelo v dalším
-zpracování pouze problém s duplicitními polygony. Aby se takové věci ve výsledku zamezilo, byl použit nástroj   
-Delete duplicate geometries, který ve vstupní vektorové vrstvě najde duplicitní geometrie a smaže je.
+Některé zastávky se nacházely na stejném místě a měly duplicitní geometrii, což vytvářelo v dalším
+zpracování problém s duplicitními polygony. Aby se takové věci ve výsledku zamezilo, byl použit nástroj   
+\textit{Delete duplicate geometries}, který ve vstupní vektorové vrstvě nalezne duplicitní geometrie a smaže je.
 
 Pro vybrané zastávky bylo potřeba vybrat ty Voroného polygony, které svou
 pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
 do kterého vstupovala vrstva vybraných zastávek a vrstva Voroného polygonů. Výsledkem tohoto nástroje byla
 vektorová vrstva vybraných Voroného polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
+% zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-selected.png}
