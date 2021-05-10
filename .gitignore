@@ -129,3 +129,14 @@ dmypy.json
 .pyre/
 text/martin-kouba-dp-2021.pdf
 text/martin-kouba-dp-2021.synctex.gz
+*.aux
+*.gz
+*.loa
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.bbl
+*.blg
+*~
