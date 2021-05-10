@@ -3,17 +3,23 @@
 
 Tarifní pásma Pražské integrované dopravy jsou publikována mimo jiné jako shapefile 
 \footnote{formát vektorového datového úložiště Esri pro ukládání umístění,
-tvaru a atributů geografic\-kých prvků \cite{shapefile}}
+  tvaru a atributů geografic\-kých prvků \cite{shapefile}}
+%% ML: nazev portalu by mel zacit velkym pismenem
 na portálu \textit{opendata hlavního města Prahy} \cite{opendata}. Tento shapefile
+%% ML: obsahuje tarifni pasma v podobe polygonovych prvku?
 obsahuje vektorové vrstvy polygonů.
+%% ML: zminte, ze jste tato data povazoval v praci jako referencni
 
 \subsubsection{Triangulace}
 \label{triangulace}
-                
+
+%% ML: "Prvni myslenkou, jak se priblizit" zkuste preformulovat
 První myšlenkou, jak se přiblížit k takovým polygonům bylo vytvoření linií mezi jednotlivými zastávkami.
+%% ML: tak, ze uvnitr ?
 K tomu slouží takzvaná triangulace, která vytvoří troj\-úhelníky mezi body, kde uvnitř těchto trojúhelníků  
 už neleží žádné body a každý trojúhelník má vždy společnou jednu hranu. 
 
+%% ML: Postup triangulace (?)
 Takové triangulace se používají jak v kartografii, tak v GIS, v Dálkovém průzkumu země,
 počítačové grafice, při analýze vlastností a struktury materiálů, plánování pohybu robotů
 nebo při modelování přírodních jevů. \cite{bayer-delaunay}
@@ -21,10 +27,13 @@ nebo při modelování přírodních jevů. \cite{bayer-delaunay}
 Existuje více druhů triangulací, které využívají vždy jinou metodu konstrukce
 a mají rozdílný výpočetní stupeň složitosti. 
 
+%% ML: nazvy dejte napr. do kurzivy, aby se vizualne dolisila od textu
 Hladová (Greedy) triangulace se snaží vytvářet trojúhelníky s nejkratšími stranami,
 které nesplňují žádnou speciální geometrickou podmínku. Její realizace je jednoduchá,
+%% ML: dusledkem (?)
 avšak důsledek toho jsou často tvarově nepěkné nebo nevhodné trojúhelníky. Má velkou výpočetní
-složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\) a v kartografii se 
+složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\) a v kartografii se
+%% ML: obecne, pouzivate dlouha souveti. Zkuste rozdelit do vice vet.
 nepříliš používá. \cite{vanicek}
 
 \begin{figure}[H] \centering
@@ -52,6 +61,7 @@ inkrementální konstrukce, inkrementální vkládání, rozděl a panuj nebo sw
 \end{figure}
 
 Poté existuje triangulace s minimální hmotností (anglicky Minimum Weight Triangulation, zkráceně MWT),
+%%% ML: Na zaklade ceho je "nejlepsi" ???
 která má minimální celkovou délku hran. MWT je nejlepší triangulace pro interpolaci trojrozměrných oblastí,
 tudíž se pro tvorbu 2D tarifních pásem úplně nehodí.
 
@@ -64,6 +74,7 @@ Je to jedna z nejpoužívanějších geometrických struktur, která je většin
 prostorového tvaru.
 
 Konstrukce konvexní obálky se nejčastěji provádějí metodami: Jarvis Scan, Graham Scan, Quick Hull nebo
+%% ML: v predchozi kapitole pouzivate cesky termin (rozdel a panuj)
 Divide and Conquer. Konvexní obálku lze vytvářet i pomocí Delaunay triangulace, kdy se po jejím dokončení
 spojí všechny trojúhelníky.
 
@@ -101,8 +112,10 @@ hull.
 	\label{fig:alpha-shapes-picture}              
 \end{figure} 
 
+%% ML: vetsinu pojmu mate cesky (sklonovane), https://cs.wikipedia.org/wiki/Voron%C3%A9ho_diagram
 \subsubsection{Voronoi diagram}
 
+%% ML: Myslite hranici pasem?
 Tarifní pásma zasahují tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
 mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
 obálka úplně vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
@@ -114,12 +127,15 @@ Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu
 metrického prostoru určený vzdálenostmi k dané nespojité množině bodů v prostoru.
 V našem případě se bude řešit Voronoi diagram ve 2D prostoru, tedy v rovině.
 
+%% ML: Nezacinejte vetu "Takze" ci podobnym zpusobem
+%% ML: Opakujete v jedne vete "Voronoi diagram", prepiste
 Takže na vstupu Voronoi diagramu je nějaká množina bodů a výstupem je Voronoi diagram, 
 což představuje takovou množinu buněk, pro které bude platit, že každý bod
 \textit{q} nálěžící množině \textit{V(p\textsubscript{i})} je blíže k bodu
 \textit{p\textsubscript{i}} než k jakémukoliv
 bodu \textit{p\textsubscript{j}} náležící množině \textit{P}.  \cite{bayer-voronoi}
 
+%% ML: jeji (?)
 Pro lepší chápání Voronoi diagramů je potřeba si vysvětlit její terminologii.
 Vstup\-ní množinu bodů nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
 terminologii GIS se hovoří o tzv. Voronoi polygony. Tyto Voronoi buňky jsou tvořeny hranami,
@@ -166,6 +182,7 @@ ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu da
 	\label{fig:voronoi}              
 \end{figure}   
 
+%% ML: "jisty vztah s" zni ponekud expresivne
 Voronoi diagram má jistý vztah s Delaunay triangulací. Hraniční vstupní body
 Voronoi diagramu po spojení Delaunay triangulací tvoří konvexní obálku.
 Středy kružnic opsaných trojúhelníků Delaunay triangulace představují uzlové body
@@ -176,6 +193,7 @@ Pro přímou konstrukci jsou tu metody Inkrementální konstrukce, Sweep line al
 Rozděl a panuj. Nepřímá konstrukce je vytvářena přes Delaunay triangulaci skrz spojení středů
 kružnic opsaných trojúhelníků a bývá nejpoužívanější. 
 
+%% ML: postovni problem ???
 Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovní problém
 pomáhá při návrhu nových supermarketů, stanic MHD či polohy nových nemocnic.
 Mezi další využití patří například převod bodových údajů na plošné
@@ -185,17 +203,21 @@ nebo klasifikace dat. \cite{bayer-voronoi}
 \label{generalizace_zjemneni}
 
 Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hranice polygonů
+%% ML: Opet, rozdejit na dve vety.
 generalizovat a následně zjemnit. K tomu existuje mnoho algoritmů, ale bude zde uvedeno
 jen několik vhodných a nejpoužívanějších.
 
+%% ML: Obecne, dejte si pozor na opakovani slov v jedne vete. Zde je slovo "algoritmus" na jednom radku hned 3x
 Prvním algoritmem je generalizační algoritmus „Douglas-Peucker“. Algoritmus rekurzivně rozděluje čáru.
 Zpočátku jsou uvedeny všechny body mezi prvním a posledním bodem. Automaticky označí první a poslední bod,
 který se má zachovat. Poté najde bod, který je nejvzdálenější od úsečky s prvním a posledním bodem 
 jako koncovými body. Tento bod je zjevně nejvzdálenější na křivce od přibližné úsečky mezi koncovými body. 
-Pokud je bod blíže k úsečce, než volitelný parametr epsilon, mohou být všechny body, které nejsou aktuálně označeny jako zachované, 
+Pokud je bod blíže k úsečce, než volitelný parametr epsilon, mohou být všechny body, které nejsou aktuálně označeny jako zachované,
+%% ML: "horsi" ?
 zahozeny, aniž by zjednodušená křivka byla horší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
 musí být tento bod zachován. Algoritmus rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
-a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný. 
+a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný.
+%% ML: proc "nejlepsi"?
 Tento algoritmus je jeden z nejlepších generalizačních algoritmů a je velmi často
 implementován v GIS softwarech. \cite{bayer-douglas}
 
