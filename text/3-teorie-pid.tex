@@ -42,6 +42,7 @@ zajištění jednotnosti informačního systému PID.  \cite{wikipedia-ropid}
 Tzv. "tarifní pásma" je rozdělení Pražské integrované dopravy do určitých zón, kde v jednotlivých
 zónách platí rozdílné cenové podmínky. Rozdělení tarifních pásem je následující:
 P, 0, B, 1, 2, 3, 4, 5, 6, 7, 8, 9. Tarifní pásma P, 0 a B se nacházejí v Praze a územně
+%% ML: V uvodu uvadite, ze PID zasahuje do vice kraju...
 se spolu překrývají. Ostatní pásma (1 až 9) se nacházejí ve Středočeském kraji.
 
 Do pásma P jsou zařazeny všechny linky metra, tramvají, městských autobusů, přívozů,
@@ -68,15 +69,18 @@ Tarifní pásma Pražské integrované dopravy se doposud tvoří manuálně. Ze
 se tedy paní Ing. Zuzany Šaškové z ROPIDu, která se tvorbou pásem zabývá, jakou metodiku
 při tom používá. 
 
+%% ML: nasledujici odstavec autorizujte u pani Saskove...
 Paní Ing. Šašková používá na úpravu dat software ArcMap od společnosti Esri.
 \textit{"Původní myšlenka při tvorbě tarifních pásem byla zohledňovat v mapě 
 zastavěná území obce tak, aby je tarifní pásma pokud možno neprotínala,"} od této
 myšlenky ustoupila kvůli náročnosti zpracování. \textit{"Dnes mám vytvořeny polygony 
-jednotlivých pásem (nikoliv donuty), každé pásmo ručně upravím dle aktuálních změn."} 
+  jednotlivých pásem (nikoliv donuty), každé pásmo ručně upravím dle aktuálních změn."}
+%% ML: vynechte hodnoceni metod nebo nahradte za "pouziva jednoduche nastroje"
 V projektu při úpravách nepoužívá žádné sofistikované metody, jenom například obarvení
 zastávek a jednotlivých polygonů tarifního pásma stejnou barvou, hraniční zastávek výraznou barvou 
 případně pro následné úpravy. \textit{"Když ručně vytvaruji všechny polygony tak, aby procházely 
-mezi zastávkami, které mají přiřazené jedno pásmo a skrz zastávky, které mají přiřazená dvě pásma, 
+  mezi zastávkami, které mají přiřazené jedno pásmo a skrz zastávky, které mají přiřazená dvě pásma,
+  %% ML: nejaka forma automatizace tedy v aktualnim postupu je ...
 pustím si skript Pythonu, který z polygonů vyřeže donuty jednotlivých tarifních pásem a nakonec je spojí do jedné vrstvy."}
 
 Takto paní Ing. Šašková upravuje tarifní pásma od dubna 2018 při každé úpravě zastávek. 
@@ -88,6 +92,7 @@ Zde na obrázku \ref{fig:pasma-schema} je uvedena nejstarší dochovaná podoba 
 Pro zajímavost si lze všimnout, že v té době tarifní pásmo 7 bylo poslední a všechna pásma tvarově připomínala
 spíše tu schématickou verzi.
 
+%% ML: zvolte stejnou symbologii jako na obrazku 3.5
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/pasma-nejstarsi.png}
     \caption[Nejstarší dostupná verze tarifních pásem PID]{Nejstarší dostupná verze tarifních pásem PID}
