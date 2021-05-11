@@ -15,8 +15,8 @@ obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrst
 %% ML: pridejte screenshot celeho pluginu/QGISu (nikde se neobjevuje)
 
 %% ML: spise tam byly nedostatky, ktere bylo nutne pred zverejnenim pluginu vyresit
-Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
-Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
+Avšak pro uvedení do \uv{ostrého} provozu musel být plugin více uživatelsky přívětivější.
+Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program \uv{nezamrzal} a
 mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Python třídě \textit{QgsTask}
 a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
 
@@ -38,12 +38,12 @@ Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s c
 Při myšlenkách, jak se k tvorbě tarifních pásem postavit,
 se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v systému QGIS. 
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a začal se tvořit postup
-do "čístého" Python skriptu pomocí QGIS nástrojů i přes to, že lze z Grafického modeláře exportovat skript. 
+do \uv{čístého} Python skriptu pomocí QGIS nástrojů i přes to, že lze z Grafického modeláře exportovat skript. 
 
 Pro použití QGIS nástrojů v Python skriptu je potřeba importovat modul \textit{processing},
 který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
 %% ML: stringu -> retezce
-ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
+ve formě \textit{řetězce} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
 z QGIS dokumentace. \cite{QGIS_docs}
 
 \subsection{Dialogové okno pro tvorbu tarifních pásem}
@@ -74,17 +74,17 @@ v hlavním Python skriptu \textit{GTFS.py}.
 GTFS dataset obsahuje povinný CSV soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové.
 %% ML: retezec (prekontrolujte v dalsich mistech prace)
-Pole \textit{zone\_id} má datový typ \textit{string} a znamená, ve kterém tarifním
+Pole \textit{zone\_id} má datový typ \textit{řetězec} a znamená, ve kterém tarifním
 pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
 %% ML: sjednodte v cele praci termin "Voronoi diagram"
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
-diagramů nástrojem \textit{Voroného polygony} v programu QGIS. 
+diagramů nástrojem \textit{Voronoi polygons} v programu QGIS. 
 
 Vstupem do tohoto nástroje je vektorová vrstva stops a výstupem jsou právě Voronoi polygony.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-stops.png}
-    \caption[Voroného polygony pro všechny zastávky]{Voroného polygony pro všechny zastávky}
+    \caption[Voronoi polygony pro všechny zastávky]{Voronoi polygony pro všechny zastávky}
 	\label{fig:voronoi-stops}              
 \end{figure}
   
@@ -110,15 +110,15 @@ Některé zastávky se nacházely na stejném místě a měly duplicitní geomet
 zpracování problém s duplicitními polygony. Aby se takové věci ve výsledku zamezilo, byl použit nástroj   
 \textit{Delete duplicate geometries}, který ve vstupní vektorové vrstvě nalezne duplicitní geometrie a smaže je.
 
-Pro vybrané zastávky bylo potřeba vybrat ty Voroného polygony, které svou
+Pro vybrané zastávky bylo potřeba vybrat ty Voronoi polygony, které svou
 pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
-do kterého vstupovala vrstva vybraných zastávek a vrstva Voroného polygonů. Výsledkem tohoto nástroje byla
-vektorová vrstva vybraných Voroného polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
+do kterého vstupovala vrstva vybraných zastávek a vrstva Voronoi polygonů. Výsledkem tohoto nástroje byla
+vektorová vrstva vybraných Voronoi polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
 % zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-selected-P0B.png}
-    \caption[Vybrané Voroného polygony]{Vybrané Voroného polygony}
+    \caption[Vybrané Voronoi polygony]{Vybrané Voronoi polygony}
 	\label{fig:voronoi-selected}              
 \end{figure}
 
@@ -192,9 +192,9 @@ které vstupují do nástroje \textit{Select by location}.
 
 Pro tarifní pásma 7 až 9 byla časová náročnost stejná, jako u tarifních pásem P, 0 a B.
 
-Hlavním důvodem avšak bylo "zalepení" děr, které vznikaly u vyhlazení tvaru tarifních pásem v kapitole \ref{vyhlazeni}.  
+Hlavním důvodem avšak bylo \uv{zalepení} děr, které vznikaly u vyhlazení tvaru tarifních pásem v kapitole \ref{vyhlazeni}.  
 
-Následně byl pouze spuštěn \textit{Dissolve} pro spojení Voroného polygonů, což bylo vstupem do tohoto nástroje,
+Následně byl pouze spuštěn \textit{Dissolve} pro spojení Voronoi polygonů, což bylo vstupem do tohoto nástroje,
 do jednoho celistvého polygonu, což bylo výstupem tohoto nástroje.
 
 V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup tarifní pásma 1 až 9.
@@ -241,16 +241,16 @@ Pro tarifní pásma P, 0 a B byl použit dotaz:
 Pro tarifní pásma 1 až 9 byl použit dotaz:
 \["zone\_id"\ LIKE\ "ID\: pasma\ i,ID\: pasma\ i+1"\]
 
-Vybrané tarifní pásma byla uložena do nové vektorové vrstvy po následné i pozdější použití viz kapitola \ref{hranice}.
+Vybraná tarifní pásma byla uložena do nové vektorové vrstvy pro následné a pozdější použití viz kapitola \ref{hranice}.
 
-Následně byly pro každé tarifní pásmo byly spojeny vektorové vrstvy hraniční zastávek, 
-zastávek uvnitř tarifního pásma a bodů z výstupu nástroje \textit{Extract vertices} nástrojem \textit{Merge vector layers}.
-Tyto tři zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výstupem byla 
+Následně pro každé tarifní pásmo nástrojem \textit{Merge vector layers} byly spojeny tři vektorové vrstvy: hraniční zastávky, 
+zastávky uvnitř tarifního pásma a body z výstupu nástroje \textit{Extract vertices}.
+Tyto zmiňované vektorové vrstvy byly vstupem do tohoto nástroje a výstupem byla 
 vektorová vrstva spojených bodů. 
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/merged-P0B.png}
-    \caption[Spojené body třech vektorových vrstev]{Spojené body třech vektorových vrstev}
+    \caption[Spojené body třech vektorových vrstev pomocí nástroje Merge vector layers]{Spojené body třech vektorových vrstev pomocí nástroje Merge vector layers}
 	\label{fig:merged-P0B}              
 \end{figure} 
 
@@ -279,11 +279,11 @@ zaplnění děr v tarifních pásmech 6 a nižších.
 	\label{fig:concaveHull-P0B}              
 \end{figure} 
 
-Z konkávní obálky byla pomocí nástroje Simplify "zjednodušena" geometrie polygonové vrstvy. Tento nástroj
+Z konkávní obálky byla pomocí nástroje Simplify \uv{zjednodušena} geometrie polygonové vrstvy. Tento nástroj
 využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus „Douglas-Peucker“),
 založené na ploše (algoritmus „Visvalingam“) a přichytávání geometrií k mřížce.
-%% ML: nefunkcni reference
-Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“ viz kapitola \label{generalizace_zjemneni}.
+
+Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“ viz kapitola \ref{generalizace_zjemneni}.
 
 
 Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave hull (alpha shapes)}, parametrem byl výběr algoritmu 
@@ -301,7 +301,7 @@ liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz kapitola \ref{
 U nástroje \textit{Smooth} byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.
 Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co nevětší hladkost).
-Parametr offset znamená, jak "těsně" vyhlazené geometrie sledují původní geometrie.
+Parametr offset znamená, jak \uv{těsně} vyhlazené geometrie sledují původní geometrie.
 Zde byla ponechána výchozí hodnota 0,25. A poslední parametr maximálního úhlu lze použít
 k zabránění vyhlazení uzlů s velkými úhly. Zde byla také ponechána výchozí hodnota 180°.
 Výstupem nástroje byla polygonová vektorová vrstva.
@@ -328,7 +328,7 @@ V dosavadním postupu nebyl jejich problém efektivně vyřešen kvůli konkávn
 která nezvládala spojovat určité body, které byly požadovány.
 
 Naskytla se tedy myšlenka upravit algoritmus nástroje \textit{Concave hull (alpha shapes)},
-který je veřejně publikován na GitHubu jako ostatně celý zdrojový kód systému QGIS, do obrazu
+který je veřejně publikován ve službě GitHub jako ostatně celý zdrojový kód systému QGIS, do obrazu
 svého, aby hraniční zastávky propojoval. 
 
 Zdrojový kód nástroje byl napsán Piotrem Pociaskem v květnu 2014. Skládá se mimo jiné z nástroje
@@ -366,19 +366,18 @@ součtu zastávek a vymazat ty polygony, které je nesplňují.
 
 Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva rozdělených polygonů nástrojem \textit{Multipart to singleparts}
 a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr Count field name, který určoval název nového pole
-%% ML: datovy typ anglicky vs cesky
-s datovým typem integer,
-který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. Kromě nového pole vypadal výstupní vektorová vrstva stejně
+s datovým typem celého čísla,
+který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. Kromě nového pole vypadala výstupní vektorová vrstva stejně
 jako vstupní vektorová vrstva polygonů.
 
-Poté bylo už jen rozhodnuto podle atributového dotazu, jaké polygony z vektorové vrstvy polygonů vybrat do nové vektorové vrstvy.
+Poté podle atributového dotazu bylo rozhodnuto, jaké polygony z vektorové vrstvy polygonů vybrat do nové vektorové vrstvy.
 Tento atributový dotaz vypadal následovně: 
 
 \[NUMPOINTS > X\]
 
-Hodnota čísla \textit{X} byla nastavena na 5, tudíž byly vybrány jen ty polygony, ve kterých leželo více zastávek jak 5.
+Hodnota čísla \textit{X} byla nastavena na 5, tudíž byly vybrány ty polygony, ve kterých leželo více jak 5 zastávek.
 
-Tento postup byl proveden pro všechny tarifní pásma for cyklem společně s vyhlazením těchto polygonů,
+Tento postup byl proveden for cyklem pro všechna tarifní pásma společně s vyhlazením hranic polygonů,
 jak je uvedeno v kapitole \ref{vyhlazeni}. Na obrázku \ref{fig:postup-border-zones} je v Grafickém modeláři zobrazen
 přehledný postup pro hraniční tarifní pásma. 
 
@@ -390,17 +389,15 @@ přehledný postup pro hraniční tarifní pásma.
 
 \subsection{Seskupení tarifních pásem}
 
-%% ML: preformulujte prvni vetu
-%% ML: Odstavci moc nerozumim
-V tomto postupu zatím většina vektorových vrstev polygonů byla ukládána do GPKG jako oddělené vrstvy.
+V dosavadním postupu byla ukládána většina polygonových vektorových vrstev do GPKG jako oddělené vrstvy.
 To bylo potřeba změnit z důvodu lepší manipulace s vektorovou vrstvou a také kvůli zmenšení velikosti GPKG
 kvůli ušetření paměti.
 
 Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby se neprotínaly. 
 Prvním parametrem tohoto nástroje byla vrstva, která překrývala druhou vrstvu, 
 druhým parametrem byla vektorová vrstva, která byla překrývána. Výstupem byla odečtená vrstva.
-%% ML: vynechte slova jako "znova/u"
-To bylo provedeno znova for cyklem pro všechna tarfiní pásma.
+
+To bylo provedeno for cyklem pro všechna tarfiní pásma.
 
 Takto odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
 nástroje \textit{Merge vector layers}. Díky tomuto nástroji byly spojeny i hraniční pásma zatím odděleně od tarifních pásem.
@@ -411,8 +408,7 @@ To bylo provedeno pomocí nástroje \textit{Collect geometries}. Vstupem do toho
 nástroje \textit{Merge vector layers} a pole, podle které se to mělo spojit, bylo nastaveno na \textit{zone\_id}.
 Výstupem byla vektorová vrstva vícedílných polygonů. Tento postup byl proveden i pro hraniční pásma.
 
-%% ML: vyhybnuti ... (...)
-Poté už zbývalo spojit vektorovou vrstvu tarifních pásem a vektorovou vrstvu hraničních pásem. Opět kvůli vyhýbnutí se 
+Poté zbývalo spojit vektorovou vrstvu tarifních pásem a vektorovou vrstvu hraničních pásem. Kvůli vyhnutí se 
 překrývání vektorových vrstev byl nejdříve použit nástroj \textit{Difference} a následně nástroj  \textit{Merge vector layers}.
 
 Výsledkem byla jedna vektorová vrstva obsahující polygony tarifních i hraničních pásem. Na následujícím obrázku
@@ -424,7 +420,7 @@ je přehledně zobrazen postup seskupení v Grafickém modeláři.
 	\label{fig:postup-collecting}              
 \end{figure}
 
-\subsection{Obarvení tarifních pásem}
+\subsection{Symbologie tarifních pásem}
 
 Pro lepší vizuální vzhled výsledných tarifních pásem byla na konec procesu pluginu přidána funkce
 pro obarvování pásem. To bylo provedeno díky instanci třídy \textit{QgsSymbol} a jejím metodám 

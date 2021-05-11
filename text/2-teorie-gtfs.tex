@@ -38,7 +38,7 @@ aby přesně reprezentoval jeho použití v mnoha různých aplikacích mimo pro
 % doplnit něco o historii GTFS 
 
 \section{GTFS dataset}
-GTFS "feed" nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní URL adrese}
+GTFS \uv{feed} nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní URL adrese}
 je ZIP soubor, který obsahuje CSV soubory.
 
 CSV, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
@@ -53,20 +53,19 @@ může upravovat v jakémkoliv textovém editoru.
 	\label{fig:ukazka-csv}              
 \end{figure}
 
-%% ML: uvozovky piste pres prikaz \uv, napr. \uv{může}
-V GTFS datasetu může být v současné době až 17 CSV souborů v textové podobě. Slovem "může" je myšleno tak,
+V GTFS datasetu může být v současné době až 17 CSV souborů v textové podobě. Slovem \uv{může} je myšleno to,
 že některé CSV soubory jsou požadované či podmíněně požadované a jiné volitelné.
 Jaké CSV soubory obsahuje dataset záleží na konkrétním dopravním systému, který
 tento dataset vytváří.
 
-Termín "požadované" znamená, že daný CSV soubor se musí nacházet v GTFS datasetu nebo dané pole
+Termín \uv{požadované} znamená, že daný CSV soubor se musí nacházet v GTFS datasetu nebo dané pole
 se musí nacházet v CSV souboru a v tomto poli musí být uvedena hodnota pro každý záznam. 
 
 %přidat referenci na podmínky?
-Termín "podmíněně požadované" znamená, že daný CSV soubor nebo pole je vyžadován za určitých podmínek, 
+Termín \uv{podmíněně} požadované" znamená, že daný CSV soubor nebo pole je vyžadován za určitých podmínek, 
 které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
 
-Termín "volitelné" znamená, že daný CSV soubor nebo pole může být vynecháno. V případě zahrnutí 
+Termín \uv{volitelné} znamená, že daný CSV soubor nebo pole může být vynecháno. V případě zahrnutí 
 volitelného pole mohou být některé položky prázdné řetězce, což je ekvivalentní s prázdným
 polem.
 
@@ -99,8 +98,7 @@ které v současnosti v GTFS datasetu mohou být.
 \end{table}
 
 Každý CSV soubor v GTFS datasetu má v prvním řádku názvy polí, do kterých je tento
-%% ML: datovy typ vs ktera
-soubor rozřazen. Jednotlivá pole mají různý datový typ, která jsou barva, kód měny, 
+soubor rozřazen. Jednotlivá pole mají různý datové typy, které jsou barva, kód měny, 
 datum, email, enum (výčet), ID, kód jazyka, zeměpisná délka, zeměpisná šířka,
 nezáporné číslo s plovoucí desetinnou čárkou, nezáporné celé číslo, telefonní číslo,
 čas, text, časové pásmo a URL adresa.
@@ -108,8 +106,7 @@ nezáporné číslo s plovoucí desetinnou čárkou, nezáporné celé číslo, 
 Jedno z nejdůležitějších polí je pole s datovým typem ID, což je hodnota jednoznačně určující každý záznam.
 Právě tento datový typ umožňuje propojení jednotlivých CSV souborů mezi sebou. ID může být
 sekvence libovolných UTF-8 znaků. Pole s datovým typem ID se označují nakonci názvu s
-% ML: digramu (jednotne cislo?)
-"\_id". Na následujícím obrázku \ref{fig:GTFS-diagram} je toto propojení zobrazeno pomocí diagramů.
+\uv{\_id}. Na následujícím obrázku \ref{fig:GTFS-diagram} je toto propojení zobrazeno pomocí diagramu.
 
 %přidat referenci na podmínky?
 Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole v daném CSV souboru
@@ -138,8 +135,7 @@ se pole \textit{stop\_id} skládá z kombinace písmen a čísel v souvislosti s
 Druhým polem je volitelné pole \textit{stop\_code} v datovém typu text, což je krátký text nebo číslo, 
 které identifikuje lokaci pro řidiče. 
 
-%% ML: prebytecne slovo "Dalsim"
-Dalším třetím polem je s datovým typem text \textit{stop\_name}. Jak už název napovídá, tak obsahuje název lokace. 
+Třetím polem je s datovým typem text \textit{stop\_name}. Jak už název napovídá, tak obsahuje název lokace. 
 Je podmíněně požadované kvůli dalšímu volitelnému devátému poli \textit{location\_type} s datovým typem enum, 
 které obsahuje druhy lokace.
 Toto pole je definováno pomocí čtyř konstant:
@@ -161,17 +157,16 @@ Sedmým polem s datovým typem ID je pole \textit{zone\_id}, které je pro tuto 
 Je podmíněně požadované kvůli CSV souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
 Pokud záznam v CSV souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
 
-%% ML: prebytecne slovo "Dalsim"
-Dalším osmým polem je volitelný \textit{stop\_url} s URL adresou na webovou stránku o místě záznamu.
+Osmým polem je volitelný \textit{stop\_url} s URL adresou na webovou stránku o místě záznamu.
 
-%% ML: kde je devate pole?
+Deváté pole je \textit{location\_type} a bylo vysvětleno společně s třetím polem.
+
 Desátým polem je podmíněně požadované pole \textit{parent\_station} opět kvůli propojení s polem \textit{location\_type}.
 Má datový typ ID odkazující na pole \textit{stop\_id} a definuje hierarchii mezi různými místy definovanými v \textit{stops.txt}. 
 a obsahuje ID nadřazeného umístění.
 
-%% ML: s datovym typem a zaroven (?)
-Poslední čtyři pole jsou volitelné. Prvním z nich je \textit{stop\_timezone} s datovým typem a zároveň definujícím časové
-pásmo, \textit{wheelchair\_boarding} s datovým typem enum, které označuje, zda je z daného místa možné nastupovat na invalidní vozík.
+Poslední čtyři pole jsou volitelné. Prvním z nich je \textit{stop\_timezone} s datovým typem časového pásma,
+\textit{wheelchair\_boarding} s datovým typem enum, které označuje, zda je z daného místa možné nastupovat na invalidní vozík.
 Předposlední je \textit{level\_id} s datovým typem ID odkazující na soubor \textit{levels.txt} defi\-nující úroveň
 umístění zastávky a poslední je \textit{platform\_code} s datovým typem text, 
 což je identifikátor platformy pro zastávku patřící stanici.
