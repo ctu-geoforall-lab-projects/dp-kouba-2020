@@ -3,6 +3,7 @@
 \markboth{ZÁVĚR}{}
 \label{6-zaver}
 
+%% ML: odstavec ~ dlouhe souveti, opakovani spojky "a"
 Cílem této diplomové práce bylo rozšířit plugin systému QGIS pro zpracování dat 
 ve formátu GTFS a najít a vhodně implementovat způsob vizualizace tarifních pásem Pražské integrované dopravy 
 (PID) generovaných automaticky z podkladových dat.
@@ -10,8 +11,11 @@ ve formátu GTFS a najít a vhodně implementovat způsob vizualizace tarifních
 První cíl byl splněn ve formě aktualizace pluginu na verzi 1.0 a následné její publikace v oficiálním
 repozitáři systému QGIS. K 8.5.2021 bylo v záložce Plugins uvedeno 400 unikátních stáhnutí pluginu.
 
+%% ML: tvorby a vizualizace
 Implementace vizualizace tarifních pásem byla vytvářena jako verze pluginu 2.0. Výsledek
+%% ML: pojem "obarveni" nezni prilis technicky
 byl tvořen jako volitelný výstup pluginu ve formě vektorové vrstvy s obarvením jednotlivých tarifních pásem.
+%% ML: zkuste najit vhodnejsi termin nez "tvar" (napr. prubeh tarifnich pasem a pod)
 Výsledný tvar byl podobný oficiální verzi publikované veřejně organizací ROPID, ale byl doplněn o tzv. hraniční pásma,
 která pokrývala větší seskupení hraničních zastávek. Pro ostatní nepokryté hraniční zastávky 
 se nepodařil najít způsob, jak je napřímo propojit s hranicemi tarifních pásem.
@@ -21,13 +25,19 @@ Zároveň pro oblasti, ve kterých jsou umístěny zastávky velmi vzácně, vzn
 Tyto "díry" se ve snaze pro lepší tvar eliminovaly, ale kvůli tomu vznikl další problém překrývajících se tarifních pásem.
 Každopádně pro lepší tvar je potřeba manuální editace vektorové vrstvy.
 
+%% ML: prvni vetu preformulejte
 Také bylo dáno pracovníky organizace ROPID pravidlo o "nerozřezávání" obcí na hranicích tarifních pásem,
 což znamená vyhýbání se hranic tarifních pásem větší zastavěné oblasti.
+%% ML: neuvadel bych to jako duvod, proc jste od toho upustil. Nebylo to prani ze strany ROPIDu?
 Po zjištění, že oficiální veřejná tarifní pásma publikována stejnojmennou organizací toto také nesplňují,
 bylo z tohoto pravidla upuštěno. Současně pro realizaci tohoto pásma by byla potřeba načítat vektorové vrstvy
+%% ML: dotcenych obci
 obcí ČR, což by razantně zvýšilo datovou náročnost pluginu.
 
+%% ML: Jaky postup? Specifikujte presneni (Postup navrzeny v ramci DP, a pod)...
 Tento postup není rozhodně ideální a je na něm co vylepšovat. Předmět úpravy a vylepšení pluginu
+%% ML: vynechte expresivni vyrazy typu "tak ci tak"
+%% ML: pridejte odkaz na repozitar (a konretni vetev)
 se může stát dalším tématem semestrálních či závěrečných prací. Tak či tak zdrojový kód
 je již nyní veřejně přístupný v repozitáři pluginu a může k němu kdokoliv přidávat
 návrhy na vylepšení.  
