@@ -2,13 +2,19 @@
 \label{5-postup}
 
 \section{Aktualizace pluginu do verze 1.0}
-Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní 
+Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní
+%% ML pridejte odkaz na git repositar semestralniho projektu
 funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do systému QGIS,
+%% ML: kontajneru -> formatu
 rozbalení ZIP souboru, načtení CSV souborů do geodatabázového kontajneru GeoPackage (dále GPKG),
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
 obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
+%% ML: poznamku pod carou bych vynechal a rovnou napsal "do CSV souboru a vektorovych vrstev do projektu QGIS".
 \textit{layer tree} \footnote{součást systému QGIS odpovědná za zobrazení seznamu vrstev}.
 
+%% ML: pridejte screenshot celeho pluginu/QGISu (nikde se neobjevuje)
+
+%% ML: spise tam byly nedostatky, ktere bylo nutne pred zverejnenim pluginu vyresit
 Avšak pro uvedení do "ostrého" provozu musel být plugin více uživatelsky přívětivější.
 Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program "nezamrzal" a
 mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Python třídě \textit{QgsTask}
@@ -25,8 +31,10 @@ Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s c
 
 % možná přidat code refactorization
 
+%% ML: verze pluginu 2.0, jinak je to matouci
 \section{Tvorba vizualizace tarifních pásem (verze 2.0)}
 
+%% ML: prvni vetu prepiste, pusobi znacne kostrbate, projdete cely odstavec
 Při myšlenkách, jak se k tvorbě tarifních pásem postavit,
 se naskytla možnost to vypracovat pomocí Grafického modeláře, který je zabudovaný v systému QGIS. 
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a začal se tvořit postup
@@ -34,15 +42,17 @@ do "čístého" Python skriptu pomocí QGIS nástrojů i přes to, že lze z Gra
 
 Pro použití QGIS nástrojů v Python skriptu je potřeba importovat modul \textit{processing},
 který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
+%% ML: stringu -> retezce
 ve formě \textit{stringu} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
 z QGIS dokumentace. \cite{QGIS_docs}
 
 \subsection{Dialogové okno pro tvorbu tarifních pásem}
 
-Aby se mohl uživatel mohl rozhodnout při jeho používání pluginu, či chce vytvářet tarifní pásma nebo ne, bylo vytvořeno
+Aby se mohl uživatel mohl rozhodnout při používání pluginu, či chce vytvářet tarifní pásma nebo ne, bylo vytvořeno
 dialogové okno pomocí PyQt (viz obrázek \ref{fig:dialog}). Toto dialogové okno se vždy zobrazí po stisknutí tlačítka
 \textit{Load} pro načtení GTFS ZIP souboru. Jak je v závorce napsáno, tvorba tarifních pásem je zatím jen pro GTFS
 dataset PID\_GTFS.
+%% ML: slovo "dobrovolne" bych vynechal
 Tvorba tarifních pásem pro ostatní GTFS soubory může být jako námět pro další závěrečné práce nebo ho mohou dobrovolně
 vypracovat uživatelé služby GitHub.
 
@@ -62,9 +72,11 @@ v hlavním Python skriptu \textit{GTFS.py}.
 \subsection{Hrubý tvar tarifních pásem}
 
 GTFS dataset obsahuje povinný CSV soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
-jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové. 
+jiných polí také pole \textit{zone\_id}, které bylo při tvorbě tarifních pásem klíčové.
+%% ML: retezec (prekontrolujte v dalsich mistech prace)
 Pole \textit{zone\_id} má datový typ \textit{string} a znamená, ve kterém tarifním
 pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
+%% ML: sjednodte v cele praci termin "Voronoi diagram"
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
 diagramů nástrojem \textit{Voroného polygony} v programu QGIS. 
 
@@ -128,6 +140,7 @@ nýbrž nejprve nástroj \textit{Multipart to singleparts}.
 Nástroj \textit{Multipart to singleparts} rozdělil jeden vícedílný polygon na jednotlivé menší polygony. Vstupem do tohoto
 nástroje je vektorová vrstva výstupu nástroje Dissolve a výstupem je vektorová vrstva s rozděleným polygonem.
 
+%% ML: teto vete nerozumim
 Poté se pomocí metody \textit{selectByExpression} třídy \textit{QgsVectorLayer} vyhledal nej\-větší polygon
 výrazem:
 
@@ -246,7 +259,7 @@ což je aplikace algoritmu Konvexní obálky viz \ref{konv_obalka}. Tento způso
 tarifních pásem, a proto nástroj \textit{Minimum bounding box} nebyl použit.
 
 Byla zvolena další možnost nástroje systému QGIS spojující body do jisté obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
-využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}
+využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}.
 
 Vstupem nástroje tedy byla vrstva spojených bodů, což byl první parametr
 nástroje. Dalším parametrem byl práh (Threshold) s datovým typem \textit{čísla}, který byl volen od 0 do 1,
@@ -269,7 +282,9 @@ zaplnění děr v tarifních pásmech 6 a nižších.
 Z konkávní obálky byla pomocí nástroje Simplify "zjednodušena" geometrie polygonové vrstvy. Tento nástroj
 využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus „Douglas-Peucker“),
 založené na ploše (algoritmus „Visvalingam“) a přichytávání geometrií k mřížce.
+%% ML: nefunkcni reference
 Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“ viz kapitola \label{generalizace_zjemneni}.
+
 
 Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave hull (alpha shapes)}, parametrem byl výběr algoritmu 
 a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorová vrstva.
@@ -350,7 +365,8 @@ Důvodem tohoto kroku byl úmysl spočítat počet zastávek, které ležely na 
 součtu zastávek a vymazat ty polygony, které je nesplňují.
 
 Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva rozdělených polygonů nástrojem \textit{Multipart to singleparts}
-a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr Count field name, který určoval název nového pole 
+a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr Count field name, který určoval název nového pole
+%% ML: datovy typ anglicky vs cesky
 s datovým typem integer,
 který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. Kromě nového pole vypadal výstupní vektorová vrstva stejně
 jako vstupní vektorová vrstva polygonů.
@@ -374,6 +390,8 @@ přehledný postup pro hraniční tarifní pásma.
 
 \subsection{Seskupení tarifních pásem}
 
+%% ML: preformulujte prvni vetu
+%% ML: Odstavci moc nerozumim
 V tomto postupu zatím většina vektorových vrstev polygonů byla ukládána do GPKG jako oddělené vrstvy.
 To bylo potřeba změnit z důvodu lepší manipulace s vektorovou vrstvou a také kvůli zmenšení velikosti GPKG
 kvůli ušetření paměti.
@@ -381,6 +399,7 @@ kvůli ušetření paměti.
 Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby se neprotínaly. 
 Prvním parametrem tohoto nástroje byla vrstva, která překrývala druhou vrstvu, 
 druhým parametrem byla vektorová vrstva, která byla překrývána. Výstupem byla odečtená vrstva.
+%% ML: vynechte slova jako "znova/u"
 To bylo provedeno znova for cyklem pro všechna tarfiní pásma.
 
 Takto odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
@@ -392,6 +411,7 @@ To bylo provedeno pomocí nástroje \textit{Collect geometries}. Vstupem do toho
 nástroje \textit{Merge vector layers} a pole, podle které se to mělo spojit, bylo nastaveno na \textit{zone\_id}.
 Výstupem byla vektorová vrstva vícedílných polygonů. Tento postup byl proveden i pro hraniční pásma.
 
+%% ML: vyhybnuti ... (...)
 Poté už zbývalo spojit vektorovou vrstvu tarifních pásem a vektorovou vrstvu hraničních pásem. Opět kvůli vyhýbnutí se 
 překrývání vektorových vrstev byl nejdříve použit nástroj \textit{Difference} a následně nástroj  \textit{Merge vector layers}.
 
