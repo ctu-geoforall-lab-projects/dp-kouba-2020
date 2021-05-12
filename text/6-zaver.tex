@@ -5,48 +5,37 @@
 
 %% ML: odstavec ~ dlouhe souveti, opakovani spojky "a"
 Primárním cílem této diplomové práce bylo rozšířit plugin systému QGIS 
-o automatické vytváření tarifních pásem Pražské integrované dopravy za pomocí GTFS datasetu,
-což byly podkladová data zveřejňovaná organizací ROPID. Mezikrokem k primárnímu cíly
-bylo zveřejnění pluginu do repozitáře QGIS. Sekundární cíl bylo vytvořit schématický plán
-nesplňující pravidla 
+o automatické vytváření přesného tvaru tarifních pásem Pražské integrované dopravy, 
+jehož referenční podoba je publikována veřejně organizací ROPID.  
+Podkladovými daty byl GTFS dataset taktéž zveřejňovaný organizací ROPID.
+Mezikrokem k primárnímu cíly bylo zveřejnění pluginu do repozitáře QGIS. Sekundárním cílem bylo vytvořit schématický model pro 
+informativní účely, který by se tolik neblížil k referenční podobě tarifních pásem.
 
-% Cílem této diplomové práce bylo za pomocí GTFS datasetu rozšířit plugin systému QGIS pro zpracování dat 
-% ve formátu GTFS a najít a vhodně implementovat způsob vizualizace tarifních pásem Pražské integrované dopravy 
-% (PID) generovaných automaticky z podkladových dat.
-
-Mezikrok nutný pro pokračování vývoje pluginu byl splněn ve formě aktualizace na verzi pluginu 1.0.
-V této aktualizaci byly opraveny různé chyby, doplněno uživatelské rozhraní a proces pluginu uložen do pozadí. 
+Mezikrok nutný pro pokračování vývoje byl splněn ve formě aktualizace na verzi pluginu 1.0.
+V této aktualizaci byly opraveny některé chyby, doplněno uživatelské rozhraní a proces pluginu přeložen na pozadí. 
 Následné byl publikován v oficiálním repozitáři systému QGIS s názvem pluginu \textit{GTFS Loader}. 
 K 12.5.2021 bylo v záložce \textit{Plugins} uvedeno 412 unikátních stáhnutí pluginu.
 
-%% ML: tvorby a vizualizace
-Implementace vizualizace tarifních pásem byla vytvářena jako verze pluginu 2.0. Výsledek
-%% ML: pojem "obarveni" nezni prilis technicky
-byl tvořen jako volitelný výstup pluginu ve formě vektorové vrstvy s obarvením jednotlivých tarifních pásem.
-%% ML: zkuste najit vhodnejsi termin nez "tvar" (napr. prubeh tarifnich pasem a pod)
-Výsledný tvar byl podobný oficiální verzi publikované veřejně organizací ROPID, ale byl doplněn o tzv. hraniční pásma,
+Implementace tvorby tarifních pásem byla vytvářena jako experimentální verze pluginu 2.0. Výsledek
+byl tvořen jako volitelný výstup pluginu ve formě vektorové vrstvy se symbologií jednotlivých tarifních pásem.
+Výsledný průběh tarifních pásem byl podobný oficiální verzi publikované veřejně organizací ROPID, ale byl doplněn o tzv. hraniční pásma,
 která pokrývala větší seskupení hraničních zastávek. Pro ostatní nepokryté hraniční zastávky 
 se nepodařil najít způsob, jak je napřímo propojit s hranicemi tarifních pásem.
 
 Jak již bylo zmíněno, proces pluginu pro vytváření tarifních pásem nezvládá správně zpracovat hraniční zastávky.
-Zároveň pro oblasti, ve kterých jsou umístěny zastávky velmi vzácně, vzníkají "díry" mezi tarifními pásmy.
-Tyto "díry" se ve snaze pro lepší tvar eliminovaly, ale kvůli tomu vznikl další problém překrývajících se tarifních pásem.
+Zároveň pro oblasti, ve kterých jsou umístěny zastávky velmi vzácně, vznikají \uv{díry} mezi tarifními pásmy.
+Tyto \uv{díry} se ve snaze pro lepší tvar eliminovaly, ale kvůli tomu vznikl další problém překrývajících se tarifních pásem.
 Každopádně pro lepší tvar je potřeba manuální editace vektorové vrstvy.
 
-%% ML: prvni vetu preformulejte
-Také bylo dáno pracovníky organizace ROPID pravidlo o "nerozřezávání" obcí na hranicích tarifních pásem,
-což znamená vyhýbání se hranic tarifních pásem větší zastavěné oblasti.
-%% ML: neuvadel bych to jako duvod, proc jste od toho upustil. Nebylo to prani ze strany ROPIDu?
-Po zjištění, že oficiální veřejná tarifní pásma publikována stejnojmennou organizací toto také nesplňují,
-bylo z tohoto pravidla upuštěno. Současně pro realizaci tohoto pásma by byla potřeba načítat vektorové vrstvy
-%% ML: dotcenych obci
-obcí ČR, což by razantně zvýšilo datovou náročnost pluginu.
+Zaměstnanci organizace ROPID bylo dáno pravidlo o nekřížení se intravilánu obce s hranicemi tarifních pásem.
+Toto pravidlo mělo mít za následek vyhýbání se hranic tarifních pásem s většími zastavěnými oblastmi.
+Později kvůli obtížnosti s uskutečněním tohoto pravidla bylo upuštěno na přání ze strany pracovníků z organizace ROPID.
+Současně pro realizaci tohoto pravidla by bylo potřeba načítat vektorové vrstvy
+dotčených obcí ČR, což by razantně zvýšilo datovou náročnost pluginu.
 
-%% ML: Jaky postup? Specifikujte presneni (Postup navrzeny v ramci DP, a pod)...
-Tento postup není rozhodně ideální a je na něm co vylepšovat. Předmět úpravy a vylepšení pluginu
-%% ML: vynechte expresivni vyrazy typu "tak ci tak"
+Postup navržený v rámci diplomové práce není rozhodně ideální a je na něm co vylepšovat. Předmět úpravy a vylepšení pluginu
 %% ML: pridejte odkaz na repozitar (a konretni vetev)
-se může stát dalším tématem semestrálních či závěrečných prací. Tak či tak zdrojový kód
+se může stát dalším tématem semestrálních či závěrečných prací. Zdrojový kód
 je již nyní veřejně přístupný v repozitáři pluginu a může k němu kdokoliv přidávat
 návrhy na vylepšení.  
 
