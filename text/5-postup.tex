@@ -352,7 +352,7 @@ které se bohužel nedaly dál použit a tento postup byl zavrhnut.
 	\label{fig:concave_hull_upravena}              
 \end{figure}
 
-Od pracovníků z ROPIDu mi byl navrhnut postup, jak tento problém alespoň částečně vyřešit. Pro hraniční zastávky se stejnou hodnotou \textit{zone\_id}, 
+Od pracovníků z organizace ROPID mi byl navrhnut postup, jak tento problém alespoň částečně vyřešit. Pro hraniční zastávky se stejnou hodnotou \textit{zone\_id}, 
 které leží ve své vzájemné blízkosti, vytvořit vlastní tarifní pásmo. Takový postup byl mnohem lépe uchopitelnější, než ten předchozí uvedený, který nebyl povedený.
 
 Uložená vetorová vrstva hraničních zastávek z kapitoly \ref{vyhlazeni} byla s vektorovou vrstvou Voronoi polygonů
@@ -368,11 +368,12 @@ seskupených s jednou geometrií a výstupem vektorová vrstva s více geometrie
 Důvodem tohoto kroku byl úmysl spočítat počet zastávek, které ležely na území každého polygonu. Poté určit hranici
 součtu zastávek a vymazat ty polygony, které je nesplňují.
 
-Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva rozdělených polygonů nástrojem \textit{Multipart to singleparts}
-a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr Count field name, který určoval název nového pole
-s datovým typem celého čísla,
-který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. Kromě nového pole vypadala výstupní vektorová vrstva stejně
-jako vstupní vektorová vrstva polygonů.
+Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva 
+rozdělených polygonů nástrojem \textit{Multipart to singleparts}
+a vektorová vrstva hraničních zastávek. Mimo jiných volitelných parametrů se v nástroji nacházel i parametr 
+Count field name, který určoval název nového pole s datovým typem celého čísla,
+který přibyl na výstupu nástroje. Výchozí název tohoto parametru \textit{NUMPOINTS} byl ponechán. 
+Kromě nového pole vypadala výstupní vektorová vrstva stejně jako vstupní vektorová vrstva polygonů.
 
 Poté podle atributového dotazu bylo rozhodnuto, jaké polygony z vektorové vrstvy polygonů vybrat do nové vektorové vrstvy.
 Tento atributový dotaz vypadal následovně: 
@@ -433,7 +434,7 @@ pro obarvování pásem. To bylo provedeno díky instanci třídy \textit{QgsSym
 \textit{defaultSymbol} a \textit{setColor}. Taktéž díky instancím tříd\textit{QgsRendererCategory}
 a \textit{QgsCategorizedSymbolRenderer}.
 
-Barvy, kterými jsou výsledná tarifní pásma obarvena a které jsou zobrazeny na obrázku \ref{fig:vysledek} byly převzaty
+Barvy, kterými jsou výsledná tarifní pásma obarvena a které jsou zobrazeny na obrázku \ref{fig:vysledek}, byly převzaty
 ze schématu tarifních pásem Pražské integrované dopravy (viz \ref{fig:pasma-schema}).  
 
 \begin{figure}[H] \centering
