@@ -1,18 +1,19 @@
-\chapter*{Dodatek}
-\addcontentsline{toc}{chapter}{Dodatek}
-\markboth{DODATEK}{}
+\chapter{Dodatek}
 \label{dodatek}
 
 \section{Instalace pluginu}
 
 Popis instalace pluginu je uveden pro software QGIS nastavený v anglickém jazyce. 
 
-\subsection{Instalace pluginu skrz QGIS repozitář}
+\subsection{Instalace pluginu pomocí QGIS repozitáře}
 
-Pro nainstalování pluginu \textit{GTFS Loader} v softwaru QGIS se nejprve přes menu vybere 
+Pro nainstalování pluginu \textit{GTFS Loader} v softwaru QGIS se nejprve vybere přes menu 
 panel \textit{Plugins} a poté z nabídky panelu se vybere možnost \textit{Manage and Install Plugins...}.
-Poté se otevře dialogové okno pro výběr instalace pluginu z QGIS repozitáře, zadá se název
-plugin a stiskne se tlačítko \textit{Install Plugin} 
+Dále se otevře dialogové okno pro výběr instalace pluginu z QGIS repozitáře, zadá se název
+plugin a stiskne se tlačítko \textit{Install Plugin}.
+
+V QGIS repozitáři je aktuálně uložena verze plugine 1.0, která nedisponuje vytvářením
+tarifních pásem.  
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures-dodatek/repositary.png}
@@ -20,10 +21,19 @@ plugin a stiskne se tlačítko \textit{Install Plugin}
 	\label{fig:repositary}              
 \end{figure} 
 
-\subsection{Instalace pluginu skrz ZIP soubor}
+\subsection{Instalace pluginu pomocí ZIP souboru}
 
-\href{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
-{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
+K nainstalování experimentální verze pluginu 2.0 je třeba zvolit jiný postup.
+Z uvedeného odkazu \href{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
+{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}, který směřuje na repozitář
+pluginu \textit{GTFS Loader} ve službě GitHub, je potřeba stáhnout komprimovaný ZIP soubor. 
+To se provede tak, že se rozklikne tlačítko \textit{Code} a následně se vybere možnost
+\textit{Download ZIP}.  
+
+Pro načtení ZIP souboru v softwaru QGIS je potřeba otevřít stejné dialogové okno,
+jako při instalaci pomocí QGIS repozitáře, ale následně se vybere možnost \textit{Install from ZIP}. 
+Do uvedeného pole se zadá celá cesta ke staženému ZIP souboru a poté se stiskne tlačítko
+\textit{Install Plugin}.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures-dodatek/zip.png}
@@ -31,3 +41,29 @@ plugin a stiskne se tlačítko \textit{Install Plugin}
 	\label{fig:zip}              
 \end{figure} 
 
+\section{Použití pluginu pro vytvoření tarifních pásem}
+
+Po instalaci se objeví plugin \textit{GTFS Loader} v panelu \textit{Plugins} anebo jako ikona pluginu
+v panelu nástrojů. Po stisknutí ikony se v levém dolním rohu objeví dialogové okno pluginu.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=200pt]{./pictures-dodatek/plugin.png}
+    \caption[Dialogové okno pluginu GTFS Loader]{Dialogové okno pluginu GTFS Loader}
+	\label{fig:gtfs_loader}              
+\end{figure} 
+
+Do pole s popiskem \textit{Select File} se musí vyplnit kompletní cesta k GTFS ZIP souboru (
+pro vytváření pásem pouze k PID\_GTFS ZIP souboru). Dále stačí stisknout tlačítko \textit{Load}.
+Následně se zobrazí další dialogové okno, zda uživatel chce vytvořit tarifní pásma. Stiskne se
+\textit{Yes} a proces plugin již běží na pozadí. Délka času tvorby závisí na výkonu počítače. 
+Během procesu uživatel vidí informace o progresu v ukazateli průběhu (Progressbar). 
+
+Po načtení dat se v mapovém okně zobrazí kromě vrstvy \textit{shapes} a \textit{stops} i vrstva 
+\textit{zones}. Na obrázku \ref{fig:gtfs_loader_vysledek} je vrstva \textit{zones}
+jako nejníže položená. Tyto vrstvy jsou se stejným názvem uloženy i v seznamu vrstev ve skupinách.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures-dodatek/visualization.png}
+    \caption[Výsledek procesu pluginu]{Výsledek procesu pluginu}
+	\label{fig:gtfs_loader_vysledek}              
+\end{figure} 

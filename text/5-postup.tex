@@ -7,16 +7,13 @@ Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou zák
 funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do systému QGIS,
 rozbalení ZIP souboru, načtení CSV souborů do geodatabázového formátu GeoPackage (dále GPKG),
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
-obarvení vektorové vrty \textit{shapes.txt} a vložení do CSV souborů a vrstev do
-%% ML: poznamku pod carou bych vynechal a rovnou napsal "do CSV souboru a vektorovych vrstev do projektu QGIS".
-\textit{layer tree} \footnote{součást systému QGIS odpovědná za zobrazení seznamu vrstev}.
+symbologie vektorové vrstvy \textit{shapes} a vložení CSV souborů a vrstev do projektu QGIS.
 
 %% ML: pridejte screenshot celeho pluginu/QGISu (nikde se neobjevuje)
 
-%% ML: spise tam byly nedostatky, ktere bylo nutne pred zverejnenim pluginu vyresit
-Avšak pro uvedení do \uv{ostrého} provozu musel být plugin více uživatelsky přívětivější.
-Proto byl veškerý proces přesunut na pozadí, aby celý QGIS program \uv{nezamrzal} a
-mohla se při jeho výpočtech provádět i jiné akce. To se provedlo díky Python třídě \textit{QgsTask}
+Plugin obsahoval nedostatky, které bylo nutné před zveřejněním v QGIS repozitáři vyřešit. 
+Proto byl veškerý proces přesunut na pozadí, aby celý QGIS software \uv{nezamrzal} a
+mohly se při jeho výpočtech provádět i jiné akce. To se provedlo díky třídě programovacího jazyka Python \textit{QgsTask}
 a jejím metodám, které byly zděděny z této třídy. \cite{QgsTask}
 
 Pro zobrazování procesu během výpočtu byla použita třída \textit{QProgressBar} a její metody.
@@ -24,7 +21,7 @@ Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s c
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/loading.png}
-    \caption[ProgressBar]{ProgressBar v liště systému QGIS}
+    \caption[Ukazatel průběhu (ProgressBar) v liště systému QGIS]{Ukazatel průběhu (ProgressBar) v liště systému QGIS}
 	\label{fig:ProgressBar v liště systému QGIS}              
 \end{figure}     
 
