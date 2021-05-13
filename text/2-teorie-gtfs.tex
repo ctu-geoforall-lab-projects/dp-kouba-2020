@@ -1,9 +1,9 @@
 \chapter{GTFS}
 \label{2-teorie-gtfs}
 
-General Transit Feed Specification, zkráceně GTFS, je dokument, který definuje
+General Transit Feed Specification, zkráceně \zk{GTFS}, je dokument, který definuje
 obecný formát pro jízdní řády veřejné dopravy a příbuzné geografické informace.
-GTFS „feeds“ umožňují veřejným dopravním agenturám zveřejňovat svá přepravní
+GTFS \uv{feeds} umožňují veřejným dopravním agenturám zveřejňovat svá přepravní
 data a vývojářům psát aplikace, které tato data spotřebovávají interoperabilním
 způsobem neboli vícesystémovým mezinárodním provozuschopným způsobem. \cite{gtfs-info}
 
@@ -38,38 +38,38 @@ aby přesně reprezentoval jeho použití v mnoha různých aplikacích mimo pro
 % doplnit něco o historii GTFS 
 
 \section{GTFS dataset}
-GTFS \uv{feed} nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní URL adrese}
-je ZIP soubor, který obsahuje CSV soubory.
+GTFS \uv{feed} nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní \zk{URL} adrese}
+je \zk{ZIP} soubor, který obsahuje \zk{CSV} soubory.
 
-CSV, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
-souborový formát určený pro výměnu tabulkových dat. Data jsou oddělována „oddělovačem“.
+\zk{CSV}, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
+souborový formát určený pro výměnu tabulkových dat. Data jsou oddělována \uv{oddělovačem}.
 Ačkoli podle definice by měl být formát oddělen čárkami, oddělovač může být prakticky cokoli. 
-Nejčastějšími oddělovači jsou právě čárky, středníky nebo mezery. CSV soubor se 
+Nejčastějšími oddělovači jsou právě čárky, středníky nebo mezery. \zk{CSV} soubor se 
 může upravovat v jakémkoliv textovém editoru.
 
 \begin{figure}[H] \centering
     \includegraphics[width=250pt]{./pictures/ukazka-csv.PNG}
-    \caption[Ukázka CSV formátu ze souboru shapes.txt]{Ukázka CSV formátu ze souboru shapes.txt}
+    \caption[Ukázka \zk{CSV} formátu ze souboru shapes.txt]{Ukázka \zk{CSV} formátu ze souboru shapes.txt}
 	\label{fig:ukazka-csv}              
 \end{figure}
 
-V GTFS datasetu může být v současné době až 17 CSV souborů v textové podobě. Slovem \uv{může} je myšleno to,
-že některé CSV soubory jsou požadované či podmíněně požadované a jiné volitelné.
-Jaké CSV soubory obsahuje dataset záleží na konkrétním dopravním systému, který
+V GTFS datasetu může být v současné době až 17 \zk{CSV} souborů v textové podobě. Slovem \uv{může} je myšleno to,
+že některé \zk{CSV} soubory jsou požadované či podmíněně požadované a jiné volitelné.
+Jaké \zk{CSV} soubory obsahuje dataset záleží na konkrétním dopravním systému, který
 tento dataset vytváří.
 
-Termín \uv{požadované} znamená, že daný CSV soubor se musí nacházet v GTFS datasetu nebo dané pole
-se musí nacházet v CSV souboru a v tomto poli musí být uvedena hodnota pro každý záznam. 
+Termín \uv{požadované} znamená, že daný \zk{CSV} soubor se musí nacházet v GTFS datasetu nebo dané pole
+se musí nacházet v \zk{CSV} souboru a v tomto poli musí být uvedena hodnota pro každý záznam. 
 
 %přidat referenci na podmínky?
-Termín \uv{podmíněně} požadované" znamená, že daný CSV soubor nebo pole je vyžadován za určitých podmínek, 
+Termín \uv{podmíněně} požadované" znamená, že daný \zk{CSV} soubor nebo pole je vyžadován za určitých podmínek, 
 které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
 
-Termín \uv{volitelné} znamená, že daný CSV soubor nebo pole může být vynecháno. V případě zahrnutí 
+Termín \uv{volitelné} znamená, že daný \zk{CSV} soubor nebo pole může být vynecháno. V případě zahrnutí 
 volitelného pole mohou být některé položky prázdné řetězce, což je ekvivalentní s prázdným
 polem.
 
-V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny CSV soubory,
+V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny \zk{CSV} soubory,
 které v současnosti v GTFS datasetu mohou být.
 
 \newcolumntype{s}{>{\centering\arraybackslash\columncolor[HTML]{CCFFCC}} m{5cm}}
@@ -93,23 +93,23 @@ které v současnosti v GTFS datasetu mohou být.
   \hline      
 \end{tabular}
 \end{center}
-\caption{Seznam CSV souborů v GTFS datasetu}
+\caption{Seznam \zk{CSV} souborů v GTFS datasetu}
 \label{table:csv-soubory}
 \end{table}
 
-Každý CSV soubor v GTFS datasetu má v prvním řádku názvy polí, do kterých je tento
+Každý \zk{CSV} soubor v GTFS datasetu má v prvním řádku názvy polí, do kterých je tento
 soubor rozřazen. Jednotlivá pole mají různý datové typy, které jsou barva, kód měny, 
-datum, email, enum (výčet), ID, kód jazyka, zeměpisná délka, zeměpisná šířka,
+datum, email, enum (výčet), \zk{ID}, kód jazyka, zeměpisná délka, zeměpisná šířka,
 nezáporné číslo s plovoucí desetinnou čárkou, nezáporné celé číslo, telefonní číslo,
-čas, text, časové pásmo a URL adresa.
+čas, text, časové pásmo a \zk{URL} adresa.
 
-Jedno z nejdůležitějších polí je pole s datovým typem ID, což je hodnota jednoznačně určující každý záznam.
-Právě tento datový typ umožňuje propojení jednotlivých CSV souborů mezi sebou. ID může být
-sekvence libovolných UTF-8 znaků. Pole s datovým typem ID se označují nakonci názvu s
+Jedno z nejdůležitějších polí je pole s datovým typem \zk{ID}, což je hodnota jednoznačně určující každý záznam.
+Právě tento datový typ umožňuje propojení jednotlivých \zk{CSV} souborů mezi sebou. \zk{ID} může být
+sekvence libovolných UTF-8 znaků. Pole s datovým typem \zk{ID} se označují na konci názvu s
 \uv{\_id}. Na následujícím obrázku \ref{fig:GTFS-diagram} je toto propojení zobrazeno pomocí diagramu.
 
 %přidat referenci na podmínky?
-Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole v daném CSV souboru
+Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole v daném \zk{CSV} souboru
 jsou požadované, podmíněně požadované nebo volitelné. 
 
 \begin{figure}[H] \centering
@@ -128,7 +128,7 @@ nebo enum, což jsou předem definované konstanty.
 Soubor \textit{stops.txt} se skládá ze 14 polí, z čehož 6 polí je požadovaných nebo podmíněně požadovaných 
 a zbytek volitelných. Samotný soubor je požadovaný a měl by se nacházet v každém GTFS datasetu.
 
-Prvním polem je vždy zpravidla \textit{stop\_id}, které je požadované a má datový typ ID.
+Prvním polem je vždy zpravidla \textit{stop\_id}, které je požadované a má datový typ \zk{ID}.
 Tato hodnota jednoznačně určuje každou zastávku. Pro PID\_GTFS, což je GTFS dataset Pražské integrované dopravy,
 se pole \textit{stop\_id} skládá z kombinace písmen a čísel v souvislosti s typem spoje.
 
@@ -153,29 +153,29 @@ které poskytuje užitečné a kvalitní informace.
 Pátým a šestým polem je \textit{stop\_lat} a \textit{stop\_lon} s datovým typem zeměpisná šířka a délka
 obsahující přesně tyto dvě hodnoty. Tyto dvě pole jsou podmíněně požadované kvůli poli \textit{location\_type}.
 
-Sedmým polem s datovým typem ID je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
-Je podmíněně požadované kvůli CSV souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
-Pokud záznam v CSV souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
+Sedmým polem s datovým typem \zk{ID} je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
+Je podmíněně požadované kvůli \zk{CSV} souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
+Pokud záznam v \zk{CSV} souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
 
-Osmým polem je volitelný \textit{stop\_url} s URL adresou na webovou stránku o místě záznamu.
+Osmým polem je volitelný \textit{stop\_url} s \zk{URL} adresou na webovou stránku o místě záznamu.
 
 Deváté pole je \textit{location\_type} a bylo vysvětleno společně s třetím polem.
 
 Desátým polem je podmíněně požadované pole \textit{parent\_station} opět kvůli propojení s polem \textit{location\_type}.
-Má datový typ ID odkazující na pole \textit{stop\_id} a definuje hierarchii mezi různými místy definovanými v \textit{stops.txt}. 
-a obsahuje ID nadřazeného umístění.
+Má datový typ \zk{ID} odkazující na pole \textit{stop\_id} a definuje hierarchii mezi různými místy definovanými v \textit{stops.txt}. 
+a obsahuje \zk{ID} nadřazeného umístění.
 
 Poslední čtyři pole jsou volitelné. Prvním z nich je \textit{stop\_timezone} s datovým typem časového pásma,
 \textit{wheelchair\_boarding} s datovým typem enum, které označuje, zda je z daného místa možné nastupovat na invalidní vozík.
-Předposlední je \textit{level\_id} s datovým typem ID odkazující na soubor \textit{levels.txt} defi\-nující úroveň
+Předposlední je \textit{level\_id} s datovým typem \zk{ID} odkazující na soubor \textit{levels.txt} defi\-nující úroveň
 umístění zastávky a poslední je \textit{platform\_code} s datovým typem text, 
 což je identifikátor platformy pro zastávku patřící stanici.
 
-Všechny tyto pole mají pevné pořadí a nesmí se přeházet. Na obrázku \ref{fig:stops} je ukázka CSV souboru \textit{stops.txt}
+Všechny tyto pole mají pevné pořadí a nesmí se přeházet. Na obrázku \ref{fig:stops} je ukázka \zk{CSV} souboru \textit{stops.txt}
 pro PID\_GTFS dataset, kde nejsou využívány všechny volitelné pole.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/stops.PNG}
-    \caption[Ukázka CSV souboru stops.txt pro PID\_GTFS dataset]{Ukázka CSV souboru stops.txt pro PID\_GTFS dataset}
+    \caption[Ukázka \zk{CSV} souboru stops.txt pro PID\_GTFS dataset]{Ukázka \zk{CSV} souboru stops.txt pro PID\_GTFS dataset}
 	\label{fig:stops}              
 \end{figure} 

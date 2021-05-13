@@ -2,14 +2,21 @@
 \label{5-postup}
 
 \section{Aktualizace pluginu do verze 1.0}
-Po dokončení pluginu v předmětu Free Software GIS měl plugin veškerou základní
-%% ML pridejte odkaz na git repositar semestralniho projektu
-funkcionalitu, kterou měl mít. Tou bylo načítání GTFS ZIP souboru do systému QGIS,
-rozbalení ZIP souboru, načtení CSV souborů do geodatabázového formátu GeoPackage (dále GPKG),
+Po dokončení pluginu \textit{GTFS Loader} v předmětu Free Software GIS měl plugin veškerou základní
+funkcionalitu, kterou měl mít (odkaz na plugin \href{https://github.com/ctu-fgis/2020-b-qgis-gtfs-plugin}
+{\underline{zde}}). 
+Tou bylo načítání GTFS ZIP souboru do systému QGIS,
+rozbalení ZIP souboru, načtení \zk{CSV} souborů do geodatabázového formátu GeoPackage (dále GPKG),
 vytvoření vektorových vrstev pro soubory \textit{stops.txt} a \textit{shapes.txt},
-symbologie vektorové vrstvy \textit{shapes} a vložení CSV souborů a vrstev do projektu QGIS.
+symbologie vektorové vrstvy \textit{shapes} a vložení \zk{CSV}  souborů a vrstev do projektu QGIS.
 
-%% ML: pridejte screenshot celeho pluginu/QGISu (nikde se neobjevuje)
+\begin{figure}[H] \centering
+    \includegraphics[width=100pt]{./pictures/logo-plugin.png}
+    \caption[Logo pluginu GTFS Loader]{Logo pluginu GTFS Loader}
+	\label{fig:logo-plugin}              
+\end{figure}   
+
+%% ML: pridejte screenshot celeho pluginu/QGISu (nikde se neobjevuje) MK: v dodatku
 
 Plugin obsahoval nedostatky, které bylo nutné před zveřejněním v QGIS repozitáři vyřešit. 
 Proto byl veškerý proces přesunut na pozadí, aby celý QGIS software \uv{nezamrzal} a
@@ -25,7 +32,6 @@ Zobrazení postupu bylo implementováno do lišty zpráv systému QGIS spolu s c
 	\label{fig:ProgressBar v liště systému QGIS}              
 \end{figure}     
 
-%% ML: verze pluginu 2.0, jinak je to matouci
 \section{Tvorba vizualizace tarifních pásem (experimentální verze pluginu 2.0)}
 
 V následujících podkapitolách je uveden postup tvorby rozšíření pluginu.
@@ -75,7 +81,7 @@ Instance této třídy byla vytvořena v hlavním skriptu \textit{GTFS.py}.
 \subsection{Hrubý tvar tarifních pásem}
 \label{hruby_tvar}
 
-GTFS dataset obsahuje povinný CSV soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
+GTFS dataset obsahuje povinný \zk{CSV} soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo klíčové při tvorbě tarifních pásem.
 Pole \textit{zone\_id} má datový typ \textit{řetězec} a znamená, ve kterém tarifním
 pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
@@ -173,7 +179,7 @@ Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi
 Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
 for cyklu pro tarifní pásma 1 až 9. 
 
-Opět ty zástávky, které ležely v určitém pásmu, byly vyhledány pomocí metody \textit{selectByExpression} třídy 
+Opět ty zastávky, které ležely v určitém pásmu, byly vyhledány pomocí metody \textit{selectByExpression} třídy 
 \textit{QgsVectorLayer}. Pro zastávky tarifních pásem 1 až 6 to bylo provedeno pomocí dotazu:
 
 \["zone\_id"\ <=\ "ID\: pasma"\ AND\ "zone\_id"\ !=\ '-'\ AND\ "location\_type" = 0\]  
@@ -210,8 +216,8 @@ V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen p
 \label{vyhlazeni}
 
 Pro vytvoření kartograficky přesných a vizuálně přijatelnějších tarifních pásem dosavadní postup nestačil.
-V datasetu PID\_GTFS souboru \textit{stops.txt} existovaly takové zastávky, které měly tarifní pásmo sdílené
-na rozhraní pásem. Těmito zastávkami měli podle pravidel organizace ROPID tarifní pásma procházet.
+V souboru \textit{stops.txt} datasetu PID\_GTFS existovaly takové zastávky, které měly tarifní pásmo sdílené
+na rozhraní pásem. Těmito zastávkami měla podle pravidel organizace ROPID tarifní pásma procházet.
 
 Musel být navržen další průběh úpravy dosavadního tvaru tarifních pásem, který takovou podmínku zahrnuje
 a zároveň vyhlazuje tvar polygonů pro lepší vizuální tvar.  
@@ -281,10 +287,10 @@ zaplnění děr v tarifních pásmech 6 a nižších.
 \end{figure} 
 
 Z konkávní obálky byla pomocí nástroje Simplify \uv{zjednodušena} geometrie polygonové vrstvy. Tento nástroj
-využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus „Douglas-Peucker“),
-založené na ploše (algoritmus „Visvalingam“) a přichytávání geometrií k mřížce.
+využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus \uv{Douglas-Peucker}),
+založené na ploše (algoritmus \uv{Visvalingam}) a přichytávání geometrií k mřížce.
 
-Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu „Douglas-Peucker“ viz kapitola \ref{generalizace_zjemneni}.
+Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu \uv{Douglas-Peucker} viz kapitola \ref{generalizace_zjemneni}.
 
 
 Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave hull (alpha shapes)}, parametrem byl výběr algoritmu 
@@ -301,7 +307,7 @@ liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz kapitola \ref{
 
 U nástroje \textit{Smooth} byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.
-Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co nevětší hladkost).
+Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co největší hladkost).
 Parametr offset znamená, jak \uv{těsně} vyhlazené geometrie sledují původní geometrie.
 Zde byla ponechána výchozí hodnota 0,25. A poslední parametr maximálního úhlu lze použít
 k zabránění vyhlazení uzlů s velkými úhly. Zde byla také ponechána výchozí hodnota 180°.
@@ -317,7 +323,7 @@ Zde je souhrnně zobrazen postup této části pomocí Grafického modeláře na
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-smooth.png}
-    \caption[Postup pro zjemnění tvaru tarfních pásem]{Postup pro zjemnění tvaru tarfních pásem}
+    \caption[Postup pro zjemnění tvaru tarifních pásem]{Postup pro zjemnění tvaru tarifních pásem}
 	\label{fig:postup-smooth}              
 \end{figure}
 
@@ -341,7 +347,7 @@ parametr nástroje \textit{Concave hull (alpha shapes)}) násobek maximálního 
 K těmto trojúhelníkům byly přidány i ty trojúhelníky, které mají vrchol společný s jakýmkoliv hraničním bodem.
 
 Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou tam vznikly mezery, 
-které se bohužel nedaly dál použit a tento postup byl zavrhnut.
+které se bohužel nedaly dál použit a tento postup byl zavržen.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/concave_hull_upravena.png}
@@ -352,7 +358,7 @@ které se bohužel nedaly dál použit a tento postup byl zavrhnut.
 Od pracovníků z organizace ROPID mi byl navrhnut postup, jak tento problém alespoň částečně vyřešit. Pro hraniční zastávky se stejnou hodnotou \textit{zone\_id}, 
 které leží ve své vzájemné blízkosti, vytvořit vlastní tarifní pásmo. Takový postup byl mnohem lépe uchopitelnější, než ten předchozí uvedený, který nebyl povedený.
 
-Uložená vetorová vrstva hraničních zastávek z kapitoly \ref{vyhlazeni} byla s vektorovou vrstvou Voronoi polygonů
+Uložená vektorová vrstva hraničních zastávek z kapitoly \ref{vyhlazeni} byla s vektorovou vrstvou Voronoi polygonů
 použita s pomocí nástroje \textit{Select by location}. Z vektorové vrstvy Voronoi polygonů byly vybrány právě ty polygony,
 které se svým umístěním protínaly s hraničními zastávkami. To bylo provedeno zvlášť pro každé zastávky na hranici tarifních pásem.
 
@@ -396,13 +402,13 @@ V dosavadním postupu byla ukládána většina polygonových vektorových vrste
 To bylo potřeba změnit z důvodu lepší manipulace s výslednou vrstvou a také kvůli zmenšení velikosti GPKG
 kvůli ušetření paměti.
 
-Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby nebyly protínány. 
+Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby nebyly prolínány. 
 Prvním parametrem tohoto nástroje byla vektorová vrstva, která překrývala druhou vektorovou vrstvu. 
 Druhým parametrem byla vektorová vrstva, která byla překrývána. Výstupem byla odečtená vrstva.
 
-To bylo provedeno for cyklem pro všechna tarfiní pásma.
+To bylo provedeno for cyklem pro všechna tarifní pásma.
 
-Takto odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
+Odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
 nástroje \textit{Merge vector layers}. Díky tomuto nástroji byly spojeny i hraniční pásma zatím odděleně od tarifních pásem.
 
 Výsledek spojení avšak obsahoval více menších polygonů se stejnými hodnotami \textit{zone\_id}.
@@ -419,7 +425,7 @@ je přehledně zobrazen postup složení v Grafickém modeláři.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-collecting.png}
-    \caption[Postup pro složení vektorových vrstev tarfních pásem]{Postup pro složení vektorových vrstev tarfních pásem}
+    \caption[Postup pro složení vektorových vrstev tarifních pásem]{Postup pro složení vektorových vrstev tarifních pásem}
 	\label{fig:postup-collecting}              
 \end{figure}
 

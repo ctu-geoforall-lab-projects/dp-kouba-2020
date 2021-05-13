@@ -3,9 +3,8 @@
 \markboth{ZÁVĚR}{}
 \label{6-zaver}
 
-%% ML: odstavec ~ dlouhe souveti, opakovani spojky "a"
 Primárním cílem této diplomové práce bylo rozšířit plugin systému QGIS 
-o automatické vytváření přesného tvaru tarifních pásem Pražské integrované dopravy, 
+o automa\-tické vytváření exaktního tvaru tarifních pásem Pražské integrované dopravy, 
 jehož referenční podoba je publikována veřejně organizací ROPID.  
 Podkladovými daty byl GTFS dataset taktéž zveřejňovaný organizací ROPID.
 Mezikrokem k primárnímu cíly bylo zveřejnění pluginu do repozitáře QGIS. Sekundárním cílem bylo vytvořit schématický model pro 
@@ -13,12 +12,12 @@ informativní účely, který by se tolik neblížil k referenční podobě tari
 
 Mezikrok nutný pro pokračování vývoje byl splněn ve formě aktualizace na verzi pluginu 1.0.
 V této aktualizaci byly opraveny některé chyby, doplněno uživatelské rozhraní a proces pluginu přeložen na pozadí. 
-Následné byl publikován v oficiálním repozitáři systému QGIS s názvem pluginu \textit{GTFS Loader}. 
+Následné byl publikován v oficiálním repozitáři systému QGIS s názvem \textit{GTFS Loader}. 
 K 12.5.2021 bylo v záložce \textit{Plugins} uvedeno 412 unikátních stáhnutí pluginu.
 
 Implementace tvorby tarifních pásem byla vytvářena jako experimentální verze pluginu 2.0. Výsledek
 byl tvořen jako volitelný výstup pluginu ve formě vektorové vrstvy se symbologií jednotlivých tarifních pásem.
-Výsledný průběh tarifních pásem byl podobný oficiální verzi publikované veřejně organizací ROPID, ale byl doplněn o tzv. hraniční pásma,
+Výsledný průběh tarifních pásem byl podobný oficiální verzi publikované veřejně organizací ROPID, ale byl doplněn o tzv. hraniční tarifní pásma,
 která pokrývala větší seskupení hraničních zastávek. Pro ostatní nepokryté hraniční zastávky 
 se nepodařil najít způsob, jak je napřímo propojit s hranicemi tarifních pásem.
 
@@ -29,13 +28,13 @@ Každopádně pro lepší tvar je potřeba manuální editace vektorové vrstvy.
 
 Zaměstnanci organizace ROPID bylo dáno pravidlo o nekřížení se intravilánu obce s hranicemi tarifních pásem.
 Toto pravidlo mělo mít za následek vyhýbání se hranic tarifních pásem s většími zastavěnými oblastmi.
-Později kvůli obtížnosti s uskutečněním tohoto pravidla bylo upuštěno na přání ze strany pracovníků z organizace ROPID.
+Později bylo kvůli obtížnosti s uskutečněním tohoto pravidla upuštěno na přání ze strany pracovníků z organizace ROPID.
 Současně pro realizaci tohoto pravidla by bylo potřeba načítat vektorové vrstvy
 dotčených obcí ČR, což by razantně zvýšilo datovou náročnost pluginu.
 
 Postup navržený v rámci diplomové práce není rozhodně ideální a je na něm co vylepšovat. Předmět úpravy a vylepšení pluginu
-%% ML: pridejte odkaz na repozitar (a konretni vetev)
 se může stát dalším tématem semestrálních či závěrečných prací. Zdrojový kód
-je již nyní veřejně přístupný v repozitáři pluginu a může k němu kdokoliv přidávat
+je již nyní veřejně přístupný v repozitáři pluginu (odkaz \href{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
+{\underline{zde}}) a může k němu kdokoliv přidávat
 návrhy na vylepšení.  
 

@@ -16,7 +16,7 @@ která vytvoří troj\-úhelníky mezi body tak, že uvnitř těchto trojúheln�
 už neleží žádné body a každý trojúhelník má vždy společnou jednu hranu. 
 
 %% ML: Postup triangulace (?)
-Takové triangulace se používají jak v kartografii, tak v GIS, v Dálkovém průzkumu země,
+Triangulace se používají jak v kartografii, tak v \zk{GIS}, v Dálkovém průzkumu země (\zk{DPZ}),
 počítačové grafice, při analýze vlastností a struktury materiálů, plánování pohybu robotů
 nebo při modelování přírodních jevů. \cite{bayer-delaunay}
 
@@ -28,7 +28,7 @@ a mají rozdílný výpočetní stupeň složitosti.
 které nesplňují žádnou speciální geometrickou podmínku. Její realizace je jednoduchá,
 avšak důsledkem toho jsou často tvarově nepěkné nebo nevhodné trojúhelníky. Má velkou výpočetní
 složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\). V kartografii se
-kvůli jeho složitosti často nepoužívá. \cite{vanicek}
+kvůli její složitosti často nepoužívá. \cite{vanicek}
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/triangulace-greedy.png}
@@ -89,12 +89,12 @@ Předpokladem pro úspěšně fungování je to, že množina bodů má konstant
 prostorovou hustotu bodů.
 
 Další aproximací je pomocí \textit{alpha-shapes}, kde se volí parametr alpha. Představme si obrovskou masu zmrzliny,
-která tvoří prostor \(R^3\) a obsahující body jako „tvrdé“ kousky čokolády. Pomocí jedné z těchto 
+která tvoří prostor \(R^3\) a obsahující body jako \uv{tvrdé} kousky čokolády. Pomocí jedné z těchto 
 zmrzlinových lžiček ve tvaru koule vyřezáme všechny části zmrzlinového bloku, na které se dostaneme,
 aniž bychom narazili na kousky čokolády, a tím dokonce vydlabeme otvory uvnitř 
 (např. části nedosažitelné pouhým pohybem lžíce z venku). Nakonec skončíme s 
 (ne nutně konvexním) objektem ohraničeným oblouky a body. Pokud nyní narovnáme všechny 
-„kulaté“ plochy na trojúhelníky a úsečky, máme intuitivní popis toho, co se nazývá alpha-shape. \cite{alpha-shapes}
+\uv{kulaté} plochy na trojúhelníky a úsečky, máme intuitivní popis toho, co se nazývá alpha-shape. \cite{alpha-shapes}
 
 Další strategií je kompromisní definice mezi alpha-shapes a konkávní obálkou, tzv. alpha-concave
 hull. 
@@ -119,15 +119,14 @@ Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu
 metrického prostoru určený vzdálenostmi k dané nespojité množině bodů v prostoru.
 V našem případě se bude řešit Voronoi diagram ve 2D prostoru, tedy v rovině.
 
-%% ML: Nezacinejte vetu "Takze" ci podobnym zpusobem
 %% ML: Opakujete v jedne vete "Voronoi diagram", prepiste
-Na vstupu \textit{Voronoi diagramu} je nějaká množina bodů a výstupem je \textit{Voronoi diagram}, 
+Na vstupu je nějaká množina bodů a výstupem je \textit{Voronoi diagram}, 
 což představuje takovou množinu buněk, pro které bude platit, že každý bod
-\textit{q} nálěžící množině \textit{V(p\textsubscript{i})} je blíže k bodu
+\textit{q} náležící množině \textit{V(p\textsubscript{i})} je blíže k bodu
 \textit{p\textsubscript{i}} než k jakémukoliv
 bodu \textit{p\textsubscript{j}} náležící množině \textit{P}.  \cite{bayer-voronoi}
 
-Pro lepší chápání \textit{Voronoi diagramů} je potřeba si vysvětlit jeji terminologii.
+Pro lepší chápání \textit{Voronoi diagramů} je potřeba si vysvětlit její terminologii.
 Vstup\-ní množinu bodů nazýváme generátory, každý bod generuje jednu Voronoi buňku. V 
 terminologii GIS se hovoří o tzv. Voronoi polygony. Tyto Voronoi buňky jsou tvořeny hranami,
 které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voronoi diagram.  
@@ -199,14 +198,12 @@ Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hr
 generalizovat. Následně se hranice zjemní. K tomu existuje mnoho algoritmů, ale bude zde uvedeno
 jen několik vhodných a nejpoužívanějších.
 
-%% ML: Obecne, dejte si pozor na opakovani slov v jedne vete. Zde je slovo "algoritmus" na jednom radku hned 3x
-Prvním algoritmem je generalizační algoritmus \textit{Douglas-Peucker}. Algoritmus rekurzivně rozděluje čáru.
+Jedním z nich je generalizační algoritmus \textit{Douglas-Peucker}. Algoritmus rekurzivně rozděluje čáru.
 Zpočátku jsou uvedeny všechny body mezi prvním a posledním bodem. Automaticky označí první a poslední bod,
 který se má zachovat. Poté najde bod, který je nejvzdálenější od úsečky s prvním a posledním bodem 
 jako koncovými body. Tento bod je zjevně nejvzdálenější na křivce od přibližné úsečky mezi koncovými body. 
 Pokud je bod blíže k úsečce, než volitelný parametr epsilon, mohou být všechny body, které nejsou aktuálně označeny jako zachované,
-%% ML: "horsi" ?
-zahozeny, aniž by zjednodušená křivka byla horší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
+zahozeny, aniž by rozměr zjednodušené křivky byl menší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
 musí být tento bod zachován. Algoritmus rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
 a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný.
 %% ML: proc "nejlepsi"?
@@ -215,7 +212,7 @@ implementován v GIS softwarech. \cite{bayer-douglas}
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/douglas.png}
-    \caption[Znázornění algoritmu „Douglas-Peucker“]{Znázornění algoritmu „Douglas-Peucker“ \cite{bayer-douglas}}
+    \caption[Znázornění algoritmu \uv{Douglas-Peucker}]{Znázornění algoritmu \uv{Douglas-Peucker} \cite{bayer-douglas}}
 	\label{fig:douglas}              
 \end{figure} 
 
