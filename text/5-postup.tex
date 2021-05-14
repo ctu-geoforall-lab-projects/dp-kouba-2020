@@ -75,7 +75,7 @@ pásem anebo nepovolí a proces běží jako ve verzi pluginu 1.0.
 	\label{fig:dialog}                                
 \end{figure}
 
-Kvůli přehlednosti byl založen nový skript v programovacím jazyce Python \textit{zones.py} se třídou GtfsZones. 
+Kvůli přehlednosti byl založen nový skript \textit{zones.py} v programovacím jazyce Python se třídou GtfsZones. 
 Instance této třídy byla vytvořena v hlavním skriptu \textit{GTFS.py}.
 
 \subsection{Hrubý tvar tarifních pásem}
@@ -83,8 +83,8 @@ Instance této třídy byla vytvořena v hlavním skriptu \textit{GTFS.py}.
 
 GTFS dataset obsahuje povinný \zk{CSV} soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo klíčové při tvorbě tarifních pásem.
-Pole \textit{zone\_id} má datový typ \textit{řetězec} a znamená, ve kterém tarifním
-pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do vektorové vrstvy
+Pole \textit{zone\_id} má datový typ \textit{řetězec} a znamená, ve kterém ta\-rifním
+pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do~vektorové vrstvy
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
 diagramů nástrojem \textit{Voronoi polygons} v programu QGIS. 
 
@@ -238,12 +238,13 @@ Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
 Dále byly s pomocí třídy \textit{QgsVectorLayer} a její metody \textit{selectByExpression} vybrány 
 z původní vektorové vrstvy \textit{stops} ty zastávky, které ležely na hranici tarifních pásem.
 Takové zastávky obsahovaly v poli \textit{zone\_id} hodnoty tarifních pásem oddělené čárkami.
-Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole \textit{zone\_id} uvedena jako "1,2".
+Například pro zastávky mezi pásmem 1 a 2 byla hodnota pole \textit{zone\_id} uvedena jako \uv{1,2}.
 
 Pro tarifní pásma P, 0 a B byl použit dotaz:
 
-\["zone\_id"\ NOT\ IN\ ('P',\ '0',\ 'B',\ '1',\ '2',\ '3',\ '4',\ '5',\ '6',\ '7',\ '8',\ '9')\ AND\]
-\[("zone\_id"\ LIKE\ '\%P\%'\ OR\ "zone\_id"\ LIKE\ '\%0\%'\ OR\ "zone\_id"\ LIKE\ '\%B\%')\]
+\["zone\_id"\ NOT\ IN\ ('P',\ '0',\ 'B',\ '1',\ '2',\ '3',\ '4',\ '5',\ '6',\ '7',\ '8',\ '9')\]
+\[AND\ ("zone\_id"\ LIKE\ '\%P\%'\ OR\ "zone\_id"\ LIKE\ '\%0\%'\]
+\[OR\ "zone\_id"\ LIKE\ '\%B\%')\]
 
 Pro tarifní pásma 1 až 9 byl použit dotaz:
 \["zone\_id"\ LIKE\ "ID\: pasma\ i,ID\: pasma\ i+1"\]

@@ -1,7 +1,7 @@
 \chapter{GTFS}
 \label{2-teorie-gtfs}
 
-General Transit Feed Specification, zkráceně \zk{GTFS}, je dokument, který definuje
+General Transit Feed Specification, zkráceně GTFS, je dokument, který definuje
 obecný formát pro jízdní řády veřejné dopravy a příbuzné geografické informace.
 GTFS \uv{feeds} umožňují veřejným dopravním agenturám zveřejňovat svá přepravní
 data a vývojářům psát aplikace, které tato data spotřebovávají interoperabilním
@@ -29,7 +29,7 @@ zůstaly zdrženlivé a přístup k datům nechaly jen některým partnerům. Ke
 uvádí OpenMobilityData 1233 poskytovatelů s veřejně přístupnými kanály GTFS,
 z nichž 465 je ve Spojených státech. 
 
-V důsledku inovací vývojářů třetích stran jsou data GTFS nyní využívána různými softwarovými aplikacemi
+V důsledku inovací vývojářů třetích stran jsou data GTFS nyní využívána různý\-mi softwarovými aplikacemi
 třetích stran k mnoha různým účelům, včetně plánování výletů, map, vytváření jízdních řádů, mobilních dat,
 vizualizace, přístupnosti, analytických nástrojů pro plánování a informační systémy v reálném čase.
 V roce 2010 byl název formátu GTFS změněn na General Transit Feed Specification,
@@ -41,7 +41,7 @@ aby přesně reprezentoval jeho použití v mnoha různých aplikacích mimo pro
 GTFS \uv{feed} nebo lépe jako GTFS dataset\footnote{kolekce dat, která by měla být publikována na permanentní \zk{URL} adrese}
 je \zk{ZIP} soubor, který obsahuje \zk{CSV} soubory.
 
-\zk{CSV}, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednoduchý 
+\zk{CSV}, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednodu\-chý 
 souborový formát určený pro výměnu tabulkových dat. Data jsou oddělována \uv{oddělovačem}.
 Ačkoli podle definice by měl být formát oddělen čárkami, oddělovač může být prakticky cokoli. 
 Nejčastějšími oddělovači jsou právě čárky, středníky nebo mezery. \zk{CSV} soubor se 
@@ -62,7 +62,7 @@ Termín \uv{požadované} znamená, že daný \zk{CSV} soubor se musí nacházet
 se musí nacházet v \zk{CSV} souboru a v tomto poli musí být uvedena hodnota pro každý záznam. 
 
 %přidat referenci na podmínky?
-Termín \uv{podmíněně} požadované" znamená, že daný \zk{CSV} soubor nebo pole je vyžadován za určitých podmínek, 
+Termín \uv{podmíněně požadované} znamená, že daný \zk{CSV} soubor nebo pole je vyžadován za určitých podmínek, 
 které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
 
 Termín \uv{volitelné} znamená, že daný \zk{CSV} soubor nebo pole může být vynecháno. V případě zahrnutí 
@@ -74,7 +74,7 @@ které v současnosti v GTFS datasetu mohou být.
 
 \newcolumntype{s}{>{\centering\arraybackslash\columncolor[HTML]{CCFFCC}} m{5cm}}
 \newcolumntype{v}{>{\centering\arraybackslash\columncolor[HTML]{C4FFFD}} m{5cm}}
-
+\setlength{\arrayrulewidth}{0.3mm}
 \begin{table}[h!]
 \begin{center}
 \begin{tabular}{ |s|v| } 
@@ -110,7 +110,7 @@ sekvence libovolných UTF-8 znaků. Pole s datovým typem \zk{ID} se označují 
 
 %přidat referenci na podmínky?
 Na obrázku \ref{fig:GTFS-diagram} je taktéž tučně zobrazeno, které pole v daném \zk{CSV} souboru
-jsou požadované, podmíněně požadované nebo volitelné. 
+jsou požadované, podmíněně požadované nebo volitelné.  
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/GTFS-diagram.PNG}
@@ -135,7 +135,7 @@ se pole \textit{stop\_id} skládá z kombinace písmen a čísel v souvislosti s
 Druhým polem je volitelné pole \textit{stop\_code} v datovém typu text, což je krátký text nebo číslo, 
 které identifikuje lokaci pro řidiče. 
 
-Třetím polem je s datovým typem text \textit{stop\_name}. Jak už název napovídá, tak obsahuje název lokace. 
+Třetí pole je s datovým typem text \textit{stop\_name}. Jak už název napovídá, tak obsahuje název lokace. 
 Je podmíněně požadované kvůli dalšímu volitelnému devátému poli \textit{location\_type} s datovým typem enum, 
 které obsahuje druhy lokace.
 Toto pole je definováno pomocí čtyř konstant:

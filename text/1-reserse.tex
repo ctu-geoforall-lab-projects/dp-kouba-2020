@@ -31,7 +31,7 @@ složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\). V kartografii se
 kvůli její složitosti často nepoužívá. \cite{vanicek}
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/triangulace-greedy.png}
+    \includegraphics[width=300pt]{./pictures/triangulace-greedy.png}
     \caption[Ilustrace Greedy triangulace]{Ilustrace Greedy triangulace \cite{triangulace-greedy}}
 	\label{fig:triangulace-greedy}              
 \end{figure}
@@ -144,11 +144,11 @@ odrážkách jsou doslovně citována jejich znění z prezentace pana doc. Ing.
 \begin{itemize}
 
 \item Voronoi diagram \textit{V(P)} je planárním grafem.
-\item Vrchol q Voronoi buňky \textit{\{V(p\textsubscript{i})} je průnikem 3 hran, právě když je \textit{V(P)} nedegenerovaný.
-\item Pokud \textit{p\textsubscript{i}} náležící \textit{H(P)}, pak je \textit{V(p\textsubscript{i})}  otevřený. 
-\item Pro každý bod \textit{p\textsubscript{i} náležící P} je \textit{V(P)} konvexní. 
+\item Vrchol q Voronoi buňky \textit{V(p\textsubscript{i})} je průnikem 3 hran, právě když je \textit{V(P)} nedegenerovaný.
+\item Pokud \textit{p\textsubscript{i}} \(\in\) \textit{H(P)}, pak je \textit{V(p\textsubscript{i})}  otevřený. 
+\item Pro každý bod \textit{p\textsubscript{i} \(\in\) P} je \textit{V(P)} konvexní. 
 \item Bod \textit{p\textsubscript{i}} je nejbližším bodem bodu \textit{p}
-jestliže \textit{p} náleží \textit{\{V(p\textsubscript{i})}.
+jestliže \textit{p} \(\in\) \textit{V(p\textsubscript{i})}.
 \item Každá strana \textit{q\textsubscript{i}q\textsubscript{j}}, \(i \neq j\),
 je sdílena právě dvěma sousedními buňkami \textit{V(p)}. 
 \item Bod q je vrcholem \textit{V(p)}, pokud existuje kružnice \textit{k(q,r)} procházející třemi
@@ -217,8 +217,8 @@ implementován v GIS softwarech. \cite{bayer-douglas}
 \end{figure} 
 
 Dalším algoritmem je zjemňovací/vyhlazovací algoritmus \textit{Polynomická aproximace metodou Exponenciálního jádra}
-(anglicky textit{Polynomial Approximation with Exponential Kernel}, zkráceně PAEK).
-Tento algoritmus vyvinula společnost Esri pro nástroj Smooth Line a je jejím soukromým vlastnictvím.
+(anglicky \textit{Polynomial Approximation with Exponential Kernel}, zkráceně PAEK).
+Tento algoritmus vyvinula společnost Esri pro nástroj Smooth Line v systému ArcGIS a je jejím soukromým vlastnictvím.
 Ačkoliv se zdá být ideální, tak není použitelný pro jiné platformy kvůli nezveřejněnému algoritmu.
 
 Podobným algoritmem jako PAEK je algoritmus \textit{Chaikinův}. 
