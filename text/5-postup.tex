@@ -65,17 +65,17 @@ dialogové okno pomocí PyQt (viz obrázek \ref{fig:dialog}). Toto dialogové ok
 dataset PID\_GTFS. Tvorba tarifních pásem pro ostatní GTFS soubory může být jako námět pro další závěrečné práce nebo ho mohou 
 vypracovat uživatelé služby GitHub.
 
-Ovládání dialogového okna je jednoduché. Disponuje běžnými tlačítky pro minimalizaci okna a vypnutí okna, což mimochodem
-zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Yes/No, které buďto povolí vytváření tarifních
-pásem anebo nepovolí a proces běží jako ve verzi pluginu 1.0.
-
 \begin{figure}[H] \centering
-    \includegraphics[width=200pt]{./pictures/dialog.png}
+    \includegraphics[width=180pt]{./pictures/dialog.png}
     \caption[Dialogové okno s možností tvořit/netvořit tarifní pásma]{Dialogové okno s možností tvořit/netvořit tarifní pásma}
 	\label{fig:dialog}                                
 \end{figure}
 
-Kvůli přehlednosti byl založen nový skript \textit{zones.py} v programovacím jazyce Python se třídou GtfsZones. 
+Ovládání dialogového okna je jednoduché. Disponuje běžnými tlačítky pro mi\-nimalizaci okna a vypnutí okna, což mimochodem
+zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Yes/No, které buďto povolí vytváření tarifních
+pásem anebo nepovolí a proces běží jako ve verzi pluginu 1.0.
+
+Kvůli přehlednosti byl založen nový skript \textit{zones.py} v programovacím jazyce Python se třídou \textit{GtfsZones}. 
 Instance této třídy byla vytvořena v hlavním skriptu \textit{GTFS.py}.
 
 \subsection{Hrubý tvar tarifních pásem}
@@ -84,7 +84,7 @@ Instance této třídy byla vytvořena v hlavním skriptu \textit{GTFS.py}.
 GTFS dataset obsahuje povinný \zk{CSV} soubor \textit{stops.txt} (viz kapitola \ref{stops.txt}). Tento soubor obsahuje mimo
 jiných polí také pole \textit{zone\_id}, které bylo klíčové při tvorbě tarifních pásem.
 Pole \textit{zone\_id} má datový typ \textit{řetězec} a znamená, ve kterém ta\-rifním
-pásmu daná zastávka leží. Verze GTFS Loaderu 1.0 soubor \textit{stops.txt} převádí do~vektorové vrstvy
+pásmu daná zastávka leží. Verze 1.0 pluginu \textit{GTFS Loader} soubor \textit{stops.txt} převádí do~vektorové vrstvy
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
 diagramů nástrojem \textit{Voronoi polygons} v programu QGIS. 
 
@@ -118,17 +118,17 @@ Některé zastávky se nacházely na stejném místě a měly duplicitní geomet
 zpracování problém s duplicitními polygony. Aby se takové věci ve~výsledku zamezilo, byl použit nástroj   
 \textit{Delete duplicate geometries}, který~ve~vstupní vektorové vrstvě nalezne duplicitní geometrie a smaže je.
 
-Pro vybrané zastávky bylo potřeba vybrat ty Voronoi polygony, které svou
-pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
-do kterého vstupovala vrstva vybraných zastávek a vrstva Voronoi polygonů. Výsledkem tohoto nástroje byla
-vektorová vrstva vybraných Voronoi polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
-% zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
-
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-selected-P0B.png}
     \caption[Vybrané Voronoi polygony pro tarifní pásma P, 0 a B]{Vybrané Voronoi polygony pro tarifní pásma P, 0 a B}
 	\label{fig:voronoi-selected}              
 \end{figure}
+
+Pro vybrané zastávky bylo potřeba vybrat ty Voronoi polygony, které svou
+pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
+do kterého vstupovala vrstva vybraných zastávek a vrstva Voronoi polygonů. Výsledkem tohoto nástroje byla
+vektorová vrstva vybraných Voronoi polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
+% zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 Tyto polygony byly následně nástrojem \textit{Dissolve} spojeny do jednoho společného polygonu.
 Vstupem tohoto nástroje byl výstup nástroje \textit{Select by location} a výstupem byl polygon
@@ -155,15 +155,15 @@ Výraz vkládaný jako parametr do metody \textit{selectByExpression} byl násle
 
 Takový polygon byl uložen do nové vektorové vrstvy. 
 
-Poté již byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do tohoto nástroje byla vektorová
-vrstva s největší polygonu z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
-nastaven na hodnotu 500 a~se kterým se nástroj \textit{Delete holes} řídí a zaplňuje menší díry, než byl tento parametr.  
-
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/without-holes-P0B.png}
     \caption[Výsledek nástroje Delete holes pro tarifní pásma P, 0 a B]{Výsledek nástroje Delete holes pro tarifní pásma P, 0 a B}
 	\label{fig:without-holes-P0B}              
 \end{figure} 
+
+Poté již byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do tohoto nástroje byla vektorová
+vrstva s největší polygonu z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
+nastaven na hodnotu 500 a~se kterým se nástroj \textit{Delete holes} řídí a zaplňuje menší díry, než byl tento parametr.  
 
 Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
 
@@ -306,6 +306,12 @@ a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorov
 Výstup nástroje \textit{Simplify} byl vstupem do nástroje \textit{Smooth}. Tento nástroj vy\-hlazuje geometrie
 liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz~ka\-pitola \ref{vyhlazeni}.
 
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/smooth-P0B.png}
+    \caption[Výsledek nástroje Smooth]{Výsledek nástroje Smooth}
+	\label{fig:smooth-P0B}                                
+\end{figure}
+
 U nástroje \textit{Smooth} byly zvoleny tři parametry - počet iterací, offset a maximální úhel.
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.
 Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co největší hladkost).
@@ -314,13 +320,7 @@ Zde byla ponechána výchozí hodnota 0,25. A~poslední parametr maximálního �
 k zabránění vyhlazení uzlů s~velkými úhly. Zde byla také ponechána výchozí hodnota 180°.
 Výstupem nástroje byla polygonová vektorová vrstva.
 
-\begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/smooth-P0B.png}
-    \caption[Výsledek nástroje Smooth]{Výsledek nástroje Smooth}
-	\label{fig:smooth-P0B}                                
-\end{figure}
-
-Zde je souhrnně zobrazen postup této části pomocí Grafického modeláře na~obrá\-zku \ref{fig:postup-smooth}.
+Níže je souhrnně zobrazen postup této části pomocí Grafického modeláře na~obrá\-zku \ref{fig:postup-smooth}.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-smooth.png}
@@ -425,7 +425,7 @@ Výsledkem byla jedna vektorová vrstva obsahující polygony tarifních i hrani
 je přehledně zobrazen postup složení v Grafickém modeláři.
 
 \begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/postup-collecting.png}
+    \includegraphics[width=350pt]{./pictures/postup-collecting.png}
     \caption[Postup pro složení vektorových vrstev tarifních pásem]{Postup pro složení vektorových vrstev tarifních pásem}
 	\label{fig:postup-collecting}              
 \end{figure}
@@ -435,14 +435,20 @@ je přehledně zobrazen postup složení v Grafickém modeláři.
 
 Pro lepší vizuální vzhled výsledných tarifních pásem byla na konec procesu pluginu přidána funkce
 pro obarvování pásem. To bylo provedeno díky instanci třídy \textit{QgsSymbol} a jejím metodám 
-\textit{defaultSymbol} a \textit{setColor}. Taktéž díky instancím tříd\textit{QgsRendererCategory}
+\textit{defaultSymbol} a \textit{setColor} a taktéž díky instancím tříd\textit{QgsRendererCategory}
 a \textit{QgsCategorizedSymbolRenderer}.
+
+\begin{figure}[H] \centering
+    \includegraphics[width=400pt]{./pictures/vysledek2.png}
+    \caption[Výsledný tvar tarifních pásem]{Výsledný tvar tarifních pásem}
+	\label{fig:vysledek}              
+\end{figure}
 
 Barvy, kterými jsou výsledná tarifní pásma obarvena a které jsou zobrazeny na obrázku \ref{fig:vysledek}, byly převzaty
 ze schématu tarifních pásem Pražské integrované dopravy (viz \ref{fig:pasma-schema}).  
 
-\begin{figure}[H] \centering
-    \includegraphics[width=400pt]{./pictures/vysledek.png}
-    \caption[Výsledný tvar tarifních pásem]{Výsledný tvar tarifních pásem}
-	\label{fig:vysledek}              
-\end{figure}
+Obrázek výsledného tvaru tarifních pásem byl vytvořen za pomocí PID\_GTFS datasetu publikováný 8. září 2020 na portálu \textit{Opendata
+hlavního města Prahy}. Ve~stejný den byly zvěřejněny na stejném portálu i referenční tarifní pásma.
+Avšak když byl porovnán výsledek tarifních pásem z PID\_GTFS datasetu a referenční tarifní pásma, tak
+se navzájem příliš nepodobaly. Nejspíš to bylo tím, že při tvorbě referenčních tarifních pásem byly použity jiné zastávky,
+než které byly publikovány s datasetem na portálu \textit{Opendata hlavního města Prahy}.
