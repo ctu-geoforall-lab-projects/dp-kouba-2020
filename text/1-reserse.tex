@@ -4,30 +4,30 @@
 Pro přiblížení se k oficiálně publikovaným tarifním pásmům byly potřeba využít algoritmy
 digitální kartografie. Tarifní pásma jsou publikována mimo jiné jako shapefile 
 \footnote{formát vektorového datového úložiště Esri pro ukládání umístění,
-tvaru a atributů geografických prvků \cite{shapefile}}, který obsahuje
-vektorové prostorových dat ve formě polygonových prvků. K této podobě bylo potřeba přistoupit
+tvaru a atributů geografic\-kých prvků \cite{shapefile}}, který obsahuje
+vektorové geometrické data ve formě polygonových prvků. K této podobě bylo potřeba přistoupit
 za pomocí některých vybraných algoritmů.
 
 \subsubsection{Triangulace}
 \label{triangulace}
 
 K vytvoření linií mezi jednotlivými zastávkami slouží takzvaná triangulace, 
-která vytvoří troj\-úhelníky mezi body tak, že uvnitř těchto trojúhelníků  
-už neleží žádné body a každý trojúhelník má vždy společnou jednu hranu. 
+která~vy\-tvoří troj\-úhelníky mezi body tak, že uvnitř těchto trojúhelníků  
+už neleží žádné body a~každý trojúhelník má vždy společnou jednu hranu. 
 
 %% ML: Postup triangulace (?)
 Triangulace se používají jak v kartografii, tak v \zk{GIS}, v Dálkovém průzkumu země (\zk{DPZ}),
 počítačové grafice, při analýze vlastností a struktury materiálů, plánování pohybu robotů
 nebo při modelování přírodních jevů. \cite{bayer-delaunay}
 
-Existuje více druhů triangulací, které využívají vždy jinou metodu konstrukce
-a mají rozdílný výpočetní stupeň složitosti. 
+Existuje více druhů triangulací, které využívají vždy jinou metodu konstrukce a~mají 
+rozdílný výpočetní stupeň složitosti. 
 
 %% ML: nazvy dejte napr. do kurzivy, aby se vizualne dolisila od textu
-\textit{Hladová (Greedy) triangulace} se snaží vytvářet trojúhelníky s nejkratšími stranami,
-které nesplňují žádnou speciální geometrickou podmínku. Její realizace je jednoduchá,
+\textit{Hladová (Greedy) triangulace} se snaží vytvářet trojúhelníky s nejkratšími strana\-mi,
+které nesplňují žádnou speciální geometrickou podmínku. Její realizace je jedno\-duchá,
 avšak důsledkem toho jsou často tvarově nepěkné nebo nevhodné trojúhelníky. Má velkou výpočetní
-složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\). V kartografii se
+složitost \(O(n^3)\), lze optimalizovat na \(O(n^2 \log(n))\). V~kartografii se
 kvůli její složitosti často nepoužívá. \cite{vanicek}
 
 \begin{figure}[H] \centering
@@ -43,10 +43,10 @@ za pomocí opsaných kružnic. \textit{Delaunay triangulace} má několik vlastn
 Zároveň \textit{Delaunay triangulace} je jednoznačná, pokud žádné čtyři body neleží na kružnici.
 Na rozdíl od \textit{Greedy triangulace} nehodnotí kritérium délky hran. Díky maximalizaci minimálních
 úhlů vytváří takové trojúhelníky, které se nejvíc blíží k rovnostranným trojúhelníkům, 
-což znamená, že se snaží eliminovat trojúhelníky, které jsou ostroúhlé.
+což znamená, že~se snaží eliminovat trojúhelníky, které jsou ostroúhlé.
 
 Pro výtváření konstrukce \textit{Delaunay triangulace} jsou k dispozici různé algoritmy: lokální prohazování, 
-inkrementální konstrukce, inkrementální vkládání, rozděl a panuj nebo sweep line. \cite{bayer-delaunay}
+inkrementální konstrukce, inkrementální vkládání, rozděl a~pa\-nuj nebo sweep line. \cite{bayer-delaunay}
 
 \begin{figure}[H] \centering
     \includegraphics[width=280pt]{./pictures/triangulace-delaunay.png}
@@ -111,11 +111,11 @@ hull.
 Tarifní pásma zasahují hranicí tam, kde nejsou žádné zastávky. Pro takové vyplnění plochy
 mezi zastávkami a pro místa, kde zastávky nejsou (většinou na krajích zón) není triangulace, konvexní nebo konkávní 
 obálka úplně vhodná. Pro takový problém bylo další myšlenkou použít teselaci, což je vyplnění roviny pomocí jednoho
-nebo více geometrických útvarů vzájemně spojených, bez překryvů a mezer. Triangulace, konvexní nebo konkávní 
+nebo~více geometrických útvarů vzájemně spojených, bez překryvů a mezer. Triangulace, konvexní nebo konkávní 
 obálka se mohou hodit při dalších krocích výpočtu.
 
-Nejpoužívanější teselací v oblastí GIS je \textit{Voronoi diagram}, někdy nazývána Voroné\-ho teselace, Voroného dekompozice,
-Thiessenovy polygony nebo Dirichletova teselace, což je způsob rozkladu 
+Nejpoužívanější teselací v oblastí GIS je \textit{Voronoi diagram}, někdy nazývána Voro\-ného teselace, Voroného dekompozice,
+Thiessenovy polygony nebo Dirichletova tese\-lace, což je způsob rozkladu 
 metrického prostoru určený vzdálenostmi k dané nespojité množině bodů v prostoru.
 V našem případě se bude řešit Voronoi diagram ve 2D prostoru, tedy v rovině.
 
@@ -137,7 +137,7 @@ které spojují dva Voronoi vrcholy. Dohromady tyto Voronoi buňky tvoří Voron
 	\label{fig:bayer-voronoi-terminologie}              
 \end{figure}
 
-\textit{Voronoi diagramy} mají své vlastnosti, které jsou důležité pro jejich tvorbu. V následujících
+\textit{Voronoi diagramy} mají své vlastnosti, které jsou důležité pro jejich tvorbu. V~následujících
 odrážkách jsou doslovně citována jejich znění z prezentace pana doc. Ing. Tomáše Bayera, Ph.D.
 
 \begin{quote}
@@ -153,7 +153,7 @@ jestliže \textit{p} \(\in\) \textit{V(p\textsubscript{i})}.
 je sdílena právě dvěma sousedními buňkami \textit{V(p)}. 
 \item Bod q je vrcholem \textit{V(p)}, pokud existuje kružnice \textit{k(q,r)} procházející třemi
 nebo více generátory \textit{p\textsubscript{i}}, \textit{p\textsubscript{j}},
-\textit{p\textsubscript{k}}, a neobsahuje žádný další bod P (spojitost s \textit{DT(P)}). 
+\textit{p\textsubscript{k}}, a neobsahuje žádný další bod P (spojitost s~\textit{DT(P)}). 
 \item Kružnici \textit{k(q,r)} označujeme jako největší prázdnou kružnici ze všech prázdných kružnic se středem v bodě \textit{q}. 
 \item Průměrné množství Voronoi hran ve Voronoi polygonu nepřekročí hodnotu 6. 
 \item Vztah mezi počtem bodů \textit{n}, počtem hran \textit{n\textsubscript{h}}
@@ -163,7 +163,7 @@ a počtem trojúhelníků \textit{n\textsubscript{t}} teselace \textit{V(P)}:
 \item Voronoi diagram \textit{V(P)} představuje ortografickou projekci stěn
 mnohostěnu tvořeného průsečnicemi všech polorovin \textit{A\textsubscript{i}} do roviny \textit{xy}. 
 \item Nechť bod \textit{p\textsubscript{i}\textsuperscript{*}} i představuje
-ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu daného rovnicí:
+ortografický průmět bodu \textit{p\textsubscript{i}} na povrch parabo\-loidu daného rovnicí:
 \[ z = x^2 + y^2 \]
    
 \end{itemize}
@@ -178,7 +178,7 @@ ortografický průmět bodu \textit{p\textsubscript{i}} na povrch paraboloidu da
 \textit{Voronoi diagram} má spojitost s \textit{Delaunay triangulací}. Hraniční vstupní body
 \textit{Voronoi diagramu} po spojení \textit{Delaunay triangulací} tvoří konvexní obálku.
 Středy kružnic opsaných trojúhelníků \textit{Delaunay triangulace} představují uzlové body
-\textit{Voronoi diagramu}.
+\textit{Voro\-noi diagramu}.
 
 Pro konstrukci \textit{Voronoi diagramu} existují různé metody. Konstrukce lze v praxi tvořit přímo nebo nepřímo.
 Pro přímou konstrukci jsou tu metody inkrementální konstrukce, sweep line algoritmus a
@@ -189,23 +189,23 @@ kružnic opsaných trojúhelníků a bývá nejpoužívanější.
 Využití Voronoi diagramů v oblasti GIS je široké. Například tzv. poštovní problém
 pomáhá při návrhu nových supermarketů, stanic MHD či polohy nových nemocnic.
 Mezi další využití patří například převod bodových údajů na plošné
-nebo klasifikace dat. \cite{bayer-voronoi}
+nebo~klasifikace dat. \cite{bayer-voronoi}
 
 \subsubsection{Generalizace a zjemnění}
 \label{generalizace_zjemneni}
 
 Pro přiblížení se výsledku k graficky estetičtější verzi je potřeba hranice polygonů
-generalizovat. Následně se hranice zjemní. K tomu existuje mnoho algoritmů, ale bude zde uvedeno
+generalizovat. Následně se hranice zjemní. K tomu existuje mnoho algoritmů, ale~bude zde uvedeno
 jen několik vhodných a nejpoužívanějších.
 
-Jedním z nich je generalizační algoritmus \textit{Douglas-Peucker}. Algoritmus rekurzivně rozděluje čáru.
+Jedním z nich je generalizační algoritmus \textit{Douglas-Peucker}. Algoritmus rekurziv\-ně rozděluje čáru.
 Zpočátku jsou uvedeny všechny body mezi prvním a posledním bodem. Automaticky označí první a poslední bod,
 který se má zachovat. Poté najde bod, který je nejvzdálenější od úsečky s prvním a posledním bodem 
 jako koncovými body. Tento bod je zjevně nejvzdálenější na křivce od přibližné úsečky mezi koncovými body. 
 Pokud je bod blíže k úsečce, než volitelný parametr epsilon, mohou být všechny body, které nejsou aktuálně označeny jako zachované,
 zahozeny, aniž by rozměr zjednodušené křivky byl menší než parametr epsilon. Pokud je nejvzdálenější bod od úsečky větší než parametr epsilon od aproximace,
 musí být tento bod zachován. Algoritmus rekurzivně volá sebe samotného s prvním bodem a nejvzdálenějším bodem 
-a poté nejvzdálenějším bodem a posledním bodem, který zahrnuje nejvzdálenější bod označený jako ponechaný.
+a poté nejvzdálenějším bodem a posledním bodem, který~zahrnuje nejvzdálenější bod označený jako ponechaný.
 %% ML: proc "nejlepsi"?
 Tento algoritmus je jeden z nejlepších generalizačních algoritmů a je velmi často
 implementován v GIS softwarech. \cite{bayer-douglas}
@@ -218,7 +218,7 @@ implementován v GIS softwarech. \cite{bayer-douglas}
 
 Dalším algoritmem je zjemňovací/vyhlazovací algoritmus \textit{Polynomická aproximace metodou Exponenciálního jádra}
 (anglicky \textit{Polynomial Approximation with Exponential Kernel}, zkráceně PAEK).
-Tento algoritmus vyvinula společnost Esri pro nástroj Smooth Line v systému ArcGIS a je jejím soukromým vlastnictvím.
+Tento algoritmus vyvinula společnost Esri pro~nástroj Smooth Line v systému ArcGIS a je jejím soukromým vlastnictvím.
 Ačkoliv se zdá být ideální, tak není použitelný pro jiné platformy kvůli nezveřejněnému algoritmu.
 
 Podobným algoritmem jako PAEK je algoritmus \textit{Chaikinův}. 

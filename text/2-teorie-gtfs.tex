@@ -26,7 +26,7 @@ V roce 2005 byla tato služba plánování cesty spuštěna jako Google Transit.
 Od tohoto roku se GTFS stal nejpopulárnějším datovým formátem pro přepravní služby na světě. 
 Spousta agentur se rozhodla sdílet své GTFS údaje s veřejností, zatímco některé agentury 
 zůstaly zdrženlivé a přístup k datům nechaly jen některým partnerům. Ke 2. prosinci 2019
-uvádí OpenMobilityData 1233 poskytovatelů s veřejně přístupnými kanály GTFS,
+uvádí OpenMobilityData 1233 poskytovatelů s~veřejně přístupnými kanály GTFS,
 z nichž 465 je ve Spojených státech. 
 
 V důsledku inovací vývojářů třetích stran jsou data GTFS nyní využívána různý\-mi softwarovými aplikacemi
@@ -44,7 +44,7 @@ je \zk{ZIP} soubor, který obsahuje \zk{CSV} soubory.
 \zk{CSV}, \textit{Comma-separated values}, v překladu \textit{hodnoty oddělené čárkami}, je jednodu\-chý 
 souborový formát určený pro výměnu tabulkových dat. Data jsou oddělována \uv{oddělovačem}.
 Ačkoli podle definice by měl být formát oddělen čárkami, oddělovač může být prakticky cokoli. 
-Nejčastějšími oddělovači jsou právě čárky, středníky nebo mezery. \zk{CSV} soubor se 
+Nejčastějšími oddělovači jsou právě čárky, středníky nebo~mezery. \zk{CSV} soubor se 
 může upravovat v jakémkoliv textovém editoru.
 
 \begin{figure}[H] \centering
@@ -54,7 +54,7 @@ může upravovat v jakémkoliv textovém editoru.
 \end{figure}
 
 V GTFS datasetu může být v současné době až 17 \zk{CSV} souborů v textové podobě. Slovem \uv{může} je myšleno to,
-že některé \zk{CSV} soubory jsou požadované či podmíněně požadované a jiné volitelné.
+že některé \zk{CSV} soubory jsou požadované či~podmíněně požadované a jiné volitelné.
 Jaké \zk{CSV} soubory obsahuje dataset záleží na konkrétním dopravním systému, který
 tento dataset vytváří.
 
@@ -66,11 +66,11 @@ Termín \uv{podmíněně požadované} znamená, že daný \zk{CSV} soubor nebo 
 které jsou uvedeny v popisu souboru nebo pole. Mimo tyto podmínky je tento soubor nebo pole volitelný.
 
 Termín \uv{volitelné} znamená, že daný \zk{CSV} soubor nebo pole může být vynecháno. V případě zahrnutí 
-volitelného pole mohou být některé položky prázdné řetězce, což je ekvivalentní s prázdným
+volitelného pole mohou být některé položky prázdné řetězce, což~je ekvivalentní s prázdným
 polem.
 
 V následující tabulce \ref{table:csv-soubory} jsou přehledně zobrazeny všechny \zk{CSV} soubory,
-které v současnosti v GTFS datasetu mohou být.
+které~v současnosti v GTFS datasetu mohou být.
 
 \newcolumntype{s}{>{\centering\arraybackslash\columncolor[HTML]{CCFFCC}} m{5cm}}
 \newcolumntype{v}{>{\centering\arraybackslash\columncolor[HTML]{C4FFFD}} m{5cm}}
@@ -118,15 +118,15 @@ jsou požadované, podmíněně požadované nebo volitelné.
 	\label{fig:GTFS-diagram}              
 \end{figure}
 
-Pro moji diplomovou práci byly dále důležité datové typy jako zeměpisná délka a zeměpisná šířka,
+Pro moji diplomovou práci byly dále důležité datové typy jako zeměpisná délka a~zeměpisná šířka,
 které již podle názvu obsahují zeměpisnou délku a šířku v souřadnicovém systému WGS84, barva zakódovaná 
 jako šestimístné hexadecimální číslo, nezáporné číslo s plovoucí desetinnou čárkou a nezáporné celé číslo
-nebo enum, což jsou předem definované konstanty.
+nebo enum, což~jsou předem definované konstanty.
 
 \subsection{Soubor stops.txt}
 \label{stops.txt}
 Soubor \textit{stops.txt} se skládá ze 14 polí, z čehož 6 polí je požadovaných nebo podmíněně požadovaných 
-a zbytek volitelných. Samotný soubor je požadovaný a měl by se nacházet v každém GTFS datasetu.
+a zbytek volitelných. Samotný soubor je požadovaný a měl by se~nacházet v každém GTFS datasetu.
 
 Prvním polem je vždy zpravidla \textit{stop\_id}, které je požadované a má datový typ \zk{ID}.
 Tato hodnota jednoznačně určuje každou zastávku. Pro PID\_GTFS, což je GTFS dataset Pražské integrované dopravy,
@@ -150,11 +150,11 @@ Toto pole je definováno pomocí čtyř konstant:
 Čtvrtým polem je volitelné pole \textit{stop\_desc} v textovém datovém typu obsahující popis místa, 
 které poskytuje užitečné a kvalitní informace.
 
-Pátým a šestým polem je \textit{stop\_lat} a \textit{stop\_lon} s datovým typem zeměpisná šířka a délka
+Pátým a šestým polem je \textit{stop\_lat} a \textit{stop\_lon} s datovým typem zeměpisná šířka a~délka
 obsahující přesně tyto dvě hodnoty. Tyto dvě pole jsou podmíněně požadované kvůli poli \textit{location\_type}.
 
 Sedmým polem s datovým typem \zk{ID} je pole \textit{zone\_id}, které je pro tuto diplomovou práci obzvlášť důležité.
-Je podmíněně požadované kvůli \zk{CSV} souboru \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
+Je podmíněně požadované kvůli \zk{CSV} souboru\- \textit{fare\_rules.txt}, pokud jsou v něm poskytovány informace o jízdném.
 Pokud záznam v \zk{CSV} souboru \textit{stops.txt} představuje stanici nebo vchod do stanice, je \textit{zone\_id} ignorováno.
 
 Osmým polem je volitelný \textit{stop\_url} s \zk{URL} adresou na webovou stránku o místě záznamu.

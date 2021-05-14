@@ -4,10 +4,10 @@
 \section{QGIS}
 
 QGIS je profesionální geografický informační systém.
-Software je zdarma ke stáhnutí a je tzv. open-source (zdrojový kód je veřejně).
-Zdrojový kód je publikován ve službě GitHub (viz podkapitola \ref{section-github}).
+Software je zdarma ke stažení a je tzv. open-source (zdrojový kód je veřejně).
+Zdrojový kód je publikován ve~službě GitHub (viz podkapitola \ref{section-github}).
 Vývojář softwaru může být kdokoliv, avšak potvrzovat a kontrolovat změny můžou jen ověření
-přispěvatelé. Software byl vyvíjen v programovacím jazyku C++ a Python (viz \ref{section-python})
+přispěvatelé. Software byl vyvíjen v~programovacím jazyku C++ a Python (viz \ref{section-python})
 
 \begin{figure}[H] \centering
     \includegraphics[width=64pt]{./pictures/qgis-logo.png}
@@ -39,12 +39,12 @@ QGIS nástrojech.
 Právě QGIS vývojáři potřebují dokumentaci pro výtváření zautomatizovaných skriptů nebo QGIS zásuvných modulů (pluginů).
 Skripty a větší část pluginů jsou vytvářena v programovacím jazyku Python (viz \ref{section-python})
 a menší část v programovacím jazyku C++. Instalaci pluginu lze provést z nabídky uvnitř systému QGIS
-anebo pomocí ZIP souboru. Pro zobrazení pluginu v QGIS nabídce je potřeba nechat plugin
+anebo~pomocí ZIP souboru. Pro zobrazení pluginu v QGIS nabídce je potřeba nechat plugin
 schválit správci systému QGIS, jestli splňuje všechny povinné aspekty QGIS pluginů.
 
 Součástí systému QGIS je i Model Designer (nebo také Graphical modeler, česky Grafický modelář).
 Pomocí Grafického modeláře lze tvořit modely QGIS nástrojů, což jsou uspořádané nástroje do jednoho řetězového postupu.
-Pomáhá lépe se v tomto postupu orientovat, měnit vstupy funkcí, pojmenovávat nástroje a jejich parametry,
+Pomáhá lépe se~v~tomto postupu orientovat, měnit vstupy funkcí, pojmenovávat nástroje a jejich parametry,
 přidávat komentáře či jednotlivé nástroje seskupovat do skupin. 
 
 \section{Python}
@@ -63,7 +63,7 @@ Díky jednoduchosti programovacího jazyka Python se využívá k učivu na zák
 
 Důvodů, proč je tento programovací jazyk tak populární, je mnoho. Python je vyšší programovací jazyk,
 což znamená lepší srozumitelnost než nižších programovacích jazyků a programy zapsané
-ve vyšších jazycích jsou obvykle kratší a lépe čitelné.  Další důvodem je multiplatformnost,
+ve vyšších jazycích jsou obvykle kratší a~lépe čitelné.  Další důvodem je multiplatformnost,
 což znamená, že se můžou aplikace programovacího jazyka Python sestavit a běžet na různých platformách jako 
 Windows, Mac či Linux. Komunita Pythonu je obrovská, což je další výhodou tohoto jazyka.
 Například jenom v Čechách je mnoho skupin na různých sociálních sítích.
@@ -72,14 +72,14 @@ Python má také spoustu knihoven, frameworků a nástrojů, které lidem usnad�
 Podporuje různá programovací paradigmata
 jako například objektově orientované, imperativní, procedurální nebo funkcionální.
 Programovacím paradigmatem se rozumí základní programovací styl, který se liší v pojmech a abstrakcích,
-které tvoří jednotlivé prvky programu, a krocích, ze kterých se výpočet skládá. \cite{wikipedia-paradigma} 
+které~tvo\-ří jednotlivé prvky programu, a krocích, ze kterých se výpočet skládá. \cite{wikipedia-paradigma} 
  
 \section{PyQt}
-Aby aplikaci vytvořenou v Pythonu mohl ovládat člověk, který se neorientuje v programování a ani nechce,
+Aby aplikaci vytvořenou v Pythonu mohl ovládat člověk, který se neorientuje v~programování a ani nechce,
 %% ML: krome GUI existuje CLI (command line interface), pote uzivatel spousti/ovlada aplikaci z prikazove radky
 je nutné ke kódu aplikace vytvořit grafické uživatelské rozhraní (\zk{GUI}). Python má širokou škálu knihoven
 pro vytváření \zk{GUI} jako například Tkinter, wxPython, PySide2 nebo PyQt. Právě PyQt je již standardně 
-vestavěný v systému QGIS, tak se zdá jako nejlepší volbou pro tvorbu pluginů.  
+vestavěný v~systému QGIS, tak se zdá jako nejlepší volbou pro tvorbu pluginů.  
 
 PyQt je vazba Pythonu pro aplikační framework Qt vyvinutý společností RiverBank Computing Ltd.
 Je k dispozici ve třech verzích: PyQt6 podporující Qt v6, PyQt5 podporující Qt v5 a PyQt4 podporující Qt v4,
@@ -100,9 +100,9 @@ ale s nimi se zrychloval a usnadňoval její postup.
 \subsection{GitHub}
 \label{section-github}
 
-GitHub je služba poskytující internetový hosting pro správu verzí pomocí Git, což je software pro sledování 
+GitHub je služba poskytující internetový hosting pro správu verzí pomocí Git, což~je software pro sledování 
 změn v libovolné sadě souborů. Tato služba například poskytuje řízení přístupu, sledování chyb, 
-správu úkolů nebo nepřetržitou integraci. Základní služby poskytuje zdarma, ale za pokročilé funkce je nutné zaplatit.
+správu úkolů nebo nepřetržitou integraci. Zá\-kladní služby poskytuje zdarma, ale za pokročilé funkce je nutné zaplatit.
 
 \begin{figure}[H] \centering
     \includegraphics[width=100pt]{./pictures/github.png}
@@ -115,8 +115,8 @@ správu úkolů nebo nepřetržitou integraci. Základní služby poskytuje zdar
 PyCharm je vývojové prostředí vyvinuté firmou JetBrains s.r.o. pro programovací jazyk Python.
 Usnadňuje práci s kódem, zvyšuje produktivitu a zpřehledňuje kód například zvýrazněním syntaxe Pythonu.
 PyCharm obsahuje širokou kolekci plu\-ginů, které lze doinstalovat a jsou vyvíjeny uživateli.
-Skrz PyCharm lze propojit i Git, takže psaný kód lze snadno zálohovat. Stejně jako GitHub PyCharm poskytuje 
-základní funkce zdarma, ale profesionální verzi s pokročilejšími funkcemi je nutné si zaplatit.
+Skrz PyCharm lze propojit i~Git, takže psaný kód lze snadno zálohovat. Stejně jako GitHub PyCharm poskytuje 
+základní funkce zdarma, ale profesionální verzi s pokročilejšími funkcemi je nutné si~zaplatit.
 
 \begin{figure}[H] \centering
     \includegraphics[width=100pt]{./pictures/pycharm.png}

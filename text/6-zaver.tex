@@ -8,7 +8,7 @@ o automa\-tické vytváření exaktního tvaru tarifních pásem Pražské integ
 jehož referenční podoba je publikována veřejně organizací ROPID.  
 Podkladovými daty byl GTFS dataset taktéž zveřejňovaný organizací ROPID.
 Mezikrokem k primárnímu cíly bylo zveřejnění pluginu do repozitáře QGIS. Sekundárním cílem bylo vytvořit schématický model pro 
-informativní účely, který by se tolik neblížil k referenční podobě tarifních pásem.
+informativní účely, který by se tolik neshodoval s referenční podobou tarifních pásem.
 
 Mezikrok nutný pro pokračování vývoje byl splněn ve formě aktualizace na verzi pluginu 1.0.
 V této aktualizaci byly opraveny některé chyby, doplněno uživatelské rozhraní a proces pluginu přeložen na pozadí. 
@@ -23,18 +23,18 @@ se nepodařil najít způsob, jak je napřímo propojit s hranicemi tarifních p
 
 Jak již bylo zmíněno, proces pluginu pro vytváření tarifních pásem nezvládá správně zpracovat hraniční zastávky.
 Zároveň pro oblasti, ve kterých jsou umístěny zastávky velmi vzácně, vznikají \uv{díry} mezi tarifními pásmy.
-Tyto \uv{díry} se ve snaze pro lepší tvar eliminovaly, ale kvůli tomu vznikl další problém překrývajících se tarifních pásem.
+Tyto \uv{díry} se ve~snaze pro lepší tvar eliminovaly, ale kvůli tomu vznikl další problém překrývajících se~ta\-rifních pásem.
 Každopádně pro lepší tvar je potřeba manuální editace vektorové vrstvy.
 
 Zaměstnanci organizace ROPID bylo dáno pravidlo o nekřížení se intravilánu obce s hranicemi tarifních pásem.
-Toto pravidlo mělo mít za následek vyhýbání se hranic tarifních pásem s většími zastavěnými oblastmi.
-Později bylo kvůli obtížnosti s uskutečněním tohoto pravidla upuštěno na přání ze strany pracovníků z organizace ROPID.
+Toto pravidlo mělo mít za následek vyhýbání se~hranic tarifních pásem s většími zastavěnými oblastmi.
+Později bylo kvůli obtíž\-nosti s uskutečněním tohoto pravidla upuštěno na přání ze strany pracovníků z~organizace ROPID.
 Současně pro realizaci tohoto pravidla by bylo potřeba načítat vektorové vrstvy
 dotčených obcí České republiky, což by razantně zvýšilo datovou náročnost pluginu.
 
 Postup navržený v rámci diplomové práce není rozhodně ideální a je na něm co vylepšovat. Předmět úpravy a vylepšení pluginu
 se může stát dalším tématem semestrálních či závěrečných prací. Zdrojový kód
-je již nyní veřejně přístupný v repozitáři pluginu (odkaz \href{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
+je již nyní veřejně přístupný v~repozitáři pluginu (odkaz \href{https://github.com/ctu-geoforall-lab/qgis-gtfs-plugin/tree/pid\_zones}
 {\underline{zde}}) a může k němu kdokoliv přidávat
 návrhy na vylepšení.  
 
