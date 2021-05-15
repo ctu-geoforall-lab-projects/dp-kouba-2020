@@ -188,13 +188,13 @@ Pro zastávky tarifních pásem 7 až 9 pomocí dotazu:
 \["zone\_id"\ =\ "ID\: pasma"\ AND\ "location\_type" = 0\] 
 
 V dotazu pro tarifní pásma 1 až 6 byly vybrány ty zastávky, které mají hodnotu pole \textit{zone\_id} menší jak aktuální hodnota,
-hodnota pole \textit{zone\_id} se nerovná "pomlčce" (jelikož zastávky s touto hodnotou jsou mimo tarifní pásma)
+hodnota pole \textit{zone\_id} se nerovná \uv{pomlčce} (jelikož zastávky s touto hodnotou jsou mimo tarifní pásma)
 a hodnota pole \textit{location\_type} byla rovna nule. V dotazu pro tarifní pásma 7 až 9 byly vybrány ty zastávky,
 které mají hodnotu pole \textit{zone\_id} aktuální hodnotě a hodnota pole \textit{location\_type} byla rovna nule.
 
 Důvodem pro dělení těchto dotazů byla jednak časová náročnost délky průběhu následujícího nástroje \textit{Select by location}, 
 kde kvůli operátoru "<=" u dotazu pro~zastávky tarifních pásem 1 až 6 do nástroje vstupují všechny zastávky, 
-které jsou hodnotou ID menší jak aktuální hodnota. Tím se pro každé tarifní pásmo násobně zvětšuje počet zastávek,
+které jsou hodnotou \zk{ID} menší jak aktuální hodnota. Tím se pro každé tarifní pásmo násobně zvětšuje počet zastávek,
 které vstupují do nástroje \textit{Select by location}.
 
 Pro tarifní pásma 7 až 9 byla časová náročnost stejná, jako u tarifních pásem P, 0 a B.
