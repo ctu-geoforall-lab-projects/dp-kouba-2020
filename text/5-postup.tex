@@ -72,7 +72,7 @@ vypracovat uživatelé služby GitHub.
 \end{figure}
 
 Ovládání dialogového okna je jednoduché. Disponuje běžnými tlačítky pro mi\-nimalizaci okna a vypnutí okna, což mimochodem
-zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka Yes/No, které buďto povolí vytváření tarifních
+zruší kompletně proces načítání GTFS souboru. Mimo to tu jsou dvě tlačítka \textit{Yes/No}, které buďto povolí vytváření tarifních
 pásem anebo nepovolí a proces běží jako ve verzi pluginu 1.0.
 
 Kvůli přehlednosti byl založen nový skript \textit{zones.py} v programovacím jazyce Python se třídou \textit{GtfsZones}. 
@@ -88,7 +88,7 @@ pásmu daná zastávka leží. Verze 1.0 pluginu \textit{GTFS Loader} soubor \te
 ve formě bodů. Z této bodové vrstvy byla vytvořena vektorová vrstva Voronoi 
 diagramů nástrojem \textit{Voronoi polygons} v programu QGIS. 
 
-Vstupem do tohoto nástroje byla vektorová vrstva stops a výstupem byly Voronoi polygony.
+Vstupem do tohoto nástroje byla vektorová vrstva \textit{stops} a výstupem byly Voronoi polygony.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-stops.png}
@@ -127,7 +127,7 @@ zpracování problém s duplicitními polygony. Aby se takové věci ve~výsledk
 Pro vybrané zastávky bylo potřeba vybrat ty Voronoi polygony, které svou
 pozicí dané zastávky protínaly. To bylo provedeno nástrojem \textit{Select by location},
 do kterého vstupovala vrstva vybraných zastávek a vrstva Voronoi polygonů. Výsledkem tohoto nástroje byla
-vektorová vrstva vybraných Voronoi polygonů. Jako příklad v obrázku zde budu uvádět tarifní pásmo 2.
+vektorová vrstva vybraných Voronoi polygonů.
 % zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 Tyto polygony byly následně nástrojem \textit{Dissolve} spojeny do jednoho společného polygonu.
@@ -141,12 +141,12 @@ s jednou geometrií.
 \end{figure} 
 
 Kvůli mnoha zastávkám, které v oblasti pásem P, 0 a B v poli \textit{zone\_id} obsahovaly hodnotu \textit{NULL},
-vznikla uvnitř polygonu spousta děr. V těchto dírách někdy ležely i části malých polygonů, které 
-už po nástroji \textit{Dissolve} tvořili jeden celistvý polygon. A proto nebylo možné rovnou použít nástroj Delete holes,
+vznikla uvnitř polygonu spousta děr. V těchto dírách někdy ležely části malých polygonů, které 
+po nástroji \textit{Dissolve} tvořily jeden celistvý polygon. A proto nebylo možné rovnou použít nástroj \textit{Delete holes},
 nýbrž nejprve nástroj \textit{Multipart to singleparts}.
 
 Nástroj \textit{Multipart to singleparts} rozdělil jeden vícedílný polygon na jednotlivé menší polygony. Vstupem do tohoto
-nástroje byl vektorová vrstva výstupu nástroje Dissolve a výstupem byl vektorová vrstva s rozděleným polygonem.
+nástroje byl vektorová vrstva výstupu nástroje \textit{Dissolve} a výstupem byl vektorová vrstva s rozděleným polygonem.
 
 Poté se pomocí metody \textit{selectByExpression} třídy \textit{QgsVectorLayer} vyhledal nej\-větší polygon.
 Výraz vkládaný jako parametr do metody \textit{selectByExpression} byl následující:
@@ -162,8 +162,8 @@ Takový polygon byl uložen do nové vektorové vrstvy.
 \end{figure} 
 
 Poté byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do~tohoto~nástroje byla vektorová
-vrstva s největší polygonu z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
-nastaven na hodnotu 500, se kterým se nástroj \textit{Delete holes} řídí a zaplňuje rozlohově menší díry.  
+vrstva s největším polygonem z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
+nastaven na hodnotu 500, se kterým nástroj \textit{Delete holes} byl řízen a byly zaplněny rozlohově menší díry.  
 
 Znázornění tohoto postupu je zobrazeno v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
 
@@ -171,7 +171,8 @@ Znázornění tohoto postupu je zobrazeno v obrázku \ref{fig:postup-voronoi-P0B
 \label{tp_1az9}
 
 Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
-for cyklu pro tarifní pásma 1 až 9.
+for cyklu pro tarifní pásma 1 až 9. V něm už nebylo nutné použít nástroj pro mazání děr, rozdělování polygonů
+na vícedílné geometrie nebo mazání duplicitních bodů. 
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-P0B.png}
@@ -195,13 +196,13 @@ které mají hodnotu pole \textit{zone\_id} aktuální hodnotě a hodnota pole \
 Hlavním důvodem bylo \uv{zalepení} děr, které vznikaly u vyhlazení tvaru tarifních pásem v kapitole \ref{vyhlazeni}.  
 
 Důsledkem dělení těchto dotazů byla časová náročnost délky průběhu následujícího nástroje \textit{Select by location}, 
-kde kvůli operátoru "<=" u dotazu pro~zastávky tarifních pásem 1 až 6 do nástroje vstupují všechny zastávky, 
-které jsou hodnotou \zk{ID} menší jak aktuální hodnota. Tím se pro každé tarifní pásmo násobně zvětšuje počet zastávek,
-které vstupují do nástroje \textit{Select by location}.
+kde kvůli operátoru "<=" u dotazu pro~zastávky tarifních pásem 1 až 6 do nástroje vstupovaly všechny zastávky, 
+které byly hodnotou \zk{ID} menší jak aktuální hodnota. Tím byl pro každé tarifní pásmo násobně zvětšen počet zastávek,
+které vstupovaly do nástroje \textit{Select by location}.
 
-Pro tarifní pásma 7 až 9 byla časová náročnost stejná, jako u tarifních pásem P, 0 a B.
+Pro tarifní pásma 7 až 9 byla časová náročnost stejná jako u tarifních pásem P, 0 a B.
 
-Následně byl pouze spuštěn \textit{Dissolve} pro spojení Voronoi polygonů, což bylo vstupem do tohoto nástroje,
+Následně byl pouze spuštěn nástroj \textit{Dissolve} pro spojení Voronoi polygonů, což~bylo vstupem do tohoto nástroje,
 do jednoho celistvého polygonu, což bylo výstupem tohoto nástroje.
 
 V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup tarifní pásma 1 až 9.
