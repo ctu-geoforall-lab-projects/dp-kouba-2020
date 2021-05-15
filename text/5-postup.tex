@@ -161,11 +161,17 @@ Takový polygon byl uložen do nové vektorové vrstvy.
 	\label{fig:without-holes-P0B}              
 \end{figure} 
 
-Poté již byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do tohoto nástroje byla vektorová
+Poté byl použit nástroj \textit{Delete holes}, který zaplnil vytvořené díry. Vstupem do~tohoto~nástroje byla vektorová
 vrstva s největší polygonu z nástroje \textit{Dissolve}. Nástroj obsahoval volitelný parametr rozlohy, který byl
-nastaven na hodnotu 500 a~se kterým se nástroj \textit{Delete holes} řídí a zaplňuje menší díry, než byl tento parametr.  
+nastaven na hodnotu 500, se kterým se nástroj \textit{Delete holes} řídí a zaplňuje rozlohově menší díry.  
 
-Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
+Znázornění tohoto postupu je zobrazeno v obrázku \ref{fig:postup-voronoi-P0B}. Toto zobrazení bylo provedeno v Grafickém modeláři.
+
+\subsubsection{Tarifní pásma 1 až 9}
+\label{tp_1az9}
+
+Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
+for cyklu pro tarifní pásma 1 až 9.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-P0B.png}
@@ -173,13 +179,7 @@ Znázornění tohoto postupu je zobrazeno zde v obrázku \ref{fig:postup-voronoi
 	\label{fig:postup-voronoi-P0B}              
 \end{figure}
 
-\subsubsection{Tarifní pásma 1 až 9}
-\label{tp_1az9}
-
-Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
-for cyklu pro tarifní pásma 1 až 9. 
-
-Opět ty zastávky, které ležely v určitém pásmu, byly vyhledány pomocí metody \textit{selectByExpression} třídy 
+Zastávky, které ležely v určitém pásmu, byly vyhledány pomocí metody \textit{selectByExpression} třídy 
 \textit{QgsVectorLayer}. Pro zastávky tarifních pásem 1 až 6 to~bylo provedeno pomocí dotazu:
 
 \["zone\_id"\ <=\ "ID\: pasma"\ AND\ "zone\_id"\ !=\ '-'\ AND\ "location\_type" = 0\]  
@@ -188,18 +188,18 @@ Pro zastávky tarifních pásem 7 až 9 pomocí dotazu:
 \["zone\_id"\ =\ "ID\: pasma"\ AND\ "location\_type" = 0\] 
 
 V dotazu pro tarifní pásma 1 až 6 byly vybrány ty zastávky, které mají hodnotu pole \textit{zone\_id} menší jak aktuální hodnota,
-hodnota pole \textit{zone\_id} se nerovná \uv{pomlčce} (jelikož zastávky s touto hodnotou jsou mimo tarifní pásma)
+hodnota pole \textit{zone\_id} nebyla rovna \uv{pomlčce} (jelikož zastávky s touto hodnotou jsou mimo tarifní pásma)
 a hodnota pole \textit{location\_type} byla rovna nule. V dotazu pro tarifní pásma 7 až 9 byly vybrány ty zastávky,
 které mají hodnotu pole \textit{zone\_id} aktuální hodnotě a hodnota pole \textit{location\_type} byla rovna nule.
 
-Důvodem pro dělení těchto dotazů byla jednak časová náročnost délky průběhu následujícího nástroje \textit{Select by location}, 
+Hlavním důvodem bylo \uv{zalepení} děr, které vznikaly u vyhlazení tvaru tarifních pásem v kapitole \ref{vyhlazeni}.  
+
+Důsledkem dělení těchto dotazů byla časová náročnost délky průběhu následujícího nástroje \textit{Select by location}, 
 kde kvůli operátoru "<=" u dotazu pro~zastávky tarifních pásem 1 až 6 do nástroje vstupují všechny zastávky, 
 které jsou hodnotou \zk{ID} menší jak aktuální hodnota. Tím se pro každé tarifní pásmo násobně zvětšuje počet zastávek,
 které vstupují do nástroje \textit{Select by location}.
 
 Pro tarifní pásma 7 až 9 byla časová náročnost stejná, jako u tarifních pásem P, 0 a B.
-
-Hlavním důvodem avšak bylo \uv{zalepení} děr, které vznikaly u vyhlazení tvaru tarifních pásem v kapitole \ref{vyhlazeni}.  
 
 Následně byl pouze spuštěn \textit{Dissolve} pro spojení Voronoi polygonů, což bylo vstupem do tohoto nástroje,
 do jednoho celistvého polygonu, což bylo výstupem tohoto nástroje.
@@ -224,10 +224,10 @@ a zároveň vyhlazuje tvar polygonů pro lepší vizuální tvar.
 
 Ze spojených polygonů byla vygenerována vektorová vrstva bodů nástrojem
 \textit{Extract vertices}, která představovala vrcholy spojených polygonů. Pro tuto vrstvu
-bylo vstupem výstup nástroje \textit{Dissolve} a výstupem byl vektorová vrstva bodů 
+bylo vstupem výstup nástroje \textit{Dissolve} a výstupem byla vektorová vrstva bodů 
 doplněná o pole (mimo původních polí z vektorové vrstvy \textit{stops}) jako \textit{vertex\_index,
 vertex\_part, vertex\_part\_ring, distance} a \textit{angle}.
-Hodnoty těchto polí avšak nebyly využity v dalším výpočtu.
+Hodnoty těchto polí nebyly využity v dalším výpočtu.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/vertices-P0B.png}
@@ -266,17 +266,17 @@ Pro spojení bodů a vytvoření jakési obálky byl nejdříve vyzkoušen nást
 což je aplikace algoritmu Konvexní obálky viz kapitola \ref{konv_obalka}. Tento způsob však velmi zjednodušoval tvar
 tarifních pásem, a~proto~nástroj \textit{Minimum bounding box} nebyl použit.
 
-Byla zvolena další možnost nástroje systému QGIS spojující body do jisté obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
+Byla zvolena další možnost nástroje systému QGIS spojující body do určité obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
 využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}.
 
-Vstupem nástroje tedy byla vrstva spojených bodů, což byl první parametr
+Vstupem nástroje \textit{Concave hull (alpha shapes)} byla vrstva spojených bodů, což~byl první parametr
 nástroje. Dalším parametrem byl práh (Threshold) s datovým typem \textit{čísla}, který byl volen od 0 do 1,
-kdy 0 znamenala maximum konkávní obálky a 1 konvexní obálky. Po několika testovacích spuštění byla 
-určena hodnota 0,09 jako nejlepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo Povolení děr (Allow holes) 
+kde 0 znamenala maximum konkávní obálky a 1 konvexní obálka. Po několika testovacích spuštění byla 
+určena hodnota 0,09 jako~nej\-lepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo Povolení děr (Allow holes) 
 s~datovým typem \textit{boolean}, který byl nastaven na \textit{False}.
 Posledním parametrem bylo Rozdělit vícedílnou geometrii na jednotlivé části (Split multipart geometry 
 into singlepart geometries) taktéž s datovým typem \textit{boolean}, který byl nastaven na \textit{True}.  
-Výstupem byla polygonová vrstva konkávní obálky. 
+Výstupem byla polygonová vektorová vrstva konkávní obálky. 
 
 Vytváření konkávní obálky bylo dalším důvodem pro dělení atributových dotazů v kapitole \ref{tp_1az9} pro 
 zaplnění děr v tarifních pásmech 6 a nižších.  
@@ -287,8 +287,8 @@ zaplnění děr v tarifních pásmech 6 a nižších.
 	\label{fig:concaveHull-P0B}              
 \end{figure} 
 
-Z konkávní obálky byla pomocí nástroje Simplify \uv{zjednodušena} geometrie polygonové vrstvy. Tento nástroj
-využívá tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus \uv{Douglas-Peucker}),
+Z konkávní obálky byla pomocí nástroje \textit{Simplify} \uv{zjednodušena} geometrie polygonové vrstvy. Tento nástroj
+využíval tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus \uv{Douglas-Peucker}),
 založené na ploše (algoritmus \uv{Visvalingam}) a přichytávání geometrií k mřížce.
 
 Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu \uv{Douglas-Peucker} viz kapitola \ref{generalizace_zjemneni}.
@@ -304,7 +304,7 @@ a nastavení hodnoty tolerance vzdálenosti. Výstupem byla polygonová vektorov
 \end{figure}
 
 Výstup nástroje \textit{Simplify} byl vstupem do nástroje \textit{Smooth}. Tento nástroj vy\-hlazuje geometrie
-liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz~ka\-pitola \ref{vyhlazeni}.
+liniové nebo polygonové vrstvy pomocí Chaikinova algoritmu viz~ka\-pitola \ref{generalizace_zjemneni}.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/smooth-P0B.png}
@@ -316,11 +316,11 @@ U nástroje \textit{Smooth} byly zvoleny tři parametry - počet iterací, offse
 Počet iterací znamená, kolik vyhlazovacích iterací bude použito pro každou geometrii.
 Hodnota počtu iterací byla nastavena na 10, což byla maximální volitelná hodnota (pro co největší hladkost).
 Parametr offset znamená, jak \uv{těsně} vyhlazené geometrie sledují původní geometrie.
-Zde byla ponechána výchozí hodnota 0,25. A~poslední parametr maximálního úhlu lze použít
+Zde byla ponechána výchozí hodnota 0,25. Poslední parametr maximálního úhlu lze použít
 k zabránění vyhlazení uzlů s~velkými úhly. Zde byla také ponechána výchozí hodnota 180°.
 Výstupem nástroje byla polygonová vektorová vrstva.
 
-Níže je souhrnně zobrazen postup této části pomocí Grafického modeláře na~obrá\-zku \ref{fig:postup-smooth}.
+Na~obrá\-zku \ref{fig:postup-smooth} je souhrnně zobrazen postup této části pomocí Grafického modeláře.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-smooth.png}
@@ -331,7 +331,7 @@ Níže je souhrnně zobrazen postup této části pomocí Grafického modeláře
 \subsection{Hraniční tarifní pásma}
 \label{hranice}
 
-Jedním z největších problémů diplomové práce bylo se vypořádat s hraničním zastávkami.
+Jedním z největších problémů diplomové práce bylo vypořádat se s hraničním zastávkami.
 V dosavadním postupu nebyl jejich problém efektivně vyřešen kvůli~kon\-kávní obálce,
 která nezvládala spojovat určité body, které byly požadovány.
 
@@ -349,12 +349,12 @@ nástroje \textit{Dissolve}, nástroje \textit{Delete holes} a algoritmu alpha s
 	\label{fig:concave_hull_upravena}              
 \end{figure}
 
-Tento algoritmus maže ty trojúhelníky z Delaunay triangulace, které mají nejdelší stranu menší jak alpha (volitelný
+Tento algoritmus maže ty trojúhelníky z Delaunay triangulace, které mají nej\-delší stranu menší jak alpha (volitelný
 parametr nástroje \textit{Concave hull (alpha sha\-pes)} násobek maximálního obvodu trojúhelníku.
 K těmto trojúhelníkům byly přidá\-ny i~ty~trojúhelníky, které mají vrchol společný s jakýmkoliv hraničním bodem.
 
-Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou tam vznikly mezery, 
-které se bohužel nedaly dál použit a tento postup byl zavržen.
+Výsledek byl oproti očekávání. Místo propojení hraničních zastávek s konkávní obálkou vznikly mezery, 
+které nemohly být dál použity a tento postup byl zavržen.
 
 Od pracovníků z organizace ROPID mi byl navrhnut postup, jak tento problém alespoň částečně vyřešit. Pro hraniční zastávky se stejnou hodnotou \textit{zone\_id}, 
 které~leží ve své vzájemné blízkosti, vytvořit vlastní tarifní pásmo. Takový postup byl mnohem lépe uchopitelnější, než ten předchozí uvedený, který nebyl povedený.
@@ -363,14 +363,14 @@ Uložená vektorová vrstva hraničních zastávek z kapitoly \ref{vyhlazeni} by
 použita s pomocí nástroje \textit{Select by location}. Z vektorové vrstvy Voronoi polygonů byly vybrány právě ty polygony,
 které se svým umístěním protínaly s hraničními zastávkami. To bylo provedeno zvlášť pro každé zastávky na~hranici tarifních pásem.
 
-Poté byly nástrojem \textit{Dissolve} Voronoi polygony seskupeny do jednoho polygonu a jedné geometrie. Vstupem tohoto nástroje
-tedy vybrané Voronoi polygony pomocí nástroje \textit{Select by location} a výstupem byla vektorová vrstva seskupených polygonů.
+Poté byly nástrojem \textit{Dissolve} seskupeny Voronoi polygony do jednoho polygonu a jedné geometrie. Vstupem tohoto nástroje byly
+vybrané Voronoi polygony pomocí nástroje \textit{Select by location} a výstupem byla vektorová vrstva seskupených polygonů.
 
 Toto seskupení bylo následně zrušeno pomocí nástroje \textit{Multipart to singleparts}, kde vstupem byla vektorová vrstva 
-seskupených s jednou geometrií a výstupem vektorová vrstva s více geometriemi podle jejich počtu ve vektorové vrstvě.
+seskupených polygonů s jednou geometrií a vý\-stupem byla vektorová vrstva s více geometriemi podle jejich počtu ve vektorové vrstvě.
 
-Důvodem tohoto kroku byl úmysl spočítat počet zastávek, které ležely na území každého polygonu. Poté určit hranici
-součtu zastávek a vymazat ty polygony, které~je nesplňují.
+Důvodem tohoto kroku byl úmysl spočítat počet zastávek, které ležely na území každého polygonu, poté určit hranici
+součtu zastávek a vymazat ty polygony, které~ji nesplňovaly.
 
 Pro spočítání zastávek byl použit nástroj \textit{Count points in polygon}. Vstupem byla vektorová vrstva 
 rozdělených polygonů nástrojem \textit{Multipart to singleparts}
@@ -386,7 +386,7 @@ Tento atributový dotaz vypadal následovně:
 
 Hodnota čísla \textit{X} byla nastavena na 5. Byly vybrány ty polygony, ve kterých leželo více jak 5 zastávek.
 
-Tento postup byl proveden for cyklem pro všechna tarifní pásma společně s~vyhlazením hranic polygonů,
+Tento postup byl proveden for cyklem pro všechna tarifní pásma společně s~vy\-hlazením hranic polygonů,
 jak je uvedeno v~kapitole \ref{vyhlazeni}. Na obrázku \ref{fig:postup-border-zones} je v~Grafickém modeláři zobrazen
 přehledný postup pro hraniční tarifní pásma. 
 
@@ -406,13 +406,12 @@ kvůli ušetření paměti.
 Vektorové vrstvy byly od sebe odečteny nástrojem \textit{Difference}, aby nebyly prolínány. 
 Prvním parametrem tohoto nástroje byla vektorová vrstva, která překrývala druhou vektorovou vrstvu. 
 Druhým parametrem byla vektorová vrstva, která byla překrývána. Výstupem byla odečtená vrstva.
-
 To bylo provedeno for cyklem pro všechna tarifní pásma.
 
-Odečtené vektorové vrstvy tarifních pásem poté byly spojeny do jedné vektorové vrstvy pomocí 
+Odečtené vektorové vrstvy tarifních pásem byly poté spojeny do jedné vektorové vrstvy pomocí 
 nástroje \textit{Merge vector layers}. Díky tomuto nástroji byly spojeny i~hraniční pásma zatím odděleně od tarifních pásem.
 
-Výsledek spojení avšak obsahoval více menších polygonů se stejnými hodnotami \textit{zone\_id}.
+Výsledek spojení obsahoval více menších polygonů se stejnými hodnotami \textit{zone\-\_id}.
 Takové polygony bylo potřeba spojit do jednoho vícedílného polygonu pro~každou hodnotu \textit{zone\_id}.
 To bylo provedeno pomocí nástroje \textit{Collect geometries}. Vstupem do tohoto nástroje byla vektorová vrstva z 
 nástroje \textit{Merge vector layers} a pole, podle které se to mělo spojit, bylo nastaveno na \textit{zone\_id}.
@@ -449,6 +448,6 @@ ze schématu tarifních pásem Pražské integrované dopravy (viz \ref{fig:pasm
 
 Obrázek výsledného tvaru tarifních pásem byl vytvořen za pomocí PID\_GTFS datasetu publikováný 8. září 2020 na portálu \textit{Opendata
 hlavního města Prahy}. Ve~stejný den byly zvěřejněny na stejném portálu i referenční tarifní pásma.
-Avšak když byl porovnán výsledek tarifních pásem z PID\_GTFS datasetu a referenční tarifní pásma, tak
-se navzájem příliš nepodobaly. Nejspíš to bylo tím, že při tvorbě referenčních tarifních pásem byly použity jiné zastávky,
+Když byl porovnán výsledek tarifních pásem z PID\_GTFS datasetu a referenční tarifní pásma, tak
+se navzájem příliš nepodobaly. Zřejmě to bylo způsobeno tím, že~při~tvorbě referenčních tarifních pásem byly použity jiné zastávky,
 než které byly publikovány s datasetem na portálu \textit{Opendata hlavního města Prahy}.
