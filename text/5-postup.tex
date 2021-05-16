@@ -116,7 +116,7 @@ Hodnota nuly (nebo prázdná hodnota) je právě lokace zastávky viz \ref{stops
 
 Některé zastávky se nacházely na stejném místě a měly duplicitní geometrii, což~vytvářelo v dalším
 zpracování problém s duplicitními polygony. Aby se takové věci ve~výsledku zamezilo, byl použit nástroj   
-\textit{Delete duplicate geometries}, který~ve~vstupní vektorové vrstvě nalezne duplicitní geometrie a smaže je.
+\textit{Delete duplicate geometries}, který~ve vstupní vektorové vrstvě nalezl duplicitní geometrie a smazal je.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/voronoi-selected-P0B.png}
@@ -131,7 +131,7 @@ vektorová vrstva vybraných Voronoi polygonů.
 % zde upravit obrázky, bude změněno pro tarifní pásmo P,0,B
 
 Tyto polygony byly následně nástrojem \textit{Dissolve} spojeny do jednoho společného polygonu.
-Vstupem tohoto nástroje byl výstup nástroje \textit{Select by location} a výstupem byl polygon
+Vstupem tohoto nástroje byl výstup nástroje \textit{Select by location} a vý\-stupem byl polygon
 s jednou geometrií. 
 
 \begin{figure}[H] \centering
@@ -172,7 +172,7 @@ Znázornění tohoto postupu je zobrazeno v obrázku \ref{fig:postup-voronoi-P0B
 
 Obdobný postup jako u tarifních pásem P, 0 a B, avšak znatelně jednodušší, byl proveden za pomocí
 for cyklu pro tarifní pásma 1 až 9. V něm už nebylo nutné použít nástroj pro mazání děr, rozdělování polygonů
-na vícedílné geometrie nebo mazání duplicitních bodů. 
+na vícedílné geometrie nebo~mazání duplicitních bodů. 
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-P0B.png}
@@ -205,7 +205,7 @@ Pro tarifní pásma 7 až 9 byla časová náročnost stejná jako u tarifních 
 Následně byl pouze spuštěn nástroj \textit{Dissolve} pro spojení Voronoi polygonů, což~bylo vstupem do tohoto nástroje,
 do jednoho celistvého polygonu, což bylo výstupem tohoto nástroje.
 
-V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup pro tarifní pásma 1 až 9.
+V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup pro tarifní pásma 1~až~9.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-1az9.png}
@@ -449,6 +449,6 @@ ze schématu tarifních pásem Pražské integrované dopravy (viz \ref{fig:pasm
 
 Obrázek výsledného tvaru tarifních pásem byl vytvořen za pomocí PID\_GTFS datasetu publikováný 8. září 2020 na portálu \textit{Opendata
 hlavního města Prahy}. Ve~stejný den byly zvěřejněny na stejném portálu i referenční tarifní pásma.
-Když byl porovnán výsledek tarifních pásem z PID\_GTFS datasetu a referenční tarifní pásma, tak
+Když byl porovnán výsledek tarifních pásem z PID\_GTFS datasetu a referenční ta\-rifní pásma, tak
 se navzájem příliš nepodobaly. Zřejmě to bylo způsobeno tím, že~při~tvorbě referenčních tarifních pásem byly použity jiné zastávky,
 než které byly publikovány s datasetem na portálu \textit{Opendata hlavního města Prahy}.
