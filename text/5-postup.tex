@@ -38,7 +38,7 @@ V následujících podkapitolách je uveden postup tvorby rozšíření pluginu.
 Nejprve bylo vytvořeno dialogové okno pro potvrzení nebo odmítnutí tvorby tarifních pásem (podkapitola \ref{dialog}).
 Dále byl vytvořen hrubý tvar tarifních pásem z rozdílným po\-stupem pro tarifní pásma P, 0 a B
 a pro tarifní pásma 1 až 9 (podkapitola \ref{hruby_tvar}). 
-Tarifní pásma 1 až 9 byla tvořena se vzájemně oddělenými vektorovými vrstami.
+Tarifní pásma 1 až 9 byla tvořena se vzájemně oddělenými vektorovými vrstvami.
 Hrubý tvar nebyl vizuálně vzhledný a k referenčním tarifním pásmům
 z portálu \textit{Opendata hlávního města Prahy} se nepřibližoval, takže byl zjemněn (podkapitola \ref{vyhlazeni}).
 Zároveň byla zjemněna i hraniční pásma, což byla nově vytvořená tarifní pásma pro zastávky
@@ -51,7 +51,7 @@ který je zabudovaný v systému QGIS.
 Kvůli omezeným možnostem úprav nástrojů se z těchto myšlenek upustilo a byl vytvářen postup
 do~prázdného skriptu v programovacím jazyce Python pomocí nástrojů systému QGIS.
 
-Pro použití nástrojů sysému QGIS ve skriptu programovacího jazyka Python bylo potřeba importovat modul \textit{processing},
+Pro použití nástrojů systému QGIS ve skriptu programovacího jazyka Python bylo potřeba importovat modul \textit{processing},
 který má funkci \textit{run}, do které se vkládají dva parametry. První parametr je ID nástroje
 ve formě \textit{řetězce} a druhý je \textit{slovník} vstupních parametrů. Vstupní parametry se lze dozvědět
 z QGIS dokumentace. \cite{QGIS_docs}
@@ -146,7 +146,7 @@ po nástroji \textit{Dissolve} tvořily jeden celistvý polygon. A proto nebylo 
 nýbrž nejprve nástroj \textit{Multipart to singleparts}.
 
 Nástroj \textit{Multipart to singleparts} rozdělil jeden vícedílný polygon na jednotlivé menší polygony. Vstupem do tohoto
-nástroje byl vektorová vrstva výstupu nástroje \textit{Dissolve} a výstupem byl vektorová vrstva s rozděleným polygonem.
+nástroje byla vektorová vrstva výstupu nástroje \textit{Dissolve} a výstupem byla vektorová vrstva s rozděleným polygonem.
 
 Poté se pomocí metody \textit{selectByExpression} třídy \textit{QgsVectorLayer} vyhledal nej\-větší polygon.
 Výraz vkládaný jako parametr do metody \textit{selectByExpression} byl následující:
@@ -205,7 +205,7 @@ Pro tarifní pásma 7 až 9 byla časová náročnost stejná jako u tarifních 
 Následně byl pouze spuštěn nástroj \textit{Dissolve} pro spojení Voronoi polygonů, což~bylo vstupem do tohoto nástroje,
 do jednoho celistvého polygonu, což bylo výstupem tohoto nástroje.
 
-V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup tarifní pásma 1 až 9.
+V následujícím obrázku \ref{fig:postup-voronoi-1az9} je souhrnně zobrazen postup pro tarifní pásma 1 až 9.
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/postup-voronoi-1az9.png}
@@ -270,9 +270,9 @@ tarifních pásem, a~proto~nástroj \textit{Minimum bounding box} nebyl použit.
 Byla zvolena další možnost nástroje systému QGIS spojující body do určité obálky. Tím nástrojem byl \textit{Concave hull (alpha shapes)} 
 využívající aproximaci alpha-shapes viz kapitola \ref{konk_obalka}.
 
-Vstupem nástroje \textit{Concave hull (alpha shapes)} byla vrstva spojených bodů, což~byl první parametr
+Vstupem nástroje \textit{Concave hull (alpha shapes)} byla vrstva spojených bodů, což byl~první parametr
 nástroje. Dalším parametrem byl práh (Threshold) s datovým typem \textit{čísla}, který byl volen od 0 do 1,
-kde 0 znamenala maximum konkávní obálky a 1 konvexní obálka. Po několika testovacích spuštění byla 
+kde 0 znamenala maximum konkávní obálky a~1~konvexní obálka. Po několika testovacích spuštění byla 
 určena hodnota 0,09 jako~nej\-lepší hodnotou pro tvorbu tarifních pásem. Dalším parametrem bylo Povolení děr (Allow holes) 
 s~datovým typem \textit{boolean}, který byl nastaven na \textit{False}.
 Posledním parametrem bylo Rozdělit vícedílnou geometrii na jednotlivé části (Split multipart geometry 
@@ -292,7 +292,7 @@ Z konkávní obálky byla pomocí nástroje \textit{Simplify} \uv{zjednodušena}
 využíval tři druhy zjednodušení vektorové vrstvy: založené na vzdálenosti (algoritmus \uv{Douglas-Peucker}),
 založené na ploše (algoritmus \uv{Visvalingam}) a přichytávání geometrií k mřížce.
 
-Pro můj postup byl zvolen první volba zjednodušení, pomocí algoritmu \uv{Douglas-Peucker} viz kapitola \ref{generalizace_zjemneni}.
+Pro můj postup byla zvolena první volba zjednodušení, pomocí algoritmu \uv{Dou\-glas-Peucker} viz kapitola \ref{generalizace_zjemneni}.
 
 
 Do nástroje \textit{Simplify} byl vstupem výsledek nástroje \textit{Concave hull (alpha shapes)}, parametrem byl výběr algoritmu 
@@ -332,7 +332,7 @@ Na~obrá\-zku \ref{fig:postup-smooth} je souhrnně zobrazen postup této části
 \subsection{Hraniční tarifní pásma}
 \label{hranice}
 
-Jedním z největších problémů diplomové práce bylo vypořádat se s hraničním zastávkami.
+Jedním z největších problémů diplomové práce bylo vypořádat se s hraničními zastávkami.
 V dosavadním postupu nebyl jejich problém efektivně vyřešen kvůli~kon\-kávní obálce,
 která nezvládala spojovat určité body, které byly požadovány.
 
@@ -346,7 +346,7 @@ nástroje \textit{Dissolve}, nástroje \textit{Delete holes} a algoritmu alpha s
 
 \begin{figure}[H] \centering
     \includegraphics[width=400pt]{./pictures/concave_hull_upravena.png}
-    \caption[Ukázka upravené nástroje Concave hull (alpha shapes)]{Ukázka upravené nástroje Concave hull (alpha shapes)}
+    \caption[Ukázka upraveného nástroje Concave hull (alpha shapes)]{Ukázka upraveného nástroje Concave hull (alpha shapes)}
 	\label{fig:concave_hull_upravena}              
 \end{figure}
 
