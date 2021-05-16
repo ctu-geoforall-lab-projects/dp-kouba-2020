@@ -127,7 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-text/martin-kouba-dp-2021.pdf
 text/martin-kouba-dp-2021.synctex.gz
 *.aux
 *.gz
